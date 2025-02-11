@@ -11,7 +11,7 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<String,
 
     @Override
     protected ScrapperRepository<String, Team> createRepository() {
-        return createRepository(driverPool);
+        return createRepository(DRIVER_POOL);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<String,
     @Test
     public void shouldScrapData() throws Exception {
         String key = "dortmund/vVcwNP6f";
-        ScrapperRepository<String, Team> repository = createRepository(driverPool);
+        ScrapperRepository<String, Team> repository = createRepository(DRIVER_POOL);
 
         Team team = repository.get(key);
 

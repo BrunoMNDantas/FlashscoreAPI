@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPoolException;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.IRepository;
@@ -13,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,15 +29,6 @@ public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
 
     public static final String SCREEN_SHOOT_EXTENSION = ".png";
 
-
-    @Value("${wait.quick}")
-    protected long quickWait;
-    @Value("${wait.short}")
-    protected long shortWait;
-    @Value("${wait.medium}")
-    protected long mediumWait;
-    @Value("${wait.long}")
-    protected long longWait;
 
     protected IDriverPool driverPool;
     protected String logDirectory;
@@ -98,7 +89,7 @@ public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
     }
 
     protected void waitPageToBeLoaded(WebDriver driver) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(mediumWait).getSeconds());
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(Config.MEDIUM_WAIT).getSeconds());
 
         ExpectedCondition<Boolean> condition = ExpectedConditions.or(
                 ExpectedConditions.visibilityOfElementLocated(LOGO_SELECTOR),

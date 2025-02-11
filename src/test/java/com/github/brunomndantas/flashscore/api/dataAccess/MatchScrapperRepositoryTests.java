@@ -11,7 +11,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<String
 
     @Override
     protected ScrapperRepository<String, Match> createRepository() {
-        return createRepository(driverPool);
+        return createRepository(DRIVER_POOL);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<String
     @Test
     public void shouldScrapData() throws Exception {
         String key = "z1BLcJWa";
-        ScrapperRepository<String, Match> repository = createRepository(driverPool);
+        ScrapperRepository<String, Match> repository = createRepository(DRIVER_POOL);
 
         Match match = repository.get(key);
 

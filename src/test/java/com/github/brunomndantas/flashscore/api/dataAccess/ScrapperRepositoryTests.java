@@ -7,7 +7,7 @@ import com.github.brunomndantas.flashscore.api.transversal.driverSupplier.Flashs
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,18 @@ import java.io.File;
 @SpringBootTest
 public abstract class ScrapperRepositoryTests<K,E> {
 
+    protected static IDriverSupplier SOURCE_DRIVER_SUPPLIER;
+    protected static IDriverSupplier DRIVER_SUPPLIER;
+    protected static IDriverPool DRIVER_POOL;
+
+
+    @AfterAll
+    public static void dispose() throws Exception {
+        DRIVER_POOL.close();
+        DRIVER_POOL = null;
+    }
+
+
     @Value("${driver.path}")
     protected String driverPath;
     @Value("${driver.silent}")
@@ -29,21 +41,14 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Value("${screenshots.directory}")
     protected String screenshotsDirectory;
 
-    protected IDriverSupplier sourceDriverSupplier;
-    protected IDriverSupplier driverSupplier;
-    protected IDriverPool driverPool;
-
 
     @BeforeEach
     public void init() {
-        this.sourceDriverSupplier = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
-        this.driverSupplier = new FlashscoreDriverSupplier(sourceDriverSupplier);
-        this.driverPool = new DriverPool(driverSupplier, 1);
-    }
-
-    @AfterEach
-    public void dispose() throws Exception {
-        this.driverPool.close();
+        if(DRIVER_POOL == null) {
+            SOURCE_DRIVER_SUPPLIER = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
+            DRIVER_SUPPLIER = new FlashscoreDriverSupplier(SOURCE_DRIVER_SUPPLIER);
+            DRIVER_POOL = new DriverPool(DRIVER_SUPPLIER, 1);
+        }
     }
 
 
@@ -144,7 +149,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
 
     @Test
     public void shouldSaveScreenShoot() throws Exception {
-        IDriverPool driverPool = new DriverPool(driverSupplier, 1);
+        IDriverPool driverPool = new DriverPool(DRIVER_SUPPLIER, 1);
         ScrapperRepository<K,E> repository = new ScrapperRepository<>(driverPool, screenshotsDirectory) {
 
             @Override

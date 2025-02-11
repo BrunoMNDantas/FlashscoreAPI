@@ -15,7 +15,7 @@ public class RegionScrapperRepositoryTests extends ScrapperRepositoryTests<Regio
 
     @Override
     protected ScrapperRepository<RegionId, Region> createRepository() {
-        return createRepository(driverPool);
+        return createRepository(DRIVER_POOL);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RegionScrapperRepositoryTests extends ScrapperRepositoryTests<Regio
     @Test
     public void shouldScrapData() throws Exception {
         RegionId key = new RegionId("handball", "spain");
-        ScrapperRepository<RegionId,Region> repository = createRepository(driverPool);
+        ScrapperRepository<RegionId,Region> repository = createRepository(DRIVER_POOL);
 
         Region region = repository.get(key);
 

@@ -16,7 +16,7 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
 
     @Override
     protected ScrapperRepository<CompetitionId, Competition> createRepository() {
-        return createRepository(driverPool);
+        return createRepository(DRIVER_POOL);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
     @Test
     public void shouldScrapData() throws Exception {
         CompetitionId key = new CompetitionId("basketball", "usa", "nba");
-        ScrapperRepository<CompetitionId, Competition> repository = createRepository(driverPool);
+        ScrapperRepository<CompetitionId, Competition> repository = createRepository(DRIVER_POOL);
 
         Competition competition = repository.get(key);
 

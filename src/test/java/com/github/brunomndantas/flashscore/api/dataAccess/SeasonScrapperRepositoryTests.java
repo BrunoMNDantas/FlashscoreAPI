@@ -12,7 +12,7 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
 
     @Override
     protected ScrapperRepository<SeasonId, Season> createRepository() {
-        return createRepository(driverPool);
+        return createRepository(DRIVER_POOL);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
     @Test
     public void shouldScrapData() throws Exception {
         SeasonId key = new SeasonId("hockey", "germany", "del", "2023-2024");
-        ScrapperRepository<SeasonId, Season> repository = createRepository(driverPool);
+        ScrapperRepository<SeasonId, Season> repository = createRepository(DRIVER_POOL);
 
         Season season = repository.get(key);
 
