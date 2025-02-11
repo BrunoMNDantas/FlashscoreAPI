@@ -109,6 +109,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
             Assertions.assertSame(exception, returnedException.getCause());
         } finally {
             driverPool.close();
+            driver.quit();
         }
     }
 
