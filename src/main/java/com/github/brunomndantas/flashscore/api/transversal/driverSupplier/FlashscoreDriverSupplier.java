@@ -10,8 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static com.github.brunomndantas.flashscore.api.transversal.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
-import static com.github.brunomndantas.flashscore.api.transversal.FlashscoreConstants.FLASHSCORE_URL;
+import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
+import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.FLASHSCORE_URL;
 
 public class FlashscoreDriverSupplier implements IDriverSupplier {
 

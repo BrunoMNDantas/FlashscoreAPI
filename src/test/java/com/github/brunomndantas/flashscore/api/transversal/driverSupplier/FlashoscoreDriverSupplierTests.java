@@ -8,8 +8,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.brunomndantas.flashscore.api.transversal.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
-import static com.github.brunomndantas.flashscore.api.transversal.FlashscoreConstants.FLASHSCORE_URL;
+import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
+import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.FLASHSCORE_URL;
 
 public class FlashoscoreDriverSupplierTests {
 
