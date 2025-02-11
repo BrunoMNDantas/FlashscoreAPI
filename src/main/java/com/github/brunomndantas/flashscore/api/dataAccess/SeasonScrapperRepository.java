@@ -1,6 +1,5 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
-import com.github.brunomndantas.flashscore.api.Config;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
 import com.github.brunomndantas.flashscore.api.transversal.Utils;
@@ -131,7 +130,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonId, Seaso
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", loadMoreElement);
             loadMoreElement.click();
 
-            Utils.sleep(Config.QUICK_WAIT);
+            Utils.sleep(quickWait);
         }
     }
 

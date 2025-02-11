@@ -1,21 +1,31 @@
 package com.github.brunomndantas.flashscore.api.transversal.driverSupplier;
 
-import com.github.brunomndantas.flashscore.api.Config;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.FLASHSCORE_URL;
 
+@SpringBootTest
 public class FlashoscoreDriverSupplierTests {
+
+    @Value("${driver.path}")
+    protected String driverPath;
+    @Value("${driver.silent}")
+    protected boolean driverSilent;
+    @Value("${driver.headless}")
+    protected boolean driverHeadless;
+
 
     @Test
     public void shouldPointToFlashscore() throws Exception {
-        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
+        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
         FlashscoreDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceSupplier);
         WebDriver driver = driverSupplier.get();
 
@@ -29,7 +39,7 @@ public class FlashoscoreDriverSupplierTests {
 
     @Test
     public void shouldAcceptTerms() throws Exception {
-        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
+        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
         FlashscoreDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceSupplier);
         WebDriver driver = driverSupplier.get();
 
@@ -43,7 +53,7 @@ public class FlashoscoreDriverSupplierTests {
 
     @Test
     public void shouldMaximizeWindow() throws Exception {
-        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
+        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
         FlashscoreDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceSupplier);
         WebDriver driver = driverSupplier.get();
 

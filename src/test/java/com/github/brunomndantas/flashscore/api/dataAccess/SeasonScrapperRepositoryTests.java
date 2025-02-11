@@ -2,31 +2,22 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
-import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPool;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<SeasonId, Season> {
-
-    protected static final IDriverPool DRIVER_POOL = new DriverPool(DRIVER_SUPPLIER, 1);
-
-
-    @AfterAll
-    public static void dispose() throws Exception {
-        DRIVER_POOL.close();
-    }
-
 
     @Override
     protected ScrapperRepository<SeasonId, Season> createRepository() {
-        return createRepository(DRIVER_POOL);
+        return createRepository(driverPool);
     }
 
     @Override
     protected ScrapperRepository<SeasonId, Season> createRepository(IDriverPool driverPool) {
-        return new SeasonScrapperRepository(driverPool, SCREEN_SHOOTS_DIRECTORY);
+        return new SeasonScrapperRepository(driverPool, screenshotsDirectory);
     }
 
     @Override
@@ -43,7 +34,7 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
     @Test
     public void shouldScrapData() throws Exception {
         SeasonId key = new SeasonId("hockey", "germany", "del", "2023-2024");
-        ScrapperRepository<SeasonId, Season> repository = createRepository(DRIVER_POOL);
+        ScrapperRepository<SeasonId, Season> repository = createRepository(driverPool);
 
         Season season = repository.get(key);
 

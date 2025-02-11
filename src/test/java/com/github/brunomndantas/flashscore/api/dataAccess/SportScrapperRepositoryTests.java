@@ -2,33 +2,24 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
-import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPool;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collection;
 
+@SpringBootTest
 public class SportScrapperRepositoryTests extends ScrapperRepositoryTests<String, Sport> {
-
-    protected static final IDriverPool DRIVER_POOL = new DriverPool(DRIVER_SUPPLIER, 1);
-
-
-    @AfterAll
-    public static void dispose() throws Exception {
-        DRIVER_POOL.close();
-    }
-
 
     @Override
     protected ScrapperRepository<String, Sport> createRepository() {
-        return createRepository(DRIVER_POOL);
+        return createRepository(driverPool);
     }
 
     @Override
     protected ScrapperRepository<String, Sport> createRepository(IDriverPool driverPool) {
-        return new SportScrapperRepository(driverPool, SCREEN_SHOOTS_DIRECTORY);
+        return new SportScrapperRepository(driverPool, screenshotsDirectory);
     }
 
     @Override
@@ -45,7 +36,7 @@ public class SportScrapperRepositoryTests extends ScrapperRepositoryTests<String
     @Test
     public void shouldScrapData() throws Exception {
         String key = "beach-soccer";
-        ScrapperRepository<String,Sport> repository = createRepository(DRIVER_POOL);
+        ScrapperRepository<String,Sport> repository = createRepository(driverPool);
 
         Sport sport = repository.get(key);
 

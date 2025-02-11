@@ -7,9 +7,11 @@ import com.github.brunomndantas.tpl4j.task.factory.TaskFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+@SpringBootTest
 public class DriverPoolTests {
 
     private static final IDriverSupplier DRIVER_SUPPLIER = DummyWebDriver::new;

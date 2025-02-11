@@ -1,6 +1,5 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
-import com.github.brunomndantas.flashscore.api.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPool;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPoolException;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -8,17 +7,44 @@ import com.github.brunomndantas.flashscore.api.transversal.driverSupplier.Flashs
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 
+@SpringBootTest
 public abstract class ScrapperRepositoryTests<K,E> {
 
-    protected static final String SCREEN_SHOOTS_DIRECTORY = "./screenshoots";
-    protected static final IDriverSupplier SOURCE_DRIVER_SUPPLIER = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
-    protected static final IDriverSupplier DRIVER_SUPPLIER = new FlashscoreDriverSupplier(SOURCE_DRIVER_SUPPLIER);
+    @Value("${driver.path}")
+    protected String driverPath;
+    @Value("${driver.silent}")
+    protected boolean driverSilent;
+    @Value("${driver.headless}")
+    protected boolean driverHeadless;
+    @Value("${screenshots.directory}")
+    protected String screenshotsDirectory;
+
+    protected IDriverSupplier sourceDriverSupplier;
+    protected IDriverSupplier driverSupplier;
+    protected IDriverPool driverPool;
+
+
+    @BeforeEach
+    public void init() {
+        this.sourceDriverSupplier = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
+        this.driverSupplier = new FlashscoreDriverSupplier(sourceDriverSupplier);
+        this.driverPool = new DriverPool(driverSupplier, 1);
+    }
+
+    @AfterEach
+    public void dispose() throws Exception {
+        this.driverPool.close();
+    }
 
 
     @Test
@@ -47,7 +73,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
 
     @Test
     public void shouldReturnDriverToPool() throws Exception {
-        WebDriver driver = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE).getDriver();
+        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
         IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
         IDriverPool driverPool = new DriverPool(driverSupplier, 1);
 
@@ -63,7 +89,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Test
     public void shouldWrapExceptionGettingDriverFromPool() throws Exception {
         DriverPoolException exception = new DriverPoolException();
-        WebDriver driver = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE).getDriver();
+        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
         IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
         IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
             @Override
@@ -84,7 +110,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Test
     public void shouldWrapExceptionReturningDriverToPool() throws Exception {
         DriverPoolException exception = new DriverPoolException();
-        WebDriver driver = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE).getDriver();
+        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
         IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
         IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
             @Override
@@ -118,8 +144,8 @@ public abstract class ScrapperRepositoryTests<K,E> {
 
     @Test
     public void shouldSaveScreenShoot() throws Exception {
-        IDriverPool driverPool = new DriverPool(DRIVER_SUPPLIER, 1);
-        ScrapperRepository<K,E> repository = new ScrapperRepository<>(driverPool, SCREEN_SHOOTS_DIRECTORY) {
+        IDriverPool driverPool = new DriverPool(driverSupplier, 1);
+        ScrapperRepository<K,E> repository = new ScrapperRepository<>(driverPool, screenshotsDirectory) {
 
             @Override
             protected boolean loadDriver(WebDriver driver, K key) {
@@ -139,12 +165,12 @@ public abstract class ScrapperRepositoryTests<K,E> {
         };
 
         try {
-            File[] files = new File(SCREEN_SHOOTS_DIRECTORY).listFiles();
+            File[] files = new File(screenshotsDirectory).listFiles();
             int filesBefore = files == null ? 0 : files.length;
 
             Assertions.assertThrows(Exception.class, () -> repository.get(null));
 
-            files = new File(SCREEN_SHOOTS_DIRECTORY).listFiles();
+            files = new File(screenshotsDirectory).listFiles();
             int filesAfter = files == null ? 0 : files.length;
 
             Assertions.assertEquals(filesBefore + 1, filesAfter);

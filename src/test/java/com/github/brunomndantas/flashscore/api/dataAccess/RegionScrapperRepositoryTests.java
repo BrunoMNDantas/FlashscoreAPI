@@ -3,33 +3,24 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
-import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPool;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collection;
 
+@SpringBootTest
 public class RegionScrapperRepositoryTests extends ScrapperRepositoryTests<RegionId, Region> {
-
-    protected static final IDriverPool DRIVER_POOL = new DriverPool(DRIVER_SUPPLIER, 1);
-
-
-    @AfterAll
-    public static void dispose() throws Exception {
-        DRIVER_POOL.close();
-    }
-
 
     @Override
     protected ScrapperRepository<RegionId, Region> createRepository() {
-        return createRepository(DRIVER_POOL);
+        return createRepository(driverPool);
     }
 
     @Override
     protected ScrapperRepository<RegionId, Region> createRepository(IDriverPool driverPool) {
-        return new RegionScrapperRepository(driverPool, SCREEN_SHOOTS_DIRECTORY);
+        return new RegionScrapperRepository(driverPool, screenshotsDirectory);
     }
 
     @Override
@@ -46,7 +37,7 @@ public class RegionScrapperRepositoryTests extends ScrapperRepositoryTests<Regio
     @Test
     public void shouldScrapData() throws Exception {
         RegionId key = new RegionId("handball", "spain");
-        ScrapperRepository<RegionId,Region> repository = createRepository(DRIVER_POOL);
+        ScrapperRepository<RegionId,Region> repository = createRepository(driverPool);
 
         Region region = repository.get(key);
 

@@ -2,7 +2,9 @@ package com.github.brunomndantas.flashscore.api.transversal.driverPool;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class DriverPoolExceptionTests {
 
     @Test
