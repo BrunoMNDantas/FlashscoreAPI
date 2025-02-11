@@ -1,0 +1,63 @@
+package com.github.brunomndantas.flashscore.api.transversal.driverSupplier;
+
+import com.github.brunomndantas.flashscore.api.Config;
+import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import static com.github.brunomndantas.flashscore.api.transversal.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
+import static com.github.brunomndantas.flashscore.api.transversal.FlashscoreConstants.FLASHSCORE_URL;
+
+public class FlashoscoreDriverSupplierTests {
+
+    @Test
+    public void shouldPointToFlashscore() throws Exception {
+        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
+        FlashscoreDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceSupplier);
+        WebDriver driver = driverSupplier.get();
+
+        try{
+            String url = driver.getCurrentUrl();
+            Assertions.assertTrue(url.startsWith(FLASHSCORE_URL));
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void shouldAcceptTerms() throws Exception {
+        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
+        FlashscoreDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceSupplier);
+        WebDriver driver = driverSupplier.get();
+
+        try{
+            WebElement acceptTermsButton = driver.findElement(ACCEPT_TERMS_BUTTON_SELECTOR);
+            Assertions.assertFalse(acceptTermsButton.isDisplayed());
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void shouldMaximizeWindow() throws Exception {
+        ChromeDriverSupplier sourceSupplier = new ChromeDriverSupplier(Config.DRIVER_PATH, Config.DRIVER_SILENT_MODE, Config.DRIVER_HEADLESS_MODE);
+        FlashscoreDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceSupplier);
+        WebDriver driver = driverSupplier.get();
+
+        try{
+            Dimension initialSize = driver.manage().window().getSize();
+
+            driver.manage().window().maximize();
+            Dimension maximizedSize = driver.manage().window().getSize();
+
+            Assertions.assertEquals(maximizedSize.getWidth(), initialSize.getWidth());
+            Assertions.assertEquals(maximizedSize.getHeight(), initialSize.getHeight());
+        } finally {
+            driver.quit();
+        }
+    }
+
+}
