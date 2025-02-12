@@ -4,20 +4,22 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SwaggerConfigTests {
 
-    private static final String BASE_URL = "http://localhost:8080";
+    @LocalServerPort
+    private int port;
 
 
     @Test
     public void shouldReturnOpenApiJson() {
         RestAssured.given()
                 .when()
-                .get(BASE_URL + "/v3/api-docs")
+                .get("http://localhost:" + port + "/v3/api-docs")  // Use dynamic port
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -28,7 +30,7 @@ class SwaggerConfigTests {
     public void shouldReturnSwaggerUi() {
         RestAssured.given()
                 .when()
-                .get(BASE_URL + "/swagger-ui.html")
+                .get("http://localhost:" + port + "/swagger-ui/index.html") // Use dynamic port
                 .then()
                 .statusCode(200);
     }
