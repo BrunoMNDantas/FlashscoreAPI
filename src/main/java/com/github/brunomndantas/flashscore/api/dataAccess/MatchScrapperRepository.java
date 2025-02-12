@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -55,7 +56,7 @@ public class MatchScrapperRepository extends ScrapperRepository<String, Match> {
 
     protected String getTeamIdOfElement(WebElement element) {
         String href = element.getAttribute("href");
-        href = href.split("team")[1];
+        href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "team", 2)[1];
         href = href.split("/")[1] + "/" + href.split("/")[2];
         return href;
     }

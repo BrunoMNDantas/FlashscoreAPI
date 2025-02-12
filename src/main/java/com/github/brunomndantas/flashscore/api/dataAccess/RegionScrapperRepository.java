@@ -4,6 +4,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competit
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,7 +49,7 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionId, Regio
         return competitionsLinks
                 .stream()
                 .map(element -> element.getAttribute("href"))
-                .map(href -> href.split(regionId.getId())[1])
+                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, regionId.getId(), 2)[1])
                 .map(competition -> competition.replace("/", "").trim())
                 .map(competitionId -> new CompetitionId(regionId.getSportId(), regionId.getId(), competitionId))
                 .toList();

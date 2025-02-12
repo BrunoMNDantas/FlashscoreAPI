@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,10 +43,11 @@ public class SportScrapperRepository extends ScrapperRepository<String, Sport> {
         expandAllRegions(driver);
 
         Collection<WebElement> regionsLinks = driver.findElements(REGIONS_LINKS_SELECTOR);
+
         return regionsLinks
                 .stream()
                 .map(element -> element.getAttribute("href"))
-                .map(href -> href.split(sportId)[1])
+                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, sportId, 2)[1])
                 .map(region -> region.replace("/", "").trim())
                 .map(regionId -> new RegionId(sportId, regionId))
                 .toList();

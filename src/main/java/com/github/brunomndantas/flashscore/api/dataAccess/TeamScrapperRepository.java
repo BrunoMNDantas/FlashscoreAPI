@@ -2,6 +2,7 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -64,7 +65,7 @@ public class TeamScrapperRepository extends ScrapperRepository<String, Team> {
 
     protected String getPlayerIdOfElement(WebElement element) {
         String href = element.getAttribute("href");
-        href = href.split("player")[1];
+        href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "player", 2)[1];
         href = href.split("/")[1] + "/" + href.split("/")[2];
         return href;
     }

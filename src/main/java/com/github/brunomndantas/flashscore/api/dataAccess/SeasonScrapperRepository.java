@@ -5,6 +5,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.Utils;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -103,7 +104,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonId, Seaso
 
     protected String getMatchIdOfElement(WebElement element) {
         String href = element.getAttribute("href");
-        href = href.split("match")[1];
+        href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "match", 2)[1];
         href = href.split("/")[1];
         return href;
     }
