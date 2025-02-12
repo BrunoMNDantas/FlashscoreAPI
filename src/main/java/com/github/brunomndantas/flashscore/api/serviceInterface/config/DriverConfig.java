@@ -2,9 +2,9 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.config;
 
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPool;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
+import com.github.brunomndantas.flashscore.api.transversal.driverSupplier.ChromeDriverSupplier;
 import com.github.brunomndantas.flashscore.api.transversal.driverSupplier.FlashscoreDriverSupplier;
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
-import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
