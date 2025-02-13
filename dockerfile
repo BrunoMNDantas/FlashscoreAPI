@@ -46,5 +46,8 @@ COPY build/libs/flashscore.api-1.0.0.jar /app/app.jar
 # Expose the application port
 EXPOSE 8080
 
+# Check chrome driver version
+RUN ls -l /usr/bin/chromedriver && /usr/bin/chromedriver --version
+
 # Run the Spring Boot application
 CMD ["java", "-jar", "/app/app.jar"]
