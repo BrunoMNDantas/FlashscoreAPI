@@ -31,7 +31,7 @@ public class ChromeDriverSupplier extends DriverSupplier {
         System.setProperty("webdriver.chrome.silentOutput", Boolean.toString(this.silent));
 
         if (this.headless) {
-            options.addArguments("--headless");
+            options.addArguments("--headless=new");
         }
 
         options.addArguments("--disable-gpu");
