@@ -6,6 +6,7 @@ import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPoo
 import com.github.brunomndantas.flashscore.api.transversal.driverSupplier.FlashscoreDriverSupplier;
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
+import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -135,10 +136,11 @@ public abstract class ScrapperRepositoryTests<K,E> {
     }
 
     @Test
-    public void shouldReturnNull() throws Exception {
+    public void shouldThrowNonExistentEntityException() {
         K key = getNonExistentKey();
         ScrapperRepository<K,E> repository = createRepository();
-        Assertions.assertNull(repository.get(key));
+        NonExistentEntityException exception = Assertions.assertThrows(NonExistentEntityException.class, () -> repository.get(key));
+        Assertions.assertTrue(exception.getMessage().contains(key.toString()));
     }
 
     @Test

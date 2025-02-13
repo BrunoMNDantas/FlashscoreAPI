@@ -4,6 +4,7 @@ import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPoolException;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.IRepository;
+import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
@@ -66,7 +67,7 @@ public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
 
         try{
             if(!loadDriver(driver, key)) {
-                return null;
+                throw new NonExistentEntityException("There is not entity for key:" + key);
             }
 
             return scrapEntity(driver, key);

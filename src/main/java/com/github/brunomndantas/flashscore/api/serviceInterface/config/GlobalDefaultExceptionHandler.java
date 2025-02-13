@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.serviceInterface.config;
 
+import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,12 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     public ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
         log.error("Error on request", ex);
         return handleExceptionInternal(ex, "There was an error. Please try again later.", new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ExceptionHandler(NonExistentEntityException.class)
+    public ResponseEntity<Object> handleNotFound(NonExistentEntityException ex, WebRequest request) {
+        log.error("Non existent entity requested", ex);
+        return handleExceptionInternal(ex, "Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
 }

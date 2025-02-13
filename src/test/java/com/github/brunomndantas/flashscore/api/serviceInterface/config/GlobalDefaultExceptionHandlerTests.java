@@ -5,6 +5,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competit
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
 import com.github.brunomndantas.flashscore.api.serviceInterface.controllers.CompetitionController;
 import com.github.brunomndantas.repository4j.IRepository;
+import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,7 @@ class GlobalDefaultExceptionHandlerTests {
 
 
     @Test
-    public void shouldReturnCompetition() throws Exception {
+    public void shouldHandleGlobalExceptions() throws Exception {
         RepositoryException exception = new RepositoryException("Error");
         Mockito
             .when(repository.get(Mockito.any(CompetitionId.class)))
@@ -48,6 +49,23 @@ class GlobalDefaultExceptionHandlerTests {
         mockMvc.perform(get(url))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("There was an error. Please try again later."));
+    }
+
+    @Test
+    public void shouldHandleNonExistentEntityExceptions() throws Exception {
+        NonExistentEntityException exception = new NonExistentEntityException("Non Existent entity");
+        Mockito
+                .when(repository.get(Mockito.any(CompetitionId.class)))
+                .thenThrow(exception);
+
+        String url = Routes.COMPETITION_ROUTE
+                .replace("{sportId}", "s")
+                .replace("{regionId}", "r")
+                .replace("{competitionId}", "r");
+
+        mockMvc.perform(get(url))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Not Found"));
     }
 
 }
