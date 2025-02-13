@@ -3,7 +3,8 @@ FROM eclipse-temurin:17-jdk
 
 # Set environment variables for Chrome and ChromeDriver
 ENV CHROME_BIN=/usr/bin/google-chrome \
-    CHROMEDRIVER_BIN=/usr/bin/chromedriver
+    CHROMEDRIVER_BIN=/usr/bin/chromedriver \
+    DRIVER_PATH=/usr/bin/chromedriver
 
 # Install necessary dependencies, including jq
 RUN apt-get update && apt-get install -y \
