@@ -1,5 +1,5 @@
-# Use Eclipse Temurin JDK 21 as the base image
-FROM eclipse-temurin:21-jdk
+# Use Eclipse Temurin JDK 17 as the base image
+FROM eclipse-temurin:17-jdk
 
 # Set environment variables for Chrome and ChromeDriver
 ENV CHROME_BIN=/usr/bin/google-chrome \
