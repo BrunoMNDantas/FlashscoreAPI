@@ -1,44 +1,44 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<String, Team> {
+public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamId, Team> {
 
     @Override
-    protected ScrapperRepository<String, Team> createRepository() {
+    protected ScrapperRepository<TeamId, Team> createRepository() {
         return createRepository(DRIVER_POOL);
     }
 
     @Override
-    protected ScrapperRepository<String, Team> createRepository(IDriverPool driverPool) {
+    protected ScrapperRepository<TeamId, Team> createRepository(IDriverPool driverPool) {
         return new TeamScrapperRepository(driverPool, screenshotsDirectory);
     }
 
     @Override
-    protected String getExistentKey() {
-
-        return "bradford-city/bsc3EJ27";
+    protected TeamId getExistentKey() {
+        return new TeamId("bradford-city/bsc3EJ27");
     }
 
     @Override
-    protected String getNonExistentKey() {
-        return "non_existent_id";
+    protected TeamId getNonExistentKey() {
+        return new TeamId("non_existent_id");
     }
 
 
     @Test
     public void shouldScrapData() throws Exception {
-        String key = "dortmund/vVcwNP6f";
-        ScrapperRepository<String, Team> repository = createRepository(DRIVER_POOL);
+        TeamId key = new TeamId("dortmund/vVcwNP6f");
+        ScrapperRepository<TeamId, Team> repository = createRepository(DRIVER_POOL);
 
         Team team = repository.get(key);
 
-        Assertions.assertEquals(key, team.getId());
+        Assertions.assertEquals(key.getId(), team.getId().getId());
         Assertions.assertEquals("Dortmund II", team.getName());
         Assertions.assertEquals("zimmermann-jan/2F8lpifB", team.getCoachId());
         Assertions.assertNotNull(team.getPlayersIds());

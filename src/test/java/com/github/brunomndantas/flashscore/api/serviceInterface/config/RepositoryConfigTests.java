@@ -12,6 +12,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ public class RepositoryConfigTests {
     public IRepository<MatchId, Match> matchRepository;
 
     @Autowired
-    public IRepository<String, Team> teamRepository;
+    public IRepository<TeamId, Team> teamRepository;
 
     @Autowired
     private IRepository<String, Player> playerRepository;

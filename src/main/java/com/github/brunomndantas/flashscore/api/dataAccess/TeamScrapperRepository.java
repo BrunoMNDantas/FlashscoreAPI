@@ -1,6 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
-public class TeamScrapperRepository extends ScrapperRepository<String, Team> {
+public class TeamScrapperRepository extends ScrapperRepository<TeamId, Team> {
 
     public TeamScrapperRepository(IDriverPool driverPool, String logDirectory) {
         super(driverPool, logDirectory);
@@ -19,12 +20,12 @@ public class TeamScrapperRepository extends ScrapperRepository<String, Team> {
 
 
     @Override
-    protected String getUrlOfEntity(String teamId) {
-        return TEAM_URL.replace(TEAM_ID_PLACEHOLDER, teamId);
+    protected String getUrlOfEntity(TeamId teamId) {
+        return TEAM_URL.replace(TEAM_ID_PLACEHOLDER, teamId.getId());
     }
 
     @Override
-    protected Team scrapEntity(WebDriver driver, String teamId) {
+    protected Team scrapEntity(WebDriver driver, TeamId teamId) {
         Team team = new Team();
 
         team.setId(teamId);
@@ -40,8 +41,8 @@ public class TeamScrapperRepository extends ScrapperRepository<String, Team> {
         return element.getText();
     }
 
-    protected String scrapCoachId(WebDriver driver, String teamId) {
-        String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamId);
+    protected String scrapCoachId(WebDriver driver, TeamId teamId) {
+        String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamId.getId());
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
@@ -50,8 +51,8 @@ public class TeamScrapperRepository extends ScrapperRepository<String, Team> {
         return getPlayerIdOfElement(element);
     }
 
-    protected Collection<String> scrapPlayersIds(WebDriver driver, String teamId, String coachId) {
-        String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamId);
+    protected Collection<String> scrapPlayersIds(WebDriver driver, TeamId teamId, String coachId) {
+        String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamId.getId());
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 

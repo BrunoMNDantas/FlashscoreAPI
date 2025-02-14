@@ -13,6 +13,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +53,7 @@ public class RepositoryConfig {
     }
 
     @Bean
-    public IRepository<String, Team> getTeamRepository(IDriverPool driverPool) {
+    public IRepository<TeamId, Team> getTeamRepository(IDriverPool driverPool) {
         return new TeamScrapperRepository(driverPool, screenshotsDirectory);
     }
 

@@ -18,9 +18,8 @@ import java.util.Collection;
 public class Team {
 
     @NotNull
-    @NotEmpty
-    @NotBlank
-    private String id;
+    @Valid
+    private TeamId id;
 
     @NotNull
     @NotEmpty
