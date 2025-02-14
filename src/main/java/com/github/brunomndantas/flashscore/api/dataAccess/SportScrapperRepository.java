@@ -44,7 +44,7 @@ public class SportScrapperRepository extends ScrapperRepository<SportKey, Sport>
     }
 
     protected Collection<RegionKey> scrapRegionsKeys(WebDriver driver, SportKey sportKey) {
-        expandAllRegions(driver);
+        FlashscoreUtils.expandAllRegions(driver);
 
         Collection<WebElement> regionsLinks = driver.findElements(REGIONS_LINKS_SELECTOR);
 
@@ -55,20 +55,6 @@ public class SportScrapperRepository extends ScrapperRepository<SportKey, Sport>
                 .map(region -> region.replace("/", "").trim())
                 .map(regionId -> new RegionKey(sportKey.getSportId(), regionId))
                 .toList();
-    }
-
-    protected void expandAllRegions(WebDriver driver) {
-        Collection<WebElement> showMoreLabels = driver.findElements(SHOW_ALL_REGIONS_LABEL_SELECTOR);
-
-        if(showMoreLabels.isEmpty()) {
-            return;
-        }
-
-        WebElement showMoreLabel = showMoreLabels.stream().findFirst().get();
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showMoreLabel);
-
-        showMoreLabel.click();
     }
 
 }

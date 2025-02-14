@@ -5,7 +5,6 @@ import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -43,7 +42,7 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Regi
     }
 
     protected Collection<CompetitionKey> scrapCompetitionsKeys(WebDriver driver, RegionKey regionKey) {
-        expandAllCompetitions(driver);
+        FlashscoreUtils.expandAllCompetitions(driver);
 
         Collection<WebElement> competitionsLinks = driver.findElements(COMPETITIONS_LINKS_SELECTOR);
         return competitionsLinks
@@ -53,20 +52,6 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Regi
                 .map(competition -> competition.replace("/", "").trim())
                 .map(competitionId -> new CompetitionKey(regionKey.getSportId(), regionKey.getRegionId(), competitionId))
                 .toList();
-    }
-
-    protected void expandAllCompetitions(WebDriver driver) {
-        Collection<WebElement> showMoreLabels = driver.findElements(SHOW_ALL_COMPETITIONS_SELECTOR);
-
-        if(showMoreLabels.isEmpty()) {
-            return;
-        }
-
-        WebElement showMoreLabel = showMoreLabels.stream().findFirst().get();
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showMoreLabel);
-
-        showMoreLabel.click();
     }
 
 }

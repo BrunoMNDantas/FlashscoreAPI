@@ -3,11 +3,8 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
-import com.github.brunomndantas.flashscore.api.transversal.Config;
-import com.github.brunomndantas.flashscore.api.transversal.Utils;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -68,7 +65,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
-        loadAllMatches(driver);
+        FlashscoreUtils.loadAllMatches(driver);
 
         Collection<WebElement> matchesLinks = driver.findElements(PAST_MATCHES_SELECTOR);
         return matchesLinks
@@ -94,7 +91,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
-        loadAllMatches(driver);
+        FlashscoreUtils.loadAllMatches(driver);
 
         Collection<WebElement> matchesLinks = driver.findElements(FUTURE_MATCHES_SELECTOR);
         return matchesLinks
@@ -116,25 +113,6 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
                 .replace(REGION_ID_PLACEHOLDER, seasonKey.getRegionId())
                 .replace(COMPETITION_ID_PLACEHOLDER, seasonKey.getCompetitionId())
                 .replace(SEASON_ID_PLACEHOLDER, seasonKey.getSeasonId());
-    }
-
-    protected void loadAllMatches(WebDriver driver) {
-        Collection<WebElement> loadMoreElements;
-        WebElement loadMoreElement;
-
-        while(true) {
-            loadMoreElements = driver.findElements(LOAD_MORE_MATCHES_LABEL_SELECTOR);
-
-            if(loadMoreElements.isEmpty()) {
-                break;
-            }
-
-            loadMoreElement = loadMoreElements.stream().findFirst().get();
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", loadMoreElement);
-            loadMoreElement.click();
-
-            Utils.sleep(Config.QUICK_WAIT);
-        }
     }
 
 }
