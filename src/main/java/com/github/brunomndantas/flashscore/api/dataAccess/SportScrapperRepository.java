@@ -2,6 +2,7 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
+import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -13,7 +14,7 @@ import java.util.Collection;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
-public class SportScrapperRepository extends ScrapperRepository<String, Sport> {
+public class SportScrapperRepository extends ScrapperRepository<SportId, Sport> {
 
     public SportScrapperRepository(IDriverPool driverPool, String logDirectory) {
         super(driverPool, logDirectory);
@@ -21,12 +22,12 @@ public class SportScrapperRepository extends ScrapperRepository<String, Sport> {
 
 
     @Override
-    protected String getUrlOfEntity(String sportId) {
-        return SPORT_URL.replace(SPORT_ID_PLACEHOLDER, sportId);
+    protected String getUrlOfEntity(SportId sportId) {
+        return SPORT_URL.replace(SPORT_ID_PLACEHOLDER, sportId.getId());
     }
 
     @Override
-    protected Sport scrapEntity(WebDriver driver, String sportId) {
+    protected Sport scrapEntity(WebDriver driver, SportId sportId) {
         Sport sport = new Sport();
 
         sport.setId(sportId);
@@ -36,13 +37,13 @@ public class SportScrapperRepository extends ScrapperRepository<String, Sport> {
         return sport;
     }
 
-    protected String scrapName(String sportId) {
-        String name = sportId.replace("-", " ").toUpperCase();
+    protected String scrapName(SportId sportId) {
+        String name = sportId.getId().replace("-", " ").toUpperCase();
         name = WordUtils.capitalizeFully(name);
         return name;
     }
 
-    protected Collection<RegionId> scrapRegionsIds(WebDriver driver, String sportId) {
+    protected Collection<RegionId> scrapRegionsIds(WebDriver driver, SportId sportId) {
         expandAllRegions(driver);
 
         Collection<WebElement> regionsLinks = driver.findElements(REGIONS_LINKS_SELECTOR);
@@ -50,9 +51,9 @@ public class SportScrapperRepository extends ScrapperRepository<String, Sport> {
         return regionsLinks
                 .stream()
                 .map(element -> element.getAttribute("href"))
-                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, sportId, 2)[1])
+                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, sportId.getId(), 2)[1])
                 .map(region -> region.replace("/", "").trim())
-                .map(regionId -> new RegionId(sportId, regionId))
+                .map(regionId -> new RegionId(sportId.getId(), regionId))
                 .toList();
     }
 

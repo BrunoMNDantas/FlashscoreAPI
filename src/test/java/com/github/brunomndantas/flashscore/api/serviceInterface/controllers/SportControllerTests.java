@@ -2,6 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
+import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class SportControllerTests {
 
     @Test
     public void shouldReturnSport() throws Exception {
-        String sportId = "Sport";
+        SportId sportId = new SportId("Sport");
         Sport sport = new Sport(sportId, "Spo", new LinkedList<>());
 
         Mockito
@@ -43,7 +44,7 @@ class SportControllerTests {
             .thenReturn(sport);
 
         String url = Routes.SPORT_ROUTE
-                .replace("{sportId}", sportId);
+                .replace("{sportId}", sportId.getId());
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())

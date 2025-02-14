@@ -19,9 +19,8 @@ import java.util.Collection;
 public class Sport {
 
     @NotNull
-    @NotEmpty
-    @NotBlank
-    private String id;
+    @Valid
+    private SportId id;
 
     @NotNull
     @NotEmpty

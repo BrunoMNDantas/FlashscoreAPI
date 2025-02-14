@@ -9,6 +9,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
+import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class RepositoryConfigTests {
 
     @Autowired
-    public IRepository<String, Sport> sportRepository;
+    public IRepository<SportId, Sport> sportRepository;
 
     @Autowired
     public IRepository<RegionId, Region> regionRepository;

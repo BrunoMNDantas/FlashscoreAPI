@@ -10,6 +10,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
+import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.IRepository;
@@ -25,7 +26,7 @@ public class RepositoryConfig {
 
 
     @Bean
-    public IRepository<String, Sport> getSportRepository(IDriverPool driverPool) {
+    public IRepository<SportId, Sport> getSportRepository(IDriverPool driverPool) {
         return new SportScrapperRepository(driverPool, screenshotsDirectory);
     }
 
