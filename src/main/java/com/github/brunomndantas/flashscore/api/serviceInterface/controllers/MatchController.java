@@ -1,6 +1,7 @@
 package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
+import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchId;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
@@ -13,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MatchController {
 
-    private IRepository<String, Match> repository;
+    private IRepository<MatchId, Match> repository;
 
 
-    public MatchController(IRepository<String, Match> repository) {
+    public MatchController(IRepository<MatchId, Match> repository) {
         this.repository = repository;
     }
 
 
     @GetMapping(Routes.MATCH_ROUTE)
     public Match getMatch(@PathVariable String matchId) throws RepositoryException {
-        return repository.get(matchId);
+        return repository.get(new MatchId(matchId));
     }
     
 }

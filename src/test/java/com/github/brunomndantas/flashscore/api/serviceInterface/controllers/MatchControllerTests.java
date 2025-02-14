@@ -2,6 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
+import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchId;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class MatchControllerTests {
 
     @Test
     public void shouldReturnMatch() throws Exception {
-        String matchId = "Match";
+        MatchId matchId = new MatchId("Match");
         Match match = new Match(matchId, "Home", "Away", 1, 1, new Date());
 
         Mockito
@@ -43,7 +44,7 @@ class MatchControllerTests {
             .thenReturn(match);
 
         String url = Routes.MATCH_ROUTE
-                .replace("{matchId}", matchId);
+                .replace("{matchId}", matchId.getId());
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())

@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.match;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +16,8 @@ import java.util.Date;
 public class Match {
 
     @NotNull
-    @NotEmpty
-    @NotBlank
-    private String id;
+    @Valid
+    private MatchId id;
 
     @NotNull
     @NotEmpty
