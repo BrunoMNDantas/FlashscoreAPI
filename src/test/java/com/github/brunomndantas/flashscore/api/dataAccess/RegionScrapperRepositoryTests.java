@@ -44,7 +44,7 @@ public class RegionScrapperRepositoryTests extends ScrapperRepositoryTests<Regio
         Assertions.assertNull(getConstraintViolation(region));
 
         Assertions.assertEquals(key, region.getKey());
-        Assertions.assertEquals("SPAIN", region.getName());
+        Assertions.assertEquals("Spain", region.getName());
         Assertions.assertTrue(region.getCompetitionsKeys().size() > 6);
 
         for(CompetitionKey competitionKey : region.getCompetitionsKeys()) {

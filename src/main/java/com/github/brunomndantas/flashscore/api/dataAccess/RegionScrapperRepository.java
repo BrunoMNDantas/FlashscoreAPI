@@ -31,14 +31,26 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Regi
         Region region = new Region();
 
         region.setKey(regionKey);
-        region.setName(scrapName(regionKey));
+        region.setName(scrapName(driver, regionKey));
         region.setCompetitionsKeys(scrapCompetitionsKeys(driver, regionKey));
 
         return region;
     }
 
-    protected String scrapName(RegionKey regionKey) {
-        return regionKey.getRegionId().replace("-", " ").toUpperCase();
+    protected String scrapName(WebDriver driver, RegionKey regionKey) {
+        FlashscoreUtils.expandAllRegions(driver);
+
+        Collection<WebElement> regionsLinks = driver.findElements(REGIONS_LINKS_SELECTOR);
+
+        return regionsLinks
+                .stream()
+                .filter(regionLink -> {
+                    String href = regionLink.getAttribute("href");
+                    return href.contains(regionKey.getSportId()) && href.contains(regionKey.getRegionId());
+                })
+                .findFirst()
+                .get()
+                .getText();
     }
 
     protected Collection<CompetitionKey> scrapCompetitionsKeys(WebDriver driver, RegionKey regionKey) {
