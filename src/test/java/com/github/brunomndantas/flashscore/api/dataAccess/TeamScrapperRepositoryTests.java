@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -40,15 +41,16 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamId,
 
         Assertions.assertEquals(key.getId(), team.getId().getId());
         Assertions.assertEquals("Dortmund II", team.getName());
-        Assertions.assertEquals("zimmermann-jan/2F8lpifB", team.getCoachId());
+        Assertions.assertEquals("zimmermann-jan/2F8lpifB", team.getCoachId().getId());
         Assertions.assertNotNull(team.getPlayersIds());
         Assertions.assertTrue(team.getPlayersIds().size() > 20);
         Assertions.assertTrue(team.getPlayersIds().size() < 35);
-        Assertions.assertTrue(!team.getPlayersIds().contains(team.getCoachId()));
+        Assertions.assertTrue(team.getPlayersIds().stream().noneMatch(id -> id.getId().equals(team.getCoachId().getId())));
 
-        for(String playerId: team.getPlayersIds()) {
+        for(PlayerId playerId: team.getPlayersIds()) {
             Assertions.assertNotNull(playerId);
-            Assertions.assertFalse(playerId.trim().isEmpty());
+            Assertions.assertNotNull(playerId.getId());
+            Assertions.assertFalse(playerId.getId().trim().isEmpty());
         }
     }
 

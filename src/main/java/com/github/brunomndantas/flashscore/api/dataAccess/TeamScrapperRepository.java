@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -41,7 +42,7 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamId, Team> {
         return element.getText();
     }
 
-    protected String scrapCoachId(WebDriver driver, TeamId teamId) {
+    protected PlayerId scrapCoachId(WebDriver driver, TeamId teamId) {
         String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamId.getId());
         driver.get(url);
         super.waitPageToBeLoaded(driver);
@@ -51,7 +52,7 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamId, Team> {
         return getPlayerIdOfElement(element);
     }
 
-    protected Collection<String> scrapPlayersIds(WebDriver driver, TeamId teamId, String coachId) {
+    protected Collection<PlayerId> scrapPlayersIds(WebDriver driver, TeamId teamId, PlayerId coachId) {
         String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamId.getId());
         driver.get(url);
         super.waitPageToBeLoaded(driver);
@@ -60,15 +61,15 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamId, Team> {
         return elements
                 .stream()
                 .map(this::getPlayerIdOfElement)
-                .filter(id -> !id.equals(coachId))
+                .filter(id -> !id.getId().equals(coachId.getId()))
                 .collect(Collectors.toSet());
     }
 
-    protected String getPlayerIdOfElement(WebElement element) {
+    protected PlayerId getPlayerIdOfElement(WebElement element) {
         String href = element.getAttribute("href");
         href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "player", 2)[1];
         href = href.split("/")[1] + "/" + href.split("/")[2];
-        return href;
+        return new PlayerId(href);
     }
 
 }

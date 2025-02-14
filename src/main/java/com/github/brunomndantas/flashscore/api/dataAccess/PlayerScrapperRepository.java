@@ -1,6 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,7 @@ import java.util.Date;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
-public class PlayerScrapperRepository extends ScrapperRepository<String, Player> {
+public class PlayerScrapperRepository extends ScrapperRepository<PlayerId, Player> {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -24,12 +25,12 @@ public class PlayerScrapperRepository extends ScrapperRepository<String, Player>
 
 
     @Override
-    protected String getUrlOfEntity(String playerId) {
-        return PLAYER_URL.replace(PLAYER_ID_PLACEHOLDER, playerId);
+    protected String getUrlOfEntity(PlayerId playerId) {
+        return PLAYER_URL.replace(PLAYER_ID_PLACEHOLDER, playerId.getId());
     }
 
     @Override
-    protected Player scrapEntity(WebDriver driver, String playerId) throws RepositoryException {
+    protected Player scrapEntity(WebDriver driver, PlayerId playerId) throws RepositoryException {
         Player player = new Player();
 
         player.setId(playerId);

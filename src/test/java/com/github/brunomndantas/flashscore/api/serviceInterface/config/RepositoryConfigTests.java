@@ -5,6 +5,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competit
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchId;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
@@ -41,7 +42,7 @@ public class RepositoryConfigTests {
     public IRepository<TeamId, Team> teamRepository;
 
     @Autowired
-    private IRepository<String, Player> playerRepository;
+    private IRepository<PlayerId, Player> playerRepository;
 
 
     @Test
