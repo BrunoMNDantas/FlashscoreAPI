@@ -8,6 +8,11 @@ import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
+import java.util.Set;
 
 @SpringBootTest
 public abstract class ScrapperRepositoryTests<K,E> {
@@ -147,7 +153,31 @@ public abstract class ScrapperRepositoryTests<K,E> {
     public void shouldReturnEntity() throws Exception {
         K key = getExistentKey();
         ScrapperRepository<K,E> repository = createRepository();
-        Assertions.assertNotNull(repository.get(key));
+
+        E entity = repository.get(key);
+
+        Assertions.assertNotNull(entity);
+        Assertions.assertNull(getConstraintViolation(entity));
+    }
+
+    public static <E> String getConstraintViolation(E entity) {
+        ValidatorFactory factory = Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory();
+
+        try(factory) {
+            Validator validator = factory.getValidator();
+
+            Set<ConstraintViolation<E>> violations = validator.validate(entity);
+
+            if(!violations.isEmpty()) {
+                ConstraintViolation<E> violation = violations.iterator().next();
+                return violation.getPropertyPath() + ": " + violation.getMessage();
+            }
+        }
+
+        return null;
     }
 
     @Test
