@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class MatchControllerTests {
     @Test
     public void shouldReturnMatch() throws Exception {
         MatchKey matchKey = new MatchKey("Match");
-        Match match = new Match(matchKey, "Home", "Away", 1, 1, new Date());
+        Match match = new Match(matchKey, new TeamKey("Home"), new TeamKey("Away"), 1, 1, new Date());
 
         Mockito
             .when(repository.get(Mockito.any(MatchKey.class)))

@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -46,12 +47,13 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
         Assertions.assertNotNull(season.getMatchesKeys());
         Assertions.assertTrue(season.getMatchesKeys().size() > 300);
 
-        for(String matchKey: season.getMatchesKeys()) {
+        for(MatchKey matchKey: season.getMatchesKeys()) {
             Assertions.assertNotNull(matchKey);
-            Assertions.assertFalse(matchKey.trim().isEmpty());
+            Assertions.assertNotNull(matchKey.getMatchId());
+            Assertions.assertFalse(matchKey.getMatchId().trim().isEmpty());
         }
 
-        Assertions.assertTrue(season.getMatchesKeys().contains("bZd70Ik6"));
+        Assertions.assertTrue(season.getMatchesKeys().stream().anyMatch(mKey -> mKey.getMatchId().equals("bZd70Ik6")));
     }
 
 }

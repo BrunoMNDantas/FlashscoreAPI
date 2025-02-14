@@ -39,8 +39,8 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         Match match = repository.get(key);
 
         Assertions.assertEquals(key.getMatchId(), match.getKey().getMatchId());
-        Assertions.assertEquals("bournemouth/OtpNdwrc", match.getHomeTeamKey());
-        Assertions.assertEquals("liverpool/lId4TMwf", match.getAwayTeamKey());
+        Assertions.assertEquals("bournemouth/OtpNdwrc", match.getHomeTeamKey().getTeamId());
+        Assertions.assertEquals("liverpool/lId4TMwf", match.getAwayTeamKey().getTeamId());
         Assertions.assertEquals(0, match.getHomeTeamGoals());
         Assertions.assertEquals(2, match.getAwayTeamGoals());
         Assertions.assertEquals(MatchScrapperRepository.DATE_FORMAT.parse("01.02.2025 15:00"), match.getDate());

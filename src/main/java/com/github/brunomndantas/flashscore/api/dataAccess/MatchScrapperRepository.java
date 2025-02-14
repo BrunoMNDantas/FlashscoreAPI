@@ -2,6 +2,7 @@ package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import org.apache.commons.lang3.StringUtils;
@@ -45,21 +46,21 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         return match;
     }
 
-    protected String scrapHomeTeamKey(WebDriver driver) {
+    protected TeamKey scrapHomeTeamKey(WebDriver driver) {
         WebElement element = driver.findElement(MATCH_HOME_TEAM_SELECTOR);
         return getTeamKeyOfElement(element);
     }
 
-    protected String scrapAwayTeamKey(WebDriver driver) {
+    protected TeamKey scrapAwayTeamKey(WebDriver driver) {
         WebElement element = driver.findElement(MATCH_AWAY_TEAM_SELECTOR);
         return getTeamKeyOfElement(element);
     }
 
-    protected String getTeamKeyOfElement(WebElement element) {
+    protected TeamKey getTeamKeyOfElement(WebElement element) {
         String href = element.getAttribute("href");
         href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "team", 2)[1];
         href = href.split("/")[1] + "/" + href.split("/")[2];
-        return href;
+        return new TeamKey(href);
     }
 
     protected int scrapHomeTeamGoals(WebDriver driver ) {

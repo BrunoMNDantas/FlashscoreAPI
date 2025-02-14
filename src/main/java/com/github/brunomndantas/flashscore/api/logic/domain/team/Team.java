@@ -33,10 +33,6 @@ public class Team {
     @NotNull
     @NotEmpty
     @Valid
-    private Collection<
-        @NotEmpty
-        @Valid
-        PlayerKey
-    > playersKeys;
+    private Collection<PlayerKey> playersKeys;
 
 }

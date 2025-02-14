@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.match;
 
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -21,12 +22,12 @@ public class Match {
     @NotNull
     @NotEmpty
     @NotBlank
-    private String homeTeamKey;
+    private TeamKey homeTeamKey;
 
     @NotNull
     @NotEmpty
     @NotBlank
-    private String awayTeamKey;
+    private TeamKey awayTeamKey;
 
     @Min(-1)
     @Max(200)

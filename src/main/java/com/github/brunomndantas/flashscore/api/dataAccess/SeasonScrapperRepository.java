@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.Config;
@@ -42,12 +43,12 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
         return seasonKey.getSeasonId();
     }
 
-    protected Collection<String> scrapMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
-        Collection<String> todayMatchesKeys = scrapTodayMatchesKeys(driver, seasonKey);
-        Collection<String> pastMatchesKeys = scrapPastMatchesKeys(driver, seasonKey);
-        Collection<String> futureMatchesKeys = scrapFutureMatchesKeys(driver, seasonKey);
+    protected Collection<MatchKey> scrapMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
+        Collection<MatchKey> todayMatchesKeys = scrapTodayMatchesKeys(driver, seasonKey);
+        Collection<MatchKey> pastMatchesKeys = scrapPastMatchesKeys(driver, seasonKey);
+        Collection<MatchKey> futureMatchesKeys = scrapFutureMatchesKeys(driver, seasonKey);
 
-        Collection<String> matchesKeys = new LinkedList<>(pastMatchesKeys);
+        Collection<MatchKey> matchesKeys = new LinkedList<>(pastMatchesKeys);
 
         todayMatchesKeys
                 .stream()
@@ -62,7 +63,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
         return matchesKeys;
     }
 
-    protected Collection<String> scrapPastMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
+    protected Collection<MatchKey> scrapPastMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
         String url = buildSeasonUrl(PAST_MATCHES_URL, seasonKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
@@ -76,7 +77,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
                 .toList();
     }
 
-    protected Collection<String> scrapTodayMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
+    protected Collection<MatchKey> scrapTodayMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
         String url = buildSeasonUrl(TODAY_MATCHES_URL, seasonKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
@@ -88,7 +89,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
                 .toList();
     }
 
-    protected Collection<String> scrapFutureMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
+    protected Collection<MatchKey> scrapFutureMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
         String url = buildSeasonUrl(FUTURE_MATCHES_URL, seasonKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
@@ -102,11 +103,11 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
                 .toList();
     }
 
-    protected String getMatchKeyOfElement(WebElement element) {
+    protected MatchKey getMatchKeyOfElement(WebElement element) {
         String href = element.getAttribute("href");
         href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "match", 2)[1];
         href = href.split("/")[1];
-        return href;
+        return new MatchKey(href);
     }
 
     protected String buildSeasonUrl(String url, SeasonKey seasonKey) {
