@@ -31,7 +31,7 @@ class MatchControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<String, Match> repository;
+    private IRepository<MatchId, Match> repository;
 
 
     @Test
@@ -40,7 +40,7 @@ class MatchControllerTests {
         Match match = new Match(matchId, "Home", "Away", 1, 1, new Date());
 
         Mockito
-            .when(repository.get(Mockito.any(String.class)))
+            .when(repository.get(Mockito.any(MatchId.class)))
             .thenReturn(match);
 
         String url = Routes.MATCH_ROUTE

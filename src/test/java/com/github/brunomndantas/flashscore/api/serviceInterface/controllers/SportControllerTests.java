@@ -31,7 +31,7 @@ class SportControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<String, Sport> repository;
+    private IRepository<SportId, Sport> repository;
 
 
     @Test
@@ -40,7 +40,7 @@ class SportControllerTests {
         Sport sport = new Sport(sportId, "Spo", new LinkedList<>());
 
         Mockito
-            .when(repository.get(Mockito.any(String.class)))
+            .when(repository.get(Mockito.any(SportId.class)))
             .thenReturn(sport);
 
         String url = Routes.SPORT_ROUTE
