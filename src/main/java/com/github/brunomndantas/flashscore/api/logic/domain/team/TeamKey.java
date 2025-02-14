@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.logic.domain.sport;
+package com.github.brunomndantas.flashscore.api.logic.domain.team;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,11 +11,11 @@ import lombok.*;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class SportId {
+public class TeamKey {
 
     @NotNull
     @NotEmpty
     @NotBlank
-    private String id;
+    private String teamId;
 
 }

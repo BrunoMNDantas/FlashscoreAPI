@@ -1,8 +1,8 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
-import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
+import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.jupiter.api.Assertions;
@@ -12,54 +12,54 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Collection;
 
 @SpringBootTest
-public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<CompetitionId, Competition> {
+public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<CompetitionKey, Competition> {
 
     @Override
-    protected ScrapperRepository<CompetitionId, Competition> createRepository() {
+    protected ScrapperRepository<CompetitionKey, Competition> createRepository() {
         return createRepository(DRIVER_POOL);
     }
 
     @Override
-    protected ScrapperRepository<CompetitionId, Competition> createRepository(IDriverPool driverPool) {
+    protected ScrapperRepository<CompetitionKey, Competition> createRepository(IDriverPool driverPool) {
         return new CompetitionScrapperRepository(driverPool, screenshotsDirectory);
     }
 
     @Override
-    protected CompetitionId getExistentKey() {
-        return new CompetitionId("football", "portugal", "liga-portugal");
+    protected CompetitionKey getExistentKey() {
+        return new CompetitionKey("football", "portugal", "liga-portugal");
     }
 
     @Override
-    protected CompetitionId getNonExistentKey() {
-        return new CompetitionId("football", "portugal", "non-existent-id");
+    protected CompetitionKey getNonExistentKey() {
+        return new CompetitionKey("football", "portugal", "non-existent-id");
     }
 
 
     @Test
     public void shouldScrapData() throws Exception {
-        CompetitionId key = new CompetitionId("basketball", "usa", "nba");
-        ScrapperRepository<CompetitionId, Competition> repository = createRepository(DRIVER_POOL);
+        CompetitionKey key = new CompetitionKey("basketball", "usa", "nba");
+        ScrapperRepository<CompetitionKey, Competition> repository = createRepository(DRIVER_POOL);
 
         Competition competition = repository.get(key);
 
-        Assertions.assertEquals(key.getSportId(), competition.getId().getSportId());
-        Assertions.assertEquals(key.getRegionId(), competition.getId().getRegionId());
-        Assertions.assertEquals(key.getId(), competition.getId().getId());
+        Assertions.assertEquals(key.getSportId(), competition.getKey().getSportId());
+        Assertions.assertEquals(key.getRegionId(), competition.getKey().getRegionId());
+        Assertions.assertEquals(key.getCompetitionId(), competition.getKey().getCompetitionId());
         Assertions.assertEquals("NBA", competition.getName());
-        Assertions.assertNotNull(competition.getSeasonsIds());
-        Assertions.assertTrue(competition.getSeasonsIds().size() > 6);
+        Assertions.assertNotNull(competition.getSeasonsKeys());
+        Assertions.assertTrue(competition.getSeasonsKeys().size() > 6);
 
-        for(SeasonId seasonId: competition.getSeasonsIds()) {
-            Assertions.assertNotNull(seasonId);
-            Assertions.assertEquals(key.getSportId(), seasonId.getSportId());
-            Assertions.assertEquals(key.getRegionId(), seasonId.getRegionId());
-            Assertions.assertEquals(key.getId(), seasonId.getCompetitionId());
+        for(SeasonKey seasonKey : competition.getSeasonsKeys()) {
+            Assertions.assertNotNull(seasonKey);
+            Assertions.assertEquals(key.getSportId(), seasonKey.getSportId());
+            Assertions.assertEquals(key.getRegionId(), seasonKey.getRegionId());
+            Assertions.assertEquals(key.getCompetitionId(), seasonKey.getCompetitionId());
 
-            String id = seasonId.getId();
+            String id = seasonKey.getSeasonId();
             Assertions.assertNotNull(id);
             Assertions.assertFalse(id.trim().isEmpty());
 
-            if(seasonId.getId().contains("-")) {
+            if(seasonKey.getSeasonId().contains("-")) {
                 Assertions.assertTrue(NumberUtils.isDigits(id.split("-")[0]));
                 Assertions.assertTrue(NumberUtils.isDigits(id.split("-")[1]));
             } else {
@@ -67,7 +67,7 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
             }
         }
 
-        Collection<String> seasonsIds = competition.getSeasonsIds().stream().map(SeasonId::getId).toList();
+        Collection<String> seasonsIds = competition.getSeasonsKeys().stream().map(SeasonKey::getSeasonId).toList();
         Assertions.assertTrue(seasonsIds.contains("2018-2019"));
     }
 

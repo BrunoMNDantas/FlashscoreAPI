@@ -1,6 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.team;
 
-import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,7 +19,7 @@ public class Team {
 
     @NotNull
     @Valid
-    private TeamId id;
+    private TeamKey key;
 
     @NotNull
     @NotEmpty
@@ -28,7 +28,7 @@ public class Team {
 
     @NotNull
     @Valid
-    private PlayerId coachId;
+    private PlayerKey coachKey;
 
     @NotNull
     @NotEmpty
@@ -36,7 +36,7 @@ public class Team {
     private Collection<
         @NotEmpty
         @Valid
-        PlayerId
-    > playersIds;
+        PlayerKey
+    > playersKeys;
 
 }

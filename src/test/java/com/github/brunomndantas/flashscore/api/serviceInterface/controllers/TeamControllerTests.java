@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
-import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -30,20 +30,20 @@ class TeamControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<TeamId, Team> repository;
+    private IRepository<TeamKey, Team> repository;
 
 
     @Test
     public void shouldReturnTeam() throws Exception {
-        TeamId teamId = new TeamId("Team");
-        Team team = new Team(teamId, "T", null, new LinkedList<>());
+        TeamKey teamKey = new TeamKey("Team");
+        Team team = new Team(teamKey, "T", null, new LinkedList<>());
 
         Mockito
-            .when(repository.get(Mockito.any(TeamId.class)))
+            .when(repository.get(Mockito.any(TeamKey.class)))
             .thenReturn(team);
 
         String url = Routes.TEAM_ROUTE
-                .replace("{teamId}", teamId.getId());
+                .replace("{teamId}", teamKey.getTeamId());
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())

@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.logic.domain.region;
+package com.github.brunomndantas.flashscore.api.logic.domain.player;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,16 +11,11 @@ import lombok.*;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class RegionId {
+public class PlayerKey {
 
     @NotNull
     @NotEmpty
     @NotBlank
-    private String sportId;
-
-    @NotNull
-    @NotEmpty
-    @NotBlank
-    private String id;
+    private String playerId;
 
 }

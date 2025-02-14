@@ -1,6 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.competition;
 
-import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
+import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,7 +19,7 @@ public class Competition {
 
     @NotNull
     @Valid
-    private CompetitionId id;
+    private CompetitionKey key;
 
     @NotNull
     @NotEmpty
@@ -29,6 +29,6 @@ public class Competition {
     @NotNull
     @NotEmpty
     @Valid
-    private Collection<SeasonId> seasonsIds;
+    private Collection<SeasonKey> seasonsKeys;
 
 }

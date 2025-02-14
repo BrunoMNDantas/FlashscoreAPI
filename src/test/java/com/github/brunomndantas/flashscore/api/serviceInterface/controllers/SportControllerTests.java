@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
-import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
+import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -31,20 +31,20 @@ class SportControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<SportId, Sport> repository;
+    private IRepository<SportKey, Sport> repository;
 
 
     @Test
     public void shouldReturnSport() throws Exception {
-        SportId sportId = new SportId("Sport");
-        Sport sport = new Sport(sportId, "Spo", new LinkedList<>());
+        SportKey sportKey = new SportKey("Sport");
+        Sport sport = new Sport(sportKey, "Spo", new LinkedList<>());
 
         Mockito
-            .when(repository.get(Mockito.any(SportId.class)))
+            .when(repository.get(Mockito.any(SportKey.class)))
             .thenReturn(sport);
 
         String url = Routes.SPORT_ROUTE
-                .replace("{sportId}", sportId.getId());
+                .replace("{sportId}", sportKey.getSportId());
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())

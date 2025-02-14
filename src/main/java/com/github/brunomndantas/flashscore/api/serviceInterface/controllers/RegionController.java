@@ -1,7 +1,7 @@
 package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
-import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegionController {
 
-    private IRepository<RegionId, Region> repository;
+    private IRepository<RegionKey, Region> repository;
 
 
-    public RegionController(IRepository<RegionId, Region> repository) {
+    public RegionController(IRepository<RegionKey, Region> repository) {
         this.repository = repository;
     }
 
 
     @GetMapping(Routes.REGION_ROUTE)
     public Region getRegion(@PathVariable String sportId, @PathVariable String regionId) throws RepositoryException {
-        return repository.get(new RegionId(sportId, regionId));
+        return repository.get(new RegionKey(sportId, regionId));
     }
 
 }

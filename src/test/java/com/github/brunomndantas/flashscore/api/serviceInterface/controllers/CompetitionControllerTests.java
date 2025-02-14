@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class CompetitionControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<CompetitionId, Competition> repository;
+    private IRepository<CompetitionKey, Competition> repository;
 
 
     @Test
@@ -39,10 +39,10 @@ class CompetitionControllerTests {
         String sportId = "Sport";
         String regionId = "Region";
         String competitionId = "Competition";
-        Competition competition = new Competition(new CompetitionId(sportId, regionId, competitionId), "Comp", new LinkedList<>());
+        Competition competition = new Competition(new CompetitionKey(sportId, regionId, competitionId), "Comp", new LinkedList<>());
 
         Mockito
-            .when(repository.get(Mockito.any(CompetitionId.class)))
+            .when(repository.get(Mockito.any(CompetitionKey.class)))
             .thenReturn(competition);
 
         String url = Routes.COMPETITION_ROUTE

@@ -1,7 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
-import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchId;
+import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,7 @@ import java.util.Date;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
-public class MatchScrapperRepository extends ScrapperRepository<MatchId, Match> {
+public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match> {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
@@ -27,17 +27,17 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchId, Match> 
 
 
     @Override
-    protected String getUrlOfEntity(MatchId matchId) {
-        return MATCH_URL.replace(MATCH_ID_PLACEHOLDER, matchId.getId());
+    protected String getUrlOfEntity(MatchKey matchKey) {
+        return MATCH_URL.replace(MATCH_ID_PLACEHOLDER, matchKey.getMatchId());
     }
 
     @Override
-    protected Match scrapEntity(WebDriver driver, MatchId matchId) throws RepositoryException {
+    protected Match scrapEntity(WebDriver driver, MatchKey matchKey) throws RepositoryException {
         Match match = new Match();
 
-        match.setId(matchId);
-        match.setHomeTeamId(scrapHomeTeamId(driver));
-        match.setAwayTeamId(scrapAwayTeamId(driver));
+        match.setKey(matchKey);
+        match.setHomeTeamKey(scrapHomeTeamKey(driver));
+        match.setAwayTeamKey(scrapAwayTeamKey(driver));
         match.setHomeTeamGoals(scrapHomeTeamGoals(driver));
         match.setAwayTeamGoals(scrapAwayTeamGoals(driver));
         match.setDate(scrapDate(driver));
@@ -45,17 +45,17 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchId, Match> 
         return match;
     }
 
-    protected String scrapHomeTeamId(WebDriver driver) {
+    protected String scrapHomeTeamKey(WebDriver driver) {
         WebElement element = driver.findElement(MATCH_HOME_TEAM_SELECTOR);
-        return getTeamIdOfElement(element);
+        return getTeamKeyOfElement(element);
     }
 
-    protected String scrapAwayTeamId(WebDriver driver) {
+    protected String scrapAwayTeamKey(WebDriver driver) {
         WebElement element = driver.findElement(MATCH_AWAY_TEAM_SELECTOR);
-        return getTeamIdOfElement(element);
+        return getTeamKeyOfElement(element);
     }
 
-    protected String getTeamIdOfElement(WebElement element) {
+    protected String getTeamKeyOfElement(WebElement element) {
         String href = element.getAttribute("href");
         href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "team", 2)[1];
         href = href.split("/")[1] + "/" + href.split("/")[2];

@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
-import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -31,17 +31,17 @@ class RegionControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<RegionId, Region> repository;
+    private IRepository<RegionKey, Region> repository;
 
 
     @Test
     public void shouldReturnRegion() throws Exception {
         String sportId = "Sport";
         String regionId = "Region";
-        Region region = new Region(new RegionId(sportId, regionId), "Reg", new LinkedList<>());
+        Region region = new Region(new RegionKey(sportId, regionId), "Reg", new LinkedList<>());
 
         Mockito
-            .when(repository.get(Mockito.any(RegionId.class)))
+            .when(repository.get(Mockito.any(RegionKey.class)))
             .thenReturn(region);
 
         String url = Routes.REGION_ROUTE

@@ -19,7 +19,7 @@ public class Player {
 
     @NotNull
     @Valid
-    private PlayerId id;
+    private PlayerKey key;
 
     @NotNull
     @NotEmpty

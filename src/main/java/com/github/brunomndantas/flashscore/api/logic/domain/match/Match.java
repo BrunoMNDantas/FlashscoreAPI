@@ -16,17 +16,17 @@ public class Match {
 
     @NotNull
     @Valid
-    private MatchId id;
+    private MatchKey key;
 
     @NotNull
     @NotEmpty
     @NotBlank
-    private String homeTeamId;
+    private String homeTeamKey;
 
     @NotNull
     @NotEmpty
     @NotBlank
-    private String awayTeamId;
+    private String awayTeamKey;
 
     @Min(-1)
     @Max(200)

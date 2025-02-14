@@ -1,8 +1,8 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
-import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
+import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +11,7 @@ import java.util.Collection;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
-public class CompetitionScrapperRepository extends ScrapperRepository<CompetitionId, Competition> {
+public class CompetitionScrapperRepository extends ScrapperRepository<CompetitionKey, Competition> {
 
     public CompetitionScrapperRepository(IDriverPool driverPool, String logDirectory) {
         super(driverPool, logDirectory);
@@ -19,29 +19,29 @@ public class CompetitionScrapperRepository extends ScrapperRepository<Competitio
 
 
     @Override
-    protected String getUrlOfEntity(CompetitionId competitionId) {
+    protected String getUrlOfEntity(CompetitionKey competitionKey) {
         return COMPETITION_URL
-                .replace(SPORT_ID_PLACEHOLDER, competitionId.getSportId())
-                .replace(REGION_ID_PLACEHOLDER, competitionId.getRegionId())
-                .replace(COMPETITION_ID_PLACEHOLDER, competitionId.getId());
+                .replace(SPORT_ID_PLACEHOLDER, competitionKey.getSportId())
+                .replace(REGION_ID_PLACEHOLDER, competitionKey.getRegionId())
+                .replace(COMPETITION_ID_PLACEHOLDER, competitionKey.getCompetitionId());
     }
 
     @Override
-    protected Competition scrapEntity(WebDriver driver, CompetitionId competitionId) {
+    protected Competition scrapEntity(WebDriver driver, CompetitionKey competitionKey) {
         Competition competition = new Competition();
 
-        competition.setId(competitionId);
-        competition.setName(scrapName(competitionId));
-        competition.setSeasonsIds(scrapSeasonsIds(driver, competitionId));
+        competition.setKey(competitionKey);
+        competition.setName(scrapName(competitionKey));
+        competition.setSeasonsKeys(scrapSeasonsKeys(driver, competitionKey));
 
         return competition;
     }
 
-    protected String scrapName(CompetitionId competitionId) {
-        return competitionId.getId().replace("-", " ").toUpperCase();
+    protected String scrapName(CompetitionKey competitionKey) {
+        return competitionKey.getCompetitionId().replace("-", " ").toUpperCase();
     }
 
-    protected Collection<SeasonId> scrapSeasonsIds(WebDriver driver, CompetitionId competitionId) {
+    protected Collection<SeasonKey> scrapSeasonsKeys(WebDriver driver, CompetitionKey competitionKey) {
         Collection<WebElement> seasonsLinks = driver.findElements(SEASONS_LINKS_SELECTOR);
         return seasonsLinks
                 .stream()
@@ -51,7 +51,7 @@ public class CompetitionScrapperRepository extends ScrapperRepository<Competitio
                     return parts[parts.length - 1];
                 })
                 .map(season -> season.replace("/", "-"))
-                .map(seasonId -> new SeasonId(competitionId.getSportId(), competitionId.getRegionId(), competitionId.getId(), seasonId))
+                .map(seasonId -> new SeasonKey(competitionKey.getSportId(), competitionKey.getRegionId(), competitionKey.getCompetitionId(), seasonId))
                 .toList();
     }
 

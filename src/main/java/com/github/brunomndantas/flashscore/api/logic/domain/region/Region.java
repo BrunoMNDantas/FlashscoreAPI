@@ -1,6 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.region;
 
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,7 +19,7 @@ public class Region {
 
     @NotNull
     @Valid
-    private RegionId id;
+    private RegionKey key;
 
     @NotNull
     @NotEmpty
@@ -29,6 +29,6 @@ public class Region {
     @NotNull
     @NotEmpty
     @Valid
-    private Collection<CompetitionId> competitionsIds;
+    private Collection<CompetitionKey> competitionsKeys;
 
 }

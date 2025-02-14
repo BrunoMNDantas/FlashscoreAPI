@@ -12,7 +12,7 @@ import lombok.*;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class SeasonId {
+public class SeasonKey {
 
     @NotNull
     @NotEmpty
@@ -33,6 +33,6 @@ public class SeasonId {
     @NotEmpty
     @NotBlank
     @Pattern(regexp = "^(19\\d{2}|20\\d{2})(?:-(19\\d{2}|20\\d{2}))?$", message = "Invalid season format. Must be 'YYYY' or 'YYYY-YYYY' with years ≥ 1900.")
-    private String id;
+    private String seasonId;
 
 }

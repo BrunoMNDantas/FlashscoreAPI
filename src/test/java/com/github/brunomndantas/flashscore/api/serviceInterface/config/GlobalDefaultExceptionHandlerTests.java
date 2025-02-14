@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.controllers.CompetitionController;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
@@ -31,14 +31,14 @@ class GlobalDefaultExceptionHandlerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<CompetitionId, Competition> repository;
+    private IRepository<CompetitionKey, Competition> repository;
 
 
     @Test
     public void shouldHandleGlobalExceptions() throws Exception {
         RepositoryException exception = new RepositoryException("Error");
         Mockito
-            .when(repository.get(Mockito.any(CompetitionId.class)))
+            .when(repository.get(Mockito.any(CompetitionKey.class)))
             .thenThrow(exception);
 
         String url = Routes.COMPETITION_ROUTE
@@ -55,7 +55,7 @@ class GlobalDefaultExceptionHandlerTests {
     public void shouldHandleNonExistentEntityExceptions() throws Exception {
         NonExistentEntityException exception = new NonExistentEntityException("Non Existent entity");
         Mockito
-                .when(repository.get(Mockito.any(CompetitionId.class)))
+                .when(repository.get(Mockito.any(CompetitionKey.class)))
                 .thenThrow(exception);
 
         String url = Routes.COMPETITION_ROUTE

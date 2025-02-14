@@ -1,19 +1,19 @@
 package com.github.brunomndantas.flashscore.api.serviceInterface.config;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
-import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchId;
+import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
-import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
-import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
-import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
+import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
-import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportId;
+import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
-import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamId;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,25 +24,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class RepositoryConfigTests {
 
     @Autowired
-    public IRepository<SportId, Sport> sportRepository;
+    public IRepository<SportKey, Sport> sportRepository;
 
     @Autowired
-    public IRepository<RegionId, Region> regionRepository;
+    public IRepository<RegionKey, Region> regionRepository;
 
     @Autowired
-    public IRepository<CompetitionId, Competition> competitionRepository;
+    public IRepository<CompetitionKey, Competition> competitionRepository;
 
     @Autowired
-    public IRepository<SeasonId, Season> seasonRepository;
+    public IRepository<SeasonKey, Season> seasonRepository;
 
     @Autowired
-    public IRepository<MatchId, Match> matchRepository;
+    public IRepository<MatchKey, Match> matchRepository;
 
     @Autowired
-    public IRepository<TeamId, Team> teamRepository;
+    public IRepository<TeamKey, Team> teamRepository;
 
     @Autowired
-    private IRepository<PlayerId, Player> playerRepository;
+    private IRepository<PlayerKey, Player> playerRepository;
 
 
     @Test

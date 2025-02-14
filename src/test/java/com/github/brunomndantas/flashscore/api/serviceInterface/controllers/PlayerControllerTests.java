@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
-import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerId;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -31,20 +31,20 @@ class PlayerControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<PlayerId, Player> repository;
+    private IRepository<PlayerKey, Player> repository;
 
 
     @Test
     public void shouldReturnPlayer() throws Exception {
-        PlayerId playerId = new PlayerId("Player");
-        Player player = new Player(playerId, "P", new Date());
+        PlayerKey playerKey = new PlayerKey("Player");
+        Player player = new Player(playerKey, "P", new Date());
 
         Mockito
-            .when(repository.get(Mockito.any(PlayerId.class)))
+            .when(repository.get(Mockito.any(PlayerKey.class)))
             .thenReturn(player);
 
         String url = Routes.PLAYER_ROUTE
-                .replace("{playerId}", playerId.getId());
+                .replace("{playerId}", playerKey.getPlayerId());
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())

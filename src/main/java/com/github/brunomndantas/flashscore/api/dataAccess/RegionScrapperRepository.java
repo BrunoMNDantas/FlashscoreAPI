@@ -1,8 +1,8 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
-import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
-import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
+import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,7 +13,7 @@ import java.util.Collection;
 
 import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
-public class RegionScrapperRepository extends ScrapperRepository<RegionId, Region> {
+public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Region> {
 
     public RegionScrapperRepository(IDriverPool driverPool, String logDirectory) {
         super(driverPool, logDirectory);
@@ -21,37 +21,37 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionId, Regio
 
 
     @Override
-    protected String getUrlOfEntity(RegionId regionId) {
+    protected String getUrlOfEntity(RegionKey regionKey) {
         return REGION_URL
-                .replace(SPORT_ID_PLACEHOLDER, regionId.getSportId())
-                .replace(REGION_ID_PLACEHOLDER, regionId.getId());
+                .replace(SPORT_ID_PLACEHOLDER, regionKey.getSportId())
+                .replace(REGION_ID_PLACEHOLDER, regionKey.getRegionId());
     }
 
     @Override
-    protected Region scrapEntity(WebDriver driver, RegionId regionId) {
+    protected Region scrapEntity(WebDriver driver, RegionKey regionKey) {
         Region region = new Region();
 
-        region.setId(regionId);
-        region.setName(scrapName(regionId));
-        region.setCompetitionsIds(scrapCompetitionsIds(driver, regionId));
+        region.setKey(regionKey);
+        region.setName(scrapName(regionKey));
+        region.setCompetitionsKeys(scrapCompetitionsKeys(driver, regionKey));
 
         return region;
     }
 
-    protected String scrapName(RegionId regionId) {
-        return regionId.getId().replace("-", " ").toUpperCase();
+    protected String scrapName(RegionKey regionKey) {
+        return regionKey.getRegionId().replace("-", " ").toUpperCase();
     }
 
-    protected Collection<CompetitionId> scrapCompetitionsIds(WebDriver driver, RegionId regionId) {
+    protected Collection<CompetitionKey> scrapCompetitionsKeys(WebDriver driver, RegionKey regionKey) {
         expandAllCompetitions(driver);
 
         Collection<WebElement> competitionsLinks = driver.findElements(COMPETITIONS_LINKS_SELECTOR);
         return competitionsLinks
                 .stream()
                 .map(element -> element.getAttribute("href"))
-                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, regionId.getId(), 2)[1])
+                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, regionKey.getRegionId(), 2)[1])
                 .map(competition -> competition.replace("/", "").trim())
-                .map(competitionId -> new CompetitionId(regionId.getSportId(), regionId.getId(), competitionId))
+                .map(competitionId -> new CompetitionKey(regionKey.getSportId(), regionKey.getRegionId(), competitionId))
                 .toList();
     }
 

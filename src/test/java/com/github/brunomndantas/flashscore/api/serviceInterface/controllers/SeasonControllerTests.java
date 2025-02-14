@@ -2,7 +2,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
-import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonId;
+import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class SeasonControllerTests {
     private ObjectMapper mapper;
 
     @MockBean
-    private IRepository<SeasonId, Season> repository;
+    private IRepository<SeasonKey, Season> repository;
 
 
     @Test
@@ -40,10 +40,10 @@ class SeasonControllerTests {
         String regionId = "Region";
         String competitionId = "Competition";
         String seasonId = "Season";
-        Season season = new Season(new SeasonId(sportId, regionId, competitionId, seasonId), "Seas", new LinkedList<>());
+        Season season = new Season(new SeasonKey(sportId, regionId, competitionId, seasonId), "Seas", new LinkedList<>());
 
         Mockito
-            .when(repository.get(Mockito.any(SeasonId.class)))
+            .when(repository.get(Mockito.any(SeasonKey.class)))
             .thenReturn(season);
 
         String url = Routes.SEASON_ROUTE

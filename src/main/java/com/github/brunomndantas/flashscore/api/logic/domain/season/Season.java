@@ -19,7 +19,7 @@ public class Season {
 
     @NotNull
     @Valid
-    private SeasonId id;
+    private SeasonKey key;
 
     @NotNull
     @NotEmpty
@@ -35,6 +35,6 @@ public class Season {
         @NotEmpty
         @NotBlank
         String
-    > matchesIds;
+    > matchesKeys;
 
 }
