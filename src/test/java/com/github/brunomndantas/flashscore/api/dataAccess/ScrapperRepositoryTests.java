@@ -160,7 +160,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
         Assertions.assertNull(getConstraintViolation(entity));
     }
 
-    public static <E> String getConstraintViolation(E entity) {
+    protected <E> String getConstraintViolation(E entity) {
         ValidatorFactory factory = Validation.byDefaultProvider()
                 .configure()
                 .messageInterpolator(new ParameterMessageInterpolator())

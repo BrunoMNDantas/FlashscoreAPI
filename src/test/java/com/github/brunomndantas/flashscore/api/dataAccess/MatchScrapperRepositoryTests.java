@@ -38,7 +38,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
 
         Match match = repository.get(key);
 
-        Assertions.assertEquals(key.getMatchId(), match.getKey().getMatchId());
+        Assertions.assertNull(getConstraintViolation(match));
+
+        Assertions.assertEquals(key, match.getKey());
         Assertions.assertEquals("bournemouth/OtpNdwrc", match.getHomeTeamKey().getTeamId());
         Assertions.assertEquals("liverpool/lId4TMwf", match.getAwayTeamKey().getTeamId());
         Assertions.assertEquals(0, match.getHomeTeamGoals());

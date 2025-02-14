@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collection;
+
 @SpringBootTest
 public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<SeasonKey, Season> {
 
@@ -39,21 +41,14 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
 
         Season season = repository.get(key);
 
-        Assertions.assertEquals(key.getSportId(), season.getKey().getSportId());
-        Assertions.assertEquals(key.getRegionId(), season.getKey().getRegionId());
-        Assertions.assertEquals(key.getCompetitionId(), season.getKey().getCompetitionId());
-        Assertions.assertEquals(key.getSeasonId(), season.getKey().getSeasonId());
+        Assertions.assertNull(getConstraintViolation(season));
+
+        Assertions.assertEquals(key, season.getKey());
         Assertions.assertEquals("2023-2024", season.getName());
-        Assertions.assertNotNull(season.getMatchesKeys());
         Assertions.assertTrue(season.getMatchesKeys().size() > 300);
 
-        for(MatchKey matchKey: season.getMatchesKeys()) {
-            Assertions.assertNotNull(matchKey);
-            Assertions.assertNotNull(matchKey.getMatchId());
-            Assertions.assertFalse(matchKey.getMatchId().trim().isEmpty());
-        }
-
-        Assertions.assertTrue(season.getMatchesKeys().stream().anyMatch(mKey -> mKey.getMatchId().equals("bZd70Ik6")));
+        Collection<String> matchesIds = season.getMatchesKeys().stream().map(MatchKey::getMatchId).toList();
+        Assertions.assertTrue(matchesIds.contains("bZd70Ik6"));
     }
 
 }

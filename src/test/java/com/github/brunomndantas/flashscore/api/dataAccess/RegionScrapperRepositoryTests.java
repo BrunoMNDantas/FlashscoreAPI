@@ -41,18 +41,15 @@ public class RegionScrapperRepositoryTests extends ScrapperRepositoryTests<Regio
 
         Region region = repository.get(key);
 
-        Assertions.assertEquals(key.getSportId(), region.getKey().getSportId());
-        Assertions.assertEquals(key.getRegionId(), region.getKey().getRegionId());
+        Assertions.assertNull(getConstraintViolation(region));
+
+        Assertions.assertEquals(key, region.getKey());
         Assertions.assertEquals("SPAIN", region.getName());
-        Assertions.assertNotNull(region.getCompetitionsKeys());
         Assertions.assertTrue(region.getCompetitionsKeys().size() > 6);
 
         for(CompetitionKey competitionKey : region.getCompetitionsKeys()) {
-            Assertions.assertNotNull(competitionKey);
             Assertions.assertEquals(key.getSportId(), competitionKey.getSportId());
             Assertions.assertEquals(key.getRegionId(), competitionKey.getRegionId());
-            Assertions.assertNotNull(competitionKey.getCompetitionId());
-            Assertions.assertFalse(competitionKey.getCompetitionId().trim().isEmpty());
         }
 
         Collection<String> competitionsIds = region.getCompetitionsKeys().stream().map(CompetitionKey::getCompetitionId).toList();

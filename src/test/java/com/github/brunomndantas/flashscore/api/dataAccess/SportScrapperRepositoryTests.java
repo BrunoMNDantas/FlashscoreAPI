@@ -41,16 +41,14 @@ public class SportScrapperRepositoryTests extends ScrapperRepositoryTests<SportK
 
         Sport sport = repository.get(key);
 
-        Assertions.assertEquals(key.getSportId(), sport.getKey().getSportId());
+        Assertions.assertNull(getConstraintViolation(sport));
+
+        Assertions.assertEquals(key, sport.getKey());
         Assertions.assertEquals("Beach Soccer", sport.getName());
-        Assertions.assertNotNull(sport.getRegionsKeys());
         Assertions.assertTrue(sport.getRegionsKeys().size() > 8);
 
         for(RegionKey regionKey : sport.getRegionsKeys()) {
-            Assertions.assertNotNull(regionKey);
             Assertions.assertEquals(key.getSportId(), regionKey.getSportId());
-            Assertions.assertNotNull(regionKey.getRegionId());
-            Assertions.assertFalse(regionKey.getRegionId().trim().isEmpty());
         }
 
         Collection<String> regionsIds = sport.getRegionsKeys().stream().map(RegionKey::getRegionId).toList();

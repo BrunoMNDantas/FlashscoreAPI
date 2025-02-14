@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collection;
+
 @SpringBootTest
 public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey, Team> {
 
@@ -39,19 +41,16 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
 
         Team team = repository.get(key);
 
-        Assertions.assertEquals(key.getTeamId(), team.getKey().getTeamId());
+        Assertions.assertNull(getConstraintViolation(team));
+
+        Assertions.assertEquals(key, team.getKey());
         Assertions.assertEquals("Dortmund II", team.getName());
         Assertions.assertEquals("zimmermann-jan/2F8lpifB", team.getCoachKey().getPlayerId());
-        Assertions.assertNotNull(team.getPlayersKeys());
         Assertions.assertTrue(team.getPlayersKeys().size() > 20);
         Assertions.assertTrue(team.getPlayersKeys().size() < 35);
-        Assertions.assertTrue(team.getPlayersKeys().stream().noneMatch(pKey -> pKey.getPlayerId().equals(team.getCoachKey().getPlayerId())));
 
-        for(PlayerKey playerKey : team.getPlayersKeys()) {
-            Assertions.assertNotNull(playerKey);
-            Assertions.assertNotNull(playerKey.getPlayerId());
-            Assertions.assertFalse(playerKey.getPlayerId().trim().isEmpty());
-        }
+        Collection<String> playersIds = team.getPlayersKeys().stream().map(PlayerKey::getPlayerId).toList();
+        Assertions.assertFalse(playersIds.contains(team.getCoachKey().getPlayerId()));
     }
 
 }
