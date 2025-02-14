@@ -4,6 +4,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionId;
 import com.github.brunomndantas.flashscore.api.logic.domain.sport.Sport;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,7 +37,9 @@ public class SportScrapperRepository extends ScrapperRepository<String, Sport> {
     }
 
     protected String scrapName(String sportId) {
-        return sportId.replace("-", " ").toUpperCase();
+        String name = sportId.replace("-", " ").toUpperCase();
+        name = WordUtils.capitalizeFully(name);
+        return name;
     }
 
     protected Collection<RegionId> scrapRegionsIds(WebDriver driver, String sportId) {

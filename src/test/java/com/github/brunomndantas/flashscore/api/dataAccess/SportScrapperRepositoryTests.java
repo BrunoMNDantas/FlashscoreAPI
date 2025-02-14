@@ -41,7 +41,7 @@ public class SportScrapperRepositoryTests extends ScrapperRepositoryTests<String
         Sport sport = repository.get(key);
 
         Assertions.assertEquals(key, sport.getId());
-        Assertions.assertEquals("BEACH SOCCER", sport.getName());
+        Assertions.assertEquals("Beach Soccer", sport.getName());
         Assertions.assertNotNull(sport.getRegionsIds());
         Assertions.assertTrue(sport.getRegionsIds().size() > 8);
 
