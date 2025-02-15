@@ -40,7 +40,7 @@ class SeasonControllerTests {
         String regionId = "Region";
         String competitionId = "Competition";
         String seasonId = "Season";
-        Season season = new Season(new SeasonKey(sportId, regionId, competitionId, seasonId), "Seas", new LinkedList<>());
+        Season season = new Season(new SeasonKey(sportId, regionId, competitionId, seasonId), 2020, 2021, new LinkedList<>());
 
         Mockito
             .when(repository.get(Mockito.any(SeasonKey.class)))

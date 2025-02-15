@@ -30,14 +30,25 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
         Season season = new Season();
 
         season.setKey(seasonKey);
-        season.setName(scrapName(seasonKey));
+        season.setInitYear(scrapInitYear(driver));
+        season.setEndYear(scrapEndYear(driver));
         season.setMatchesKeys(scrapMatchesKeys(driver, seasonKey));
 
         return season;
     }
 
-    protected String scrapName(SeasonKey seasonKey) {
-        return seasonKey.getSeasonId();
+    protected int scrapInitYear(WebDriver driver) {
+        WebElement element = driver.findElement(SEASONS_YEARS_SELECTOR);
+        String text = element.getText();
+        String year = text.contains("/") ? text.split("/")[0] : text;
+        return Integer.parseInt(year);
+    }
+
+    protected int scrapEndYear(WebDriver driver) {
+        WebElement element = driver.findElement(SEASONS_YEARS_SELECTOR);
+        String text = element.getText();
+        String year = text.contains("/") ? text.split("/")[1] : text;
+        return Integer.parseInt(year);
     }
 
     protected Collection<MatchKey> scrapMatchesKeys(WebDriver driver, SeasonKey seasonKey) {

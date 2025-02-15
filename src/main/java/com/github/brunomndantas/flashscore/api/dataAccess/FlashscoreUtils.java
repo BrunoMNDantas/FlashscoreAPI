@@ -26,7 +26,6 @@ public class FlashscoreUtils {
         showMoreLabel.click();
     }
 
-
     public static void loadAllMatches(WebDriver driver) {
         Collection<WebElement> loadMoreElements;
         WebElement loadMoreElement;

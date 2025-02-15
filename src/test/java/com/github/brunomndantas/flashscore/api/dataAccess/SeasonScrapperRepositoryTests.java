@@ -44,7 +44,8 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
         Assertions.assertNull(getConstraintViolation(season));
 
         Assertions.assertEquals(key, season.getKey());
-        Assertions.assertEquals("2023-2024", season.getName());
+        Assertions.assertEquals(2023, season.getInitYear());
+        Assertions.assertEquals(2024, season.getEndYear());
         Assertions.assertTrue(season.getMatchesKeys().size() > 300);
 
         Collection<String> matchesIds = season.getMatchesKeys().stream().map(MatchKey::getMatchId).toList();
