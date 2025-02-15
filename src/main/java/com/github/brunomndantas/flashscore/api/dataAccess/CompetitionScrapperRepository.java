@@ -31,14 +31,15 @@ public class CompetitionScrapperRepository extends ScrapperRepository<Competitio
         Competition competition = new Competition();
 
         competition.setKey(competitionKey);
-        competition.setName(scrapName(competitionKey));
+        competition.setName(scrapName(driver));
         competition.setSeasonsKeys(scrapSeasonsKeys(driver, competitionKey));
 
         return competition;
     }
 
-    protected String scrapName(CompetitionKey competitionKey) {
-        return competitionKey.getCompetitionId().replace("-", " ").toUpperCase();
+    protected String scrapName(WebDriver driver) {
+        WebElement nameElement = driver.findElement(COMPETITION_NAME_SELECTOR);
+        return nameElement.getText();
     }
 
     protected Collection<SeasonKey> scrapSeasonsKeys(WebDriver driver, CompetitionKey competitionKey) {

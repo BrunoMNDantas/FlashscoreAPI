@@ -36,7 +36,7 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
 
     @Test
     public void shouldScrapData() throws Exception {
-        CompetitionKey key = new CompetitionKey("basketball", "usa", "nba");
+        CompetitionKey key = new CompetitionKey("basketball", "europe", "euroleague");
         ScrapperRepository<CompetitionKey, Competition> repository = createRepository(DRIVER_POOL);
 
         Competition competition = repository.get(key);
@@ -44,8 +44,8 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
         Assertions.assertNull(getConstraintViolation(competition));
 
         Assertions.assertEquals(key, competition.getKey());
-        Assertions.assertEquals("NBA", competition.getName());
-        Assertions.assertTrue(competition.getSeasonsKeys().size() > 6);
+        Assertions.assertEquals("Euroleague", competition.getName());
+        Assertions.assertTrue(competition.getSeasonsKeys().size() > 20);
 
         for(SeasonKey seasonKey : competition.getSeasonsKeys()) {
             Assertions.assertEquals(key.getSportId(), seasonKey.getSportId());

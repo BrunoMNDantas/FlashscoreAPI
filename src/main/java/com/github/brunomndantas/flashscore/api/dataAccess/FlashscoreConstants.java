@@ -51,6 +51,7 @@ public class FlashscoreConstants {
     public static final By SHOW_ALL_COMPETITIONS_SELECTOR = By.xpath("//*[contains(@class, 'show-more')]");
     public static final By COMPETITIONS_LINKS_SELECTOR = By.xpath("//*[contains(@class,'selected-country')]//*[@class='leftMenu__href']");
 
+    public static final By COMPETITION_NAME_SELECTOR = By.xpath("//*[@class='heading__name']");
     public static final By SEASONS_LINKS_SELECTOR = By.xpath("//*[@class = 'archive__row']//*[@class = 'archive__season']//a");
 
     public static final By LOAD_MORE_MATCHES_LABEL_SELECTOR = By.xpath("//*[contains(@class, 'event__more')]");
