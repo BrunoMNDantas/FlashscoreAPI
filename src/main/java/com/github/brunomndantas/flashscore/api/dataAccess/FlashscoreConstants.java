@@ -74,6 +74,7 @@ public class FlashscoreConstants {
     public static final By TEAM_PLAYERS_SELECTOR = By.xpath("//*[@class='lineupTable__row']//*[contains(@class, 'lineupTable__cell--player')]//*[@class='lineupTable__cell--name']");
 
     public static final By PLAYER_NAME_SELECTOR = By.xpath("//*[@class='playerHeader__nameWrapper']");
+    public static final By PLAYER_ROLE_SELECTOR = By.xpath("//*[@data-testid='wcl-scores-simpleText-01']");
     public static final By PLAYER_BIRTHDATE_SELECTOR = By.xpath("//*[@class='playerInfoItem']/span[2]");
     
 }

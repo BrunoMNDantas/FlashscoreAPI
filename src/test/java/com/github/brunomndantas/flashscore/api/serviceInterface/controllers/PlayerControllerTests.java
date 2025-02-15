@@ -37,7 +37,7 @@ class PlayerControllerTests {
     @Test
     public void shouldReturnPlayer() throws Exception {
         PlayerKey playerKey = new PlayerKey("Player");
-        Player player = new Player(playerKey, "P", new Date());
+        Player player = new Player(playerKey, "P", new Date(), "A");
 
         Mockito
             .when(repository.get(Mockito.any(PlayerKey.class)))

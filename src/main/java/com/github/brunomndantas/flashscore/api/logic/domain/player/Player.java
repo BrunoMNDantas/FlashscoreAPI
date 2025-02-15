@@ -30,4 +30,9 @@ public class Player {
     @Past
     private Date birthDate;
 
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private String role;
+
 }

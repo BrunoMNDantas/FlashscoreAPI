@@ -42,6 +42,7 @@ public class PlayerScrapperRepositoryTests extends ScrapperRepositoryTests<Playe
 
         Assertions.assertEquals(key, player.getKey());
         Assertions.assertEquals("Viktor Gyokeres", player.getName());
+        Assertions.assertEquals("Forward", player.getRole());
         Assertions.assertEquals(PlayerScrapperRepository.DATE_FORMAT.parse("04.06.1998"), player.getBirthDate());
     }
 

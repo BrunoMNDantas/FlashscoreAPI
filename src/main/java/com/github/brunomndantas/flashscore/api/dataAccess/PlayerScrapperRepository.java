@@ -36,6 +36,7 @@ public class PlayerScrapperRepository extends ScrapperRepository<PlayerKey, Play
         player.setKey(playerKey);
         player.setName(scrapName(driver));
         player.setBirthDate(scrapBirthDate(driver));
+        player.setRole(scrapRole(driver));
 
         return player;
     }
@@ -57,6 +58,11 @@ public class PlayerScrapperRepository extends ScrapperRepository<PlayerKey, Play
         } catch (ParseException e) {
             throw new RepositoryException("Error parsing date", e);
         }
+    }
+
+    protected String scrapRole(WebDriver driver) {
+        WebElement element = driver.findElement(PLAYER_ROLE_SELECTOR);
+        return element.getText().trim();
     }
 
 }
