@@ -31,6 +31,8 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
 
         team.setKey(teamKey);
         team.setName(scrapName(driver));
+        team.setStadium(scrapStadium(driver));
+        team.setStadiumCapacity(scrapStadiumCapacity(driver));
         team.setCoachKey(scrapCoachKey(driver, teamKey));
         team.setPlayersKeys(scrapPlayersKeys(driver, teamKey, team.getCoachKey()));
 
@@ -42,14 +44,40 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
         return element.getText();
     }
 
+    protected String scrapStadium(WebDriver driver) {
+        if(!driver.findElements(TEAM_STADIUM_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(TEAM_STADIUM_SELECTOR);
+            String text = element.getText();
+            text = text.replace("Stadium:", "").trim();
+            return text;
+        }
+
+        return null;
+    }
+
+    protected int scrapStadiumCapacity(WebDriver driver) {
+        if(!driver.findElements(TEAM_STADIUM_CAPACITY_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(TEAM_STADIUM_CAPACITY_SELECTOR);
+            String text = element.getText();
+            text = text.replace("Capacity:", "");
+            text = text.replace(" ", "").trim();
+            return Integer.parseInt(text);
+        }
+
+        return -1;
+    }
+
     protected PlayerKey scrapCoachKey(WebDriver driver, TeamKey teamKey) {
         String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
-        Collection<WebElement> elements = driver.findElements(TEAM_COACH_SELECTOR);
-        WebElement element = elements.stream().findFirst().get();
-        return getPlayerKeyOfElement(element);
+        if(!driver.findElements(TEAM_COACH_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(TEAM_COACH_SELECTOR);
+            return getPlayerKeyOfElement(element);
+        }
+
+        return null;
     }
 
     protected Collection<PlayerKey> scrapPlayersKeys(WebDriver driver, TeamKey teamKey, PlayerKey coachKey) {

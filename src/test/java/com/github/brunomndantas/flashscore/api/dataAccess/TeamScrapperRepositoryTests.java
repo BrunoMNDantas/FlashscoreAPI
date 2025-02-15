@@ -25,7 +25,7 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
 
     @Override
     protected TeamKey getExistentKey() {
-        return new TeamKey("bradford-city/bsc3EJ27");
+        return new TeamKey("turkspor-dortmund/0nkpeeFd");
     }
 
     @Override
@@ -45,6 +45,8 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
 
         Assertions.assertEquals(key, team.getKey());
         Assertions.assertEquals("Dortmund II", team.getName());
+        Assertions.assertEquals("Stadion Rote Erde (Dortmund)", team.getStadium());
+        Assertions.assertEquals(25000, team.getStadiumCapacity());
         Assertions.assertEquals("zimmermann-jan/2F8lpifB", team.getCoachKey().getPlayerId());
         Assertions.assertTrue(team.getPlayersKeys().size() > 20);
         Assertions.assertTrue(team.getPlayersKeys().size() < 35);

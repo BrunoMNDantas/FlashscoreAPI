@@ -68,6 +68,8 @@ public class FlashscoreConstants {
     public static final By MATCH_DATE_SELECTOR = By.xpath("//*[@class='duelParticipant__startTime']");
     
     public static final By TEAM_NAME_SELECTOR = By.xpath("//*[@class='heading__name']");
+    public static final By TEAM_STADIUM_SELECTOR = By.xpath("//*[@class='heading__info']/*[1]");
+    public static final By TEAM_STADIUM_CAPACITY_SELECTOR = By.xpath("//*[@class='heading__info']/*[2]");
     public static final By TEAM_COACH_SELECTOR = By.xpath("//*[text()='Coach']/..//*[contains(@class, 'lineupTable__cell--player')]//*[@class='lineupTable__cell--name']");
     public static final By TEAM_PLAYERS_SELECTOR = By.xpath("//*[@class='lineupTable__row']//*[contains(@class, 'lineupTable__cell--player')]//*[@class='lineupTable__cell--name']");
 

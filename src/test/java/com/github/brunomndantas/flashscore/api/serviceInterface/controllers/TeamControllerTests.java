@@ -36,7 +36,7 @@ class TeamControllerTests {
     @Test
     public void shouldReturnTeam() throws Exception {
         TeamKey teamKey = new TeamKey("Team");
-        Team team = new Team(teamKey, "T", null, new LinkedList<>());
+        Team team = new Team(teamKey, "T", null, 0, null, new LinkedList<>());
 
         Mockito
             .when(repository.get(Mockito.any(TeamKey.class)))
