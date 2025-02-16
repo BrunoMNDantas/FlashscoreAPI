@@ -3,16 +3,15 @@ package com.github.brunomndantas.flashscore.api.logic.domain.team;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class Team {
 
     @NotNull
