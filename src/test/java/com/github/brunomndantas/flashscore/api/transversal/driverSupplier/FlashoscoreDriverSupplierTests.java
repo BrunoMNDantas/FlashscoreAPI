@@ -1,5 +1,7 @@
 package com.github.brunomndantas.flashscore.api.transversal.driverSupplier;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,9 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.FLASHSCORE_URL;
 
 @SpringBootTest
 public class FlashoscoreDriverSupplierTests {
@@ -31,7 +30,7 @@ public class FlashoscoreDriverSupplierTests {
 
         try{
             String url = driver.getCurrentUrl();
-            Assertions.assertTrue(url.startsWith(FLASHSCORE_URL));
+            Assertions.assertTrue(url.startsWith(FlashscoreURLs.FLASHSCORE_URL));
         } finally {
             driver.quit();
         }
@@ -44,7 +43,7 @@ public class FlashoscoreDriverSupplierTests {
         WebDriver driver = driverSupplier.get();
 
         try{
-            WebElement acceptTermsButton = driver.findElement(ACCEPT_TERMS_BUTTON_SELECTOR);
+            WebElement acceptTermsButton = driver.findElement(FlashscoreSelectors.ACCEPT_TERMS_BUTTON_SELECTOR);
             Assertions.assertFalse(acceptTermsButton.isDisplayed());
         } finally {
             driver.quit();

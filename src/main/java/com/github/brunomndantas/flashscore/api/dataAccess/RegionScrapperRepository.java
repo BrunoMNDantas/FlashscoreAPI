@@ -1,16 +1,16 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreUtils;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
 public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Region> {
 
@@ -21,9 +21,7 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Regi
 
     @Override
     protected String getUrlOfEntity(RegionKey regionKey) {
-        return REGION_URL
-                .replace(SPORT_ID_PLACEHOLDER, regionKey.getSportId())
-                .replace(REGION_ID_PLACEHOLDER, regionKey.getRegionId());
+        return FlashscoreURLs.getRegionURL(regionKey);
     }
 
     @Override
@@ -32,7 +30,7 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Regi
 
         region.setKey(regionKey);
         region.setName(scrapName(driver, regionKey));
-        region.setCompetitionsKeys(scrapCompetitionsKeys(driver, regionKey));
+        region.setCompetitionsKeys(scrapCompetitionsKeys(driver));
 
         return region;
     }
@@ -40,29 +38,27 @@ public class RegionScrapperRepository extends ScrapperRepository<RegionKey, Regi
     protected String scrapName(WebDriver driver, RegionKey regionKey) {
         FlashscoreUtils.expandAllRegions(driver);
 
-        Collection<WebElement> regionsLinks = driver.findElements(REGIONS_LINKS_SELECTOR);
-
-        return regionsLinks
+        Collection<WebElement> regionsLinks = driver.findElements(FlashscoreSelectors.REGIONS_LINKS_SELECTOR);
+        WebElement element = regionsLinks
                 .stream()
                 .filter(regionLink -> {
                     String href = regionLink.getAttribute("href");
                     return href.contains(regionKey.getSportId()) && href.contains(regionKey.getRegionId());
                 })
                 .findFirst()
-                .get()
-                .getText();
+                .get();
+
+        return element.getText();
     }
 
-    protected Collection<CompetitionKey> scrapCompetitionsKeys(WebDriver driver, RegionKey regionKey) {
+    protected Collection<CompetitionKey> scrapCompetitionsKeys(WebDriver driver) {
         FlashscoreUtils.expandAllCompetitions(driver);
 
-        Collection<WebElement> competitionsLinks = driver.findElements(COMPETITIONS_LINKS_SELECTOR);
+        Collection<WebElement> competitionsLinks = driver.findElements(FlashscoreSelectors.COMPETITIONS_LINKS_SELECTOR);
         return competitionsLinks
                 .stream()
                 .map(element -> element.getAttribute("href"))
-                .map(href -> StringUtils.splitByWholeSeparatorPreserveAllTokens(href, regionKey.getRegionId(), 2)[1])
-                .map(competition -> competition.replace("/", "").trim())
-                .map(competitionId -> new CompetitionKey(regionKey.getSportId(), regionKey.getRegionId(), competitionId))
+                .map(FlashscoreURLs::getCompetitionKey)
                 .toList();
     }
 

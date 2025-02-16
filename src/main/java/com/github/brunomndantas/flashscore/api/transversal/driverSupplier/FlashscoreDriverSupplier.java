@@ -1,5 +1,7 @@
 package com.github.brunomndantas.flashscore.api.transversal.driverSupplier;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.jscrapper.core.driverSupplier.DriverSupplierException;
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
@@ -9,9 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.ACCEPT_TERMS_BUTTON_SELECTOR;
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.FLASHSCORE_URL;
 
 public class FlashscoreDriverSupplier implements IDriverSupplier {
 
@@ -29,7 +28,7 @@ public class FlashscoreDriverSupplier implements IDriverSupplier {
 
         driver.manage().window().maximize();
 
-        driver.get(FLASHSCORE_URL);
+        driver.get(FlashscoreURLs.FLASHSCORE_URL);
 
         acceptTerms(driver);
 
@@ -39,10 +38,10 @@ public class FlashscoreDriverSupplier implements IDriverSupplier {
     protected void acceptTerms(WebDriver driver) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(Config.MEDIUM_WAIT).getSeconds());
 
-        WebElement acceptTermsButton = wait.until(ExpectedConditions.visibilityOfElementLocated(ACCEPT_TERMS_BUTTON_SELECTOR));
+        WebElement acceptTermsButton = wait.until(ExpectedConditions.visibilityOfElementLocated(FlashscoreSelectors.ACCEPT_TERMS_BUTTON_SELECTOR));
         acceptTermsButton.click();
 
-        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(ACCEPT_TERMS_BUTTON_SELECTOR)));
+        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(FlashscoreSelectors.ACCEPT_TERMS_BUTTON_SELECTOR)));
     }
 
 }

@@ -71,6 +71,9 @@ dependencies {
 
 	//SWAGGER
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+	//API COMMON
+	implementation 'com.google.api:api-common:2.14.1'
 }
 
 tasks.named('test') {

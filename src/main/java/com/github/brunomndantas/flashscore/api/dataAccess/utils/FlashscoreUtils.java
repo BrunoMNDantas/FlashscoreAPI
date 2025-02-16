@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.dataAccess;
+package com.github.brunomndantas.flashscore.api.dataAccess.utils;
 
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.Utils;
@@ -8,12 +8,24 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
-
 public class FlashscoreUtils {
 
     public static void expandAllRegions(WebDriver driver) {
-        Collection<WebElement> showMoreLabels = driver.findElements(SHOW_ALL_REGIONS_LABEL_SELECTOR);
+        Collection<WebElement> showMoreLabels = driver.findElements(FlashscoreSelectors.SHOW_ALL_REGIONS_LABEL_SELECTOR);
+
+        if(showMoreLabels.isEmpty()) {
+            return;
+        }
+
+        WebElement showMoreLabel = showMoreLabels.stream().findFirst().get();
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showMoreLabel);
+
+        showMoreLabel.click();
+    }
+
+    public static void expandAllCompetitions(WebDriver driver) {
+        Collection<WebElement> showMoreLabels = driver.findElements(FlashscoreSelectors.SHOW_ALL_COMPETITIONS_SELECTOR);
 
         if(showMoreLabels.isEmpty()) {
             return;
@@ -31,7 +43,7 @@ public class FlashscoreUtils {
         WebElement loadMoreElement;
 
         while(true) {
-            loadMoreElements = driver.findElements(LOAD_MORE_MATCHES_LABEL_SELECTOR);
+            loadMoreElements = driver.findElements(FlashscoreSelectors.LOAD_MORE_MATCHES_LABEL_SELECTOR);
 
             if(loadMoreElements.isEmpty()) {
                 break;
@@ -43,20 +55,6 @@ public class FlashscoreUtils {
 
             Utils.sleep(Config.QUICK_WAIT);
         }
-    }
-
-    public static void expandAllCompetitions(WebDriver driver) {
-        Collection<WebElement> showMoreLabels = driver.findElements(SHOW_ALL_COMPETITIONS_SELECTOR);
-
-        if(showMoreLabels.isEmpty()) {
-            return;
-        }
-
-        WebElement showMoreLabel = showMoreLabels.stream().findFirst().get();
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showMoreLabel);
-
-        showMoreLabel.click();
     }
 
 }

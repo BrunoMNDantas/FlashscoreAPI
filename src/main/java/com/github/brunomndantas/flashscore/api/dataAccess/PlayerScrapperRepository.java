@@ -1,5 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -11,8 +13,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
 public class PlayerScrapperRepository extends ScrapperRepository<PlayerKey, Player> {
 
@@ -26,7 +26,7 @@ public class PlayerScrapperRepository extends ScrapperRepository<PlayerKey, Play
 
     @Override
     protected String getUrlOfEntity(PlayerKey playerKey) {
-        return PLAYER_URL.replace(PLAYER_ID_PLACEHOLDER, playerKey.getPlayerId());
+        return FlashscoreURLs.getPlayerURL(playerKey);
     }
 
     @Override
@@ -42,12 +42,12 @@ public class PlayerScrapperRepository extends ScrapperRepository<PlayerKey, Play
     }
 
     protected String scrapName(WebDriver driver) {
-        WebElement element = driver.findElement(PLAYER_NAME_SELECTOR);
+        WebElement element = driver.findElement(FlashscoreSelectors.PLAYER_NAME_SELECTOR);
         return element.getText();
     }
 
     protected Date scrapBirthDate(WebDriver driver) throws RepositoryException {
-        WebElement element = driver.findElement(PLAYER_BIRTHDATE_SELECTOR);
+        WebElement element = driver.findElement(FlashscoreSelectors.PLAYER_BIRTHDATE_SELECTOR);
         String text = element.getText();
         text = text.trim();
         text = text.replace("(", "");
@@ -61,7 +61,7 @@ public class PlayerScrapperRepository extends ScrapperRepository<PlayerKey, Play
     }
 
     protected String scrapRole(WebDriver driver) {
-        WebElement element = driver.findElement(PLAYER_ROLE_SELECTOR);
+        WebElement element = driver.findElement(FlashscoreSelectors.PLAYER_ROLE_SELECTOR);
         return element.getText().trim();
     }
 

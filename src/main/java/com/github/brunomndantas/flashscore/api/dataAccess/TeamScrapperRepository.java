@@ -1,17 +1,16 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
 public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
 
@@ -22,7 +21,7 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
 
     @Override
     protected String getUrlOfEntity(TeamKey teamKey) {
-        return TEAM_URL.replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
+        return FlashscoreURLs.getTeamURL(teamKey);
     }
 
     @Override
@@ -40,13 +39,13 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
     }
 
     protected String scrapName(WebDriver driver) {
-        WebElement element = driver.findElement(TEAM_NAME_SELECTOR);
+        WebElement element = driver.findElement(FlashscoreSelectors.TEAM_NAME_SELECTOR);
         return element.getText();
     }
 
     protected String scrapStadium(WebDriver driver) {
-        if(!driver.findElements(TEAM_STADIUM_SELECTOR).isEmpty()) {
-            WebElement element = driver.findElement(TEAM_STADIUM_SELECTOR);
+        if(!driver.findElements(FlashscoreSelectors.TEAM_STADIUM_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(FlashscoreSelectors.TEAM_STADIUM_SELECTOR);
             String text = element.getText();
             text = text.replace("Stadium:", "").trim();
             return text;
@@ -56,8 +55,8 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
     }
 
     protected int scrapStadiumCapacity(WebDriver driver) {
-        if(!driver.findElements(TEAM_STADIUM_CAPACITY_SELECTOR).isEmpty()) {
-            WebElement element = driver.findElement(TEAM_STADIUM_CAPACITY_SELECTOR);
+        if(!driver.findElements(FlashscoreSelectors.TEAM_STADIUM_CAPACITY_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(FlashscoreSelectors.TEAM_STADIUM_CAPACITY_SELECTOR);
             String text = element.getText();
             text = text.replace("Capacity:", "");
             text = text.replace(" ", "").trim();
@@ -68,36 +67,30 @@ public class TeamScrapperRepository extends ScrapperRepository<TeamKey, Team> {
     }
 
     protected PlayerKey scrapCoachKey(WebDriver driver, TeamKey teamKey) {
-        String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
+        String url = FlashscoreURLs.getTeamSquadURL(teamKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
-        if(!driver.findElements(TEAM_COACH_SELECTOR).isEmpty()) {
-            WebElement element = driver.findElement(TEAM_COACH_SELECTOR);
-            return getPlayerKeyOfElement(element);
+        if(!driver.findElements(FlashscoreSelectors.TEAM_COACH_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(FlashscoreSelectors.TEAM_COACH_SELECTOR);
+            return FlashscoreURLs.getPlayerKey(element.getAttribute("href"));
         }
 
         return null;
     }
 
     protected Collection<PlayerKey> scrapPlayersKeys(WebDriver driver, TeamKey teamKey, PlayerKey coachKey) {
-        String url = TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
+        String url = FlashscoreURLs.getTeamSquadURL(teamKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
-        Collection<WebElement> elements = driver.findElements(TEAM_PLAYERS_SELECTOR);
+        Collection<WebElement> elements = driver.findElements(FlashscoreSelectors.TEAM_PLAYERS_SELECTOR);
         return elements
                 .stream()
-                .map(this::getPlayerKeyOfElement)
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getPlayerKey)
                 .filter(key -> !key.getPlayerId().equals(coachKey.getPlayerId()))
                 .collect(Collectors.toSet());
-    }
-
-    protected PlayerKey getPlayerKeyOfElement(WebElement element) {
-        String href = element.getAttribute("href");
-        href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "player", 2)[1];
-        href = href.split("/")[1] + "/" + href.split("/")[2];
-        return new PlayerKey(href);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
@@ -8,8 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
 public class CompetitionScrapperRepository extends ScrapperRepository<CompetitionKey, Competition> {
 
@@ -20,10 +20,7 @@ public class CompetitionScrapperRepository extends ScrapperRepository<Competitio
 
     @Override
     protected String getUrlOfEntity(CompetitionKey competitionKey) {
-        return COMPETITION_URL
-                .replace(SPORT_ID_PLACEHOLDER, competitionKey.getSportId())
-                .replace(REGION_ID_PLACEHOLDER, competitionKey.getRegionId())
-                .replace(COMPETITION_ID_PLACEHOLDER, competitionKey.getCompetitionId());
+        return FlashscoreURLs.getCompetitionURL(competitionKey);
     }
 
     @Override
@@ -38,12 +35,12 @@ public class CompetitionScrapperRepository extends ScrapperRepository<Competitio
     }
 
     protected String scrapName(WebDriver driver) {
-        WebElement nameElement = driver.findElement(COMPETITION_NAME_SELECTOR);
+        WebElement nameElement = driver.findElement(FlashscoreSelectors.COMPETITION_NAME_SELECTOR);
         return nameElement.getText();
     }
 
     protected Collection<SeasonKey> scrapSeasonsKeys(WebDriver driver, CompetitionKey competitionKey) {
-        Collection<WebElement> seasonsLinks = driver.findElements(SEASONS_LINKS_SELECTOR);
+        Collection<WebElement> seasonsLinks = driver.findElements(FlashscoreSelectors.SEASONS_LINKS_SELECTOR);
         return seasonsLinks
                 .stream()
                 .map(element -> element.getText().trim())

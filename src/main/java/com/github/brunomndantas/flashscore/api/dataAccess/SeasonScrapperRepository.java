@@ -1,17 +1,17 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreUtils;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collection;
 import java.util.LinkedList;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.*;
 
 public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Season> {
 
@@ -22,7 +22,7 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
 
     @Override
     protected String getUrlOfEntity(SeasonKey seasonKey) {
-        return buildSeasonUrl(SEASON_URL, seasonKey);
+        return FlashscoreURLs.getSeasonURL(seasonKey);
     }
 
     @Override
@@ -38,14 +38,14 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
     }
 
     protected int scrapInitYear(WebDriver driver) {
-        WebElement element = driver.findElement(SEASONS_YEARS_SELECTOR);
+        WebElement element = driver.findElement(FlashscoreSelectors.SEASONS_YEARS_SELECTOR);
         String text = element.getText();
         String year = text.contains("/") ? text.split("/")[0] : text;
         return Integer.parseInt(year);
     }
 
     protected int scrapEndYear(WebDriver driver) {
-        WebElement element = driver.findElement(SEASONS_YEARS_SELECTOR);
+        WebElement element = driver.findElement(FlashscoreSelectors.SEASONS_YEARS_SELECTOR);
         String text = element.getText();
         String year = text.contains("/") ? text.split("/")[1] : text;
         return Integer.parseInt(year);
@@ -72,58 +72,46 @@ public class SeasonScrapperRepository extends ScrapperRepository<SeasonKey, Seas
     }
 
     protected Collection<MatchKey> scrapPastMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
-        String url = buildSeasonUrl(PAST_MATCHES_URL, seasonKey);
+        String url = FlashscoreURLs.getSeasonPastMatchesURL(seasonKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
         FlashscoreUtils.loadAllMatches(driver);
 
-        Collection<WebElement> matchesLinks = driver.findElements(PAST_MATCHES_SELECTOR);
+        Collection<WebElement> matchesLinks = driver.findElements(FlashscoreSelectors.PAST_MATCHES_SELECTOR);
         return matchesLinks
                 .stream()
-                .map(this::getMatchKeyOfElement)
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getMatchKey)
                 .toList();
     }
 
     protected Collection<MatchKey> scrapTodayMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
-        String url = buildSeasonUrl(TODAY_MATCHES_URL, seasonKey);
+        String url = FlashscoreURLs.getSeasonTodayMatchesURL(seasonKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
-        Collection<WebElement> matchesLinks = driver.findElements(TODAY_MATCHES_SELECTOR);
+        Collection<WebElement> matchesLinks = driver.findElements(FlashscoreSelectors.TODAY_MATCHES_SELECTOR);
         return matchesLinks
                 .stream()
-                .map(this::getMatchKeyOfElement)
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getMatchKey)
                 .toList();
     }
 
     protected Collection<MatchKey> scrapFutureMatchesKeys(WebDriver driver, SeasonKey seasonKey) {
-        String url = buildSeasonUrl(FUTURE_MATCHES_URL, seasonKey);
+        String url = FlashscoreURLs.getSeasonFutureMatchesURL(seasonKey);
         driver.get(url);
         super.waitPageToBeLoaded(driver);
 
         FlashscoreUtils.loadAllMatches(driver);
 
-        Collection<WebElement> matchesLinks = driver.findElements(FUTURE_MATCHES_SELECTOR);
+        Collection<WebElement> matchesLinks = driver.findElements(FlashscoreSelectors.FUTURE_MATCHES_SELECTOR);
         return matchesLinks
                 .stream()
-                .map(this::getMatchKeyOfElement)
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getMatchKey)
                 .toList();
-    }
-
-    protected MatchKey getMatchKeyOfElement(WebElement element) {
-        String href = element.getAttribute("href");
-        href = StringUtils.splitByWholeSeparatorPreserveAllTokens(href, "match", 2)[1];
-        href = href.split("/")[1];
-        return new MatchKey(href);
-    }
-
-    protected String buildSeasonUrl(String url, SeasonKey seasonKey) {
-        return url
-                .replace(SPORT_ID_PLACEHOLDER, seasonKey.getSportId())
-                .replace(REGION_ID_PLACEHOLDER, seasonKey.getRegionId())
-                .replace(COMPETITION_ID_PLACEHOLDER, seasonKey.getCompetitionId())
-                .replace(SEASON_ID_PLACEHOLDER, seasonKey.getSeasonId());
     }
 
 }

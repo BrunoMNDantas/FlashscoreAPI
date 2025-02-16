@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPoolException;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -21,9 +22,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.UUID;
-
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.LOGO_SELECTOR;
-import static com.github.brunomndantas.flashscore.api.dataAccess.FlashscoreConstants.UNKNOWN_PAGE_ERROR_SELECTOR;
 
 @Log4j2
 public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
@@ -93,15 +91,15 @@ public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(Config.MEDIUM_WAIT).getSeconds());
 
         ExpectedCondition<Boolean> condition = ExpectedConditions.or(
-                ExpectedConditions.visibilityOfElementLocated(LOGO_SELECTOR),
-                ExpectedConditions.visibilityOfElementLocated(UNKNOWN_PAGE_ERROR_SELECTOR)
+                ExpectedConditions.visibilityOfElementLocated(FlashscoreSelectors.LOGO_SELECTOR),
+                ExpectedConditions.visibilityOfElementLocated(FlashscoreSelectors.UNKNOWN_PAGE_ERROR_SELECTOR)
         );
 
         wait.until(condition);
     }
 
     protected boolean loadedSuccessfully(WebDriver driver) {
-        Collection<WebElement> errorElements = driver.findElements(UNKNOWN_PAGE_ERROR_SELECTOR);
+        Collection<WebElement> errorElements = driver.findElements(FlashscoreSelectors.UNKNOWN_PAGE_ERROR_SELECTOR);
         return errorElements.isEmpty();
     }
 
