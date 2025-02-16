@@ -1,19 +1,23 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.match;
 
+import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Event;
+import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Penalty;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.Collection;
 import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class Match {
 
     @NotNull
@@ -38,5 +42,21 @@ public class Match {
 
     @NotNull
     private Date date;
+
+    @NotNull
+    @Valid
+    private Collection<Event> firstHalfEvents;
+
+    @NotNull
+    @Valid
+    private Collection<Event> secondHalfEvents;
+
+    @NotNull
+    @Valid
+    private Collection<Event> extraTimeEvents;
+
+    @NotNull
+    @Valid
+    private Collection<Penalty> penalties;
 
 }

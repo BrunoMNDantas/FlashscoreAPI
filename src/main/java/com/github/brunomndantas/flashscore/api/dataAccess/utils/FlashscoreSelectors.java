@@ -29,6 +29,23 @@ public class FlashscoreSelectors {
     public static final By MATCH_HOME_TEAM_GOALS_SELECTOR = By.xpath("//*[contains(@class, 'detailScore__wrapper')]/span[not(contains(@class, 'divider'))][1]");
     public static final By MATCH_AWAY_TEAM_GOALS_SELECTOR = By.xpath("//*[contains(@class, 'detailScore__wrapper')]/span[not(contains(@class, 'divider'))][2]");
     public static final By MATCH_DATE_SELECTOR = By.xpath("//*[@class='duelParticipant__startTime']");
+    public static final By MATCH_EVENTS_SELECTOR = By.xpath("//*[contains(@class,'smv__verticalSections')]/div");
+    public static final String MATCH_EVENT_CLASS = "smv__participantRow";
+    public static final String MATCH_EVENT_HOME_CLASS = "smv__homeParticipant";
+    public static final String MATCH_EVENT_AWAY_CLASS = "smv__awayParticipant";
+    public static final By MATCH_EVENT_MINUTE_SELECTOR = By.xpath(".//*[@class='smv__timeBox']");
+    public static final By MATCH_EVENT_GOAL_SELECTOR = By.xpath(".//*[@data-testid='wcl-icon-soccer']");
+    public static final By MATCH_EVENT_CARD_SELECTOR = By.xpath(".//*[contains(@class,'card-ico')]");
+    public static final By MATCH_EVENT_SUBSTITUTION_SELECTOR = By.xpath(".//*[contains(@class,'substitution')]");
+    public static final By MATCH_EVENT_PENALTY_SELECTOR = By.xpath(".//*[contains(text(),'Penalty')]");
+    public static final By MATCH_EVENT_GOAL_PLAYER_SELECTOR = By.xpath(".//*[contains(@class,'smv__incident')]/a");
+    public static final By MATCH_EVENT_GOAL_ASSIST_SELECTOR = By.xpath(".//*[contains(@class,'smv__assist')]/a");
+    public static final By MATCH_EVENT_CARD_PLAYER_SELECTOR = By.xpath(".//*[@class='smv__playerName']");
+    public static final String MATCH_EVENT_YELLOW_CARD_CLASS = "yellowCard-ico";
+    public static final String MATCH_EVENT_RED_CARD_CLASS = "redCard-ico";
+    public static final By MATCH_EVENT_SUBSTITUTION_IN_PLAYER_SELECTOR = By.xpath(".//*[@class='smv__incident']/a");
+    public static final By MATCH_EVENT_SUBSTITUTION_OUT_PLAYER_SELECTOR = By.xpath(".//*[contains(@class, 'smv__subDown')]");
+    public static final By MATCH_EVENT_PENALTY_PLAYER_SELECTOR = By.xpath(".//*[contains(@class, 'smv__playerName')]");
 
     public static final By TEAM_NAME_SELECTOR = By.xpath("//*[@class='heading__name']");
     public static final By TEAM_STADIUM_SELECTOR = By.xpath("//*[@class='heading__info']/*[1]");
