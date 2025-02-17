@@ -15,6 +15,11 @@ public class TeamKey {
     @NotNull
     @NotEmpty
     @NotBlank
+    private String teamName;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String teamId;
 
 }

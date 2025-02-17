@@ -25,18 +25,18 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
 
     @Override
     protected TeamKey getExistentKey() {
-        return new TeamKey("turkspor-dortmund/0nkpeeFd");
+        return new TeamKey("turkspor-dortmund", "0nkpeeFd");
     }
 
     @Override
     protected TeamKey getNonExistentKey() {
-        return new TeamKey("non_existent_id");
+        return new TeamKey("non_existent_name", "non_existent_id");
     }
 
 
     @Test
     public void shouldScrapData() throws Exception {
-        TeamKey key = new TeamKey("dortmund/vVcwNP6f");
+        TeamKey key = new TeamKey("dortmund", "vVcwNP6f");
         ScrapperRepository<TeamKey, Team> repository = createRepository(DRIVER_POOL);
 
         Team team = repository.get(key);
@@ -47,7 +47,7 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
         Assertions.assertEquals("Dortmund II", team.getName());
         Assertions.assertEquals("Stadion Rote Erde (Dortmund)", team.getStadium());
         Assertions.assertEquals(25000, team.getStadiumCapacity());
-        Assertions.assertEquals("zimmermann-jan/2F8lpifB", team.getCoachKey().getPlayerId());
+        Assertions.assertEquals(new PlayerKey("zimmermann-jan", "2F8lpifB"), team.getCoachKey());
         Assertions.assertTrue(team.getPlayersKeys().size() > 20);
         Assertions.assertTrue(team.getPlayersKeys().size() < 35);
 

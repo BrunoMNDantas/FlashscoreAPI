@@ -31,12 +31,14 @@ public class FlashscoreURLs {
     public static final String MATCH_ID_PLACEHOLDER = "{matchId}";
     public static final String MATCH_URL = FLASHSCORE_URL + "/match/" + MATCH_ID_PLACEHOLDER + "/#/match-summary";
 
+    public static final String TEAM_NAME_PLACEHOLDER = "{teamName}";
     public static final String TEAM_ID_PLACEHOLDER = "{teamId}";
-    public static final String TEAM_URL = FLASHSCORE_URL + "/team/" + TEAM_ID_PLACEHOLDER;
+    public static final String TEAM_URL = FLASHSCORE_URL + "/team/" + TEAM_NAME_PLACEHOLDER + "/" + TEAM_ID_PLACEHOLDER;
     public static final String TEAM_SQUAD_URL = TEAM_URL + "/squad";
 
+    public static final String PLAYER_NAME_PLACEHOLDER = "{playerName}";
     public static final String PLAYER_ID_PLACEHOLDER = "{playerId}";
-    public static final String PLAYER_URL = FLASHSCORE_URL + "/player/" + PLAYER_ID_PLACEHOLDER;
+    public static final String PLAYER_URL = FLASHSCORE_URL + "/player/" + PLAYER_NAME_PLACEHOLDER + "/" + PLAYER_ID_PLACEHOLDER;
 
 
     public static String getSportURL(SportKey sportKey) {
@@ -94,16 +96,22 @@ public class FlashscoreURLs {
     }
 
     public static String getTeamURL(TeamKey teamKey) {
-        return TEAM_URL.replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
+        return TEAM_URL
+                .replace(TEAM_NAME_PLACEHOLDER, teamKey.getTeamName())
+                .replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
 
     }
 
     public static String getTeamSquadURL(TeamKey teamKey) {
-        return TEAM_SQUAD_URL.replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
+        return TEAM_SQUAD_URL
+                .replace(TEAM_NAME_PLACEHOLDER, teamKey.getTeamName())
+                .replace(TEAM_ID_PLACEHOLDER, teamKey.getTeamId());
     }
 
     public static String getPlayerURL(PlayerKey playerKey) {
-        return PLAYER_URL.replace(PLAYER_ID_PLACEHOLDER, playerKey.getPlayerId());
+        return PLAYER_URL
+                .replace(PLAYER_NAME_PLACEHOLDER, playerKey.getPlayerName())
+                .replace(PLAYER_ID_PLACEHOLDER, playerKey.getPlayerId());
     }
 
     public static SportKey getSportKey(String url) {
@@ -161,18 +169,20 @@ public class FlashscoreURLs {
         String[] parts = url.split(FLASHSCORE_URL);
         parts = parts[1].split("/");
 
-        String teamId = parts[2] + "/" + parts[3];
+        String teamName = parts[2];
+        String teamId = parts[3];
 
-        return new TeamKey(teamId);
+        return new TeamKey(teamName, teamId);
     }
 
     public static PlayerKey getPlayerKey(String url) {
         String[] parts = url.split(FLASHSCORE_URL);
         parts = parts[1].split("/");
 
-        String playerId = parts[2] + "/" + parts[3];
+        String playerName = parts[2];
+        String playerId = parts[3];
 
-        return new PlayerKey(playerId);
+        return new PlayerKey(playerName, playerId);
     }
 
 }

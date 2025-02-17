@@ -35,7 +35,7 @@ class TeamControllerTests {
 
     @Test
     public void shouldReturnTeam() throws Exception {
-        TeamKey teamKey = new TeamKey("Team");
+        TeamKey teamKey = new TeamKey("Name", "Id");
         Team team = new Team(teamKey, "T", null, 0, null, new LinkedList<>());
 
         Mockito
@@ -43,6 +43,7 @@ class TeamControllerTests {
             .thenReturn(team);
 
         String url = Routes.TEAM_ROUTE
+                .replace("{teamName}", teamKey.getTeamName())
                 .replace("{teamId}", teamKey.getTeamId());
 
         mockMvc.perform(get(url))

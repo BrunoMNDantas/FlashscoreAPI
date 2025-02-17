@@ -36,7 +36,7 @@ class PlayerControllerTests {
 
     @Test
     public void shouldReturnPlayer() throws Exception {
-        PlayerKey playerKey = new PlayerKey("Player");
+        PlayerKey playerKey = new PlayerKey("Name", "Id");
         Player player = new Player(playerKey, "P", new Date(), "A");
 
         Mockito
@@ -44,6 +44,7 @@ class PlayerControllerTests {
             .thenReturn(player);
 
         String url = Routes.PLAYER_ROUTE
+                .replace("{playerName}", playerKey.getPlayerName())
                 .replace("{playerId}", playerKey.getPlayerId());
 
         mockMvc.perform(get(url))

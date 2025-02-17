@@ -15,6 +15,11 @@ public class PlayerKey {
     @NotNull
     @NotEmpty
     @NotBlank
+    private String playerName;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String playerId;
 
 }

@@ -23,8 +23,8 @@ public class TeamController {
 
 
     @GetMapping(Routes.TEAM_ROUTE)
-    public Team getTeam(@PathVariable String teamId) throws RepositoryException {
-        return repository.get(new TeamKey(teamId));
+    public Team getTeam(@PathVariable String teamName, @PathVariable String teamId) throws RepositoryException {
+        return repository.get(new TeamKey(teamName, teamId));
     }
     
 }

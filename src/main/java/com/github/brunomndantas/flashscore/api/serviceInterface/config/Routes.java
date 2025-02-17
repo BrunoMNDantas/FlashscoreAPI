@@ -18,10 +18,10 @@ public class Routes {
     public static final String MATCH_ROUTE = MATCHES_ROUTE + "/{matchId}";
 
     public static final String TEAMS_ROUTE = "/teams";
-    public static final String TEAM_ROUTE = TEAMS_ROUTE + "/{teamId}";
+    public static final String TEAM_ROUTE = TEAMS_ROUTE + "/{teamName}/{teamId}";
 
     public static final String PLAYERS_ROUTE = "/players";
-    public static final String PLAYER_ROUTE = PLAYERS_ROUTE + "/{playerId}";
+    public static final String PLAYER_ROUTE = PLAYERS_ROUTE + "/{playerName}/{playerId}";
 
 }
 

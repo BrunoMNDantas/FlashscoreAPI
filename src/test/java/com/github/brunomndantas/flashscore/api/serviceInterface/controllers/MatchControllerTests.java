@@ -38,7 +38,7 @@ class MatchControllerTests {
     @Test
     public void shouldReturnMatch() throws Exception {
         MatchKey matchKey = new MatchKey("Match");
-        Match match = new Match(matchKey, new TeamKey("Home"), new TeamKey("Away"), 1, 1, new Date(), null, null, null, null);
+        Match match = new Match(matchKey, new TeamKey("Home", "Home"), new TeamKey("Home", "Away"), 1, 1, new Date(), null, null, null, null);
 
         Mockito
             .when(repository.get(Mockito.any(MatchKey.class)))

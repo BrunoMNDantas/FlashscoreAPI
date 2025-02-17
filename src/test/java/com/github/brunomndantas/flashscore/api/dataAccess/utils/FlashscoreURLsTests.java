@@ -66,19 +66,19 @@ public class FlashscoreURLsTests {
 
     @Test
     public void shouldReturnValidTeamURL() {
-        TeamKey key = new TeamKey("zaragoza-hurricanes/nsq7mjSs");
+        TeamKey key = new TeamKey("zaragoza-hurricanes", "nsq7mjSs");
         testUrl(key, FlashscoreURLs::getTeamURL, FlashscoreURLs::getTeamKey);
     }
 
     @Test
     public void shouldReturnValidTeamSquadURL() {
-        TeamKey key = new TeamKey("zaragoza-hurricanes/nsq7mjSs");
+        TeamKey key = new TeamKey("zaragoza-hurricanes", "nsq7mjSs");
         testUrl(key, FlashscoreURLs::getTeamSquadURL, FlashscoreURLs::getTeamKey);
     }
 
     @Test
     public void shouldReturnValidPlayerURL() {
-        PlayerKey key = new PlayerKey("figo-luis/W0IbygPl");
+        PlayerKey key = new PlayerKey("figo-luis", "W0IbygPl");
         testUrl(key, FlashscoreURLs::getPlayerURL, FlashscoreURLs::getPlayerKey);
     }
 

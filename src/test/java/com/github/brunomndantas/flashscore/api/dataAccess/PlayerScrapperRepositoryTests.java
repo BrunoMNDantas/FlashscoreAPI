@@ -22,18 +22,18 @@ public class PlayerScrapperRepositoryTests extends ScrapperRepositoryTests<Playe
 
     @Override
     protected PlayerKey getExistentKey() {
-        return new PlayerKey("mainoo-kobbie/nBy3DbC3");
+        return new PlayerKey("mainoo-kobbie", "nBy3DbC3");
     }
 
     @Override
     protected PlayerKey getNonExistentKey() {
-        return new PlayerKey("non_existent_id");
+        return new PlayerKey("non_existent_name", "non_existent_id");
     }
 
 
     @Test
     public void shouldScrapData() throws Exception {
-        PlayerKey key = new PlayerKey("gyokeres-viktor/zaBZ1xIk");
+        PlayerKey key = new PlayerKey("gyokeres-viktor", "zaBZ1xIk");
         ScrapperRepository<PlayerKey, Player> repository = createRepository(DRIVER_POOL);
 
         Player player = repository.get(key);

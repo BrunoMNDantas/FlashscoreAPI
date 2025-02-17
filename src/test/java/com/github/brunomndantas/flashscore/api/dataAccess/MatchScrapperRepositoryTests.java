@@ -46,8 +46,8 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         Assertions.assertNull(getConstraintViolation(match));
 
         Assertions.assertEquals(key, match.getKey());
-        Assertions.assertEquals(new TeamKey("exeter/ve14a3l4"), match.getHomeTeamKey());
-        Assertions.assertEquals(new TeamKey("nottingham/UsushcZr"), match.getAwayTeamKey());
+        Assertions.assertEquals(new TeamKey("exeter", "ve14a3l4"), match.getHomeTeamKey());
+        Assertions.assertEquals(new TeamKey("nottingham", "UsushcZr"), match.getAwayTeamKey());
         Assertions.assertEquals(2, match.getHomeTeamGoals());
         Assertions.assertEquals(3, match.getAwayTeamGoals());
         Assertions.assertEquals(MatchScrapperRepository.DATE_FORMAT.parse("11.02.2025 20:00"), match.getDate());
@@ -86,8 +86,8 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         goal.setType(EventType.GOAL);
         goal.setMinute(5);
         goal.setExtraMinute(0);
-        goal.setTeamKey(new TeamKey("exeter/ve14a3l4"));
-        goal.setPlayerKey(new PlayerKey("magennis-josh/IXUzpyWo"));
+        goal.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
+        goal.setPlayerKey(new PlayerKey("magennis-josh", "IXUzpyWo"));
         goal.setAssistPlayerKey(null);
 
         return goal;
@@ -99,9 +99,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         goal.setType(EventType.GOAL);
         goal.setMinute(15);
         goal.setExtraMinute(0);
-        goal.setTeamKey(new TeamKey("nottingham/UsushcZr"));
-        goal.setPlayerKey(new PlayerKey("sosa-ramon/GzkUujEi"));
-        goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim/0zOKXsla"));
+        goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
+        goal.setPlayerKey(new PlayerKey("sosa-ramon", "GzkUujEi"));
+        goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim", "0zOKXsla"));
 
         return goal;
     }
@@ -112,9 +112,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         goal.setType(EventType.GOAL);
         goal.setMinute(37);
         goal.setExtraMinute(0);
-        goal.setTeamKey(new TeamKey("nottingham/UsushcZr"));
-        goal.setPlayerKey(new PlayerKey("awoniyi-taiwo/OWFf8WFm"));
-        goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim/0zOKXsla"));
+        goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
+        goal.setPlayerKey(new PlayerKey("awoniyi-taiwo", "OWFf8WFm"));
+        goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim", "0zOKXsla"));
 
         return goal;
     }
@@ -125,8 +125,8 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         goal.setType(EventType.GOAL);
         goal.setMinute(50);
         goal.setExtraMinute(0);
-        goal.setTeamKey(new TeamKey("exeter/ve14a3l4"));
-        goal.setPlayerKey(new PlayerKey("magennis-josh/IXUzpyWo"));
+        goal.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
+        goal.setPlayerKey(new PlayerKey("magennis-josh", "IXUzpyWo"));
         goal.setAssistPlayerKey(null);
 
         return goal;
@@ -138,9 +138,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         card.setType(EventType.CARD);
         card.setMinute(38);
         card.setExtraMinute(0);
-        card.setTeamKey(new TeamKey("exeter/ve14a3l4"));
+        card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         card.setColor(CardColor.YELLOW);
-        card.setPlayerKey(new PlayerKey("mcmillan-jack/YVrybbkq"));
+        card.setPlayerKey(new PlayerKey("mcmillan-jack", "YVrybbkq"));
 
         return card;
     }
@@ -151,9 +151,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         card.setType(EventType.CARD);
         card.setMinute(105);
         card.setExtraMinute(1);
-        card.setTeamKey(new TeamKey("nottingham/UsushcZr"));
+        card.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         card.setColor(CardColor.YELLOW);
-        card.setPlayerKey(new PlayerKey("williams-neco/YVxu86Hs"));
+        card.setPlayerKey(new PlayerKey("williams-neco", "YVxu86Hs"));
 
         return card;
     }
@@ -164,9 +164,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         card.setType(EventType.CARD);
         card.setMinute(115);
         card.setExtraMinute(0);
-        card.setTeamKey(new TeamKey("exeter/ve14a3l4"));
+        card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         card.setColor(CardColor.YELLOW);
-        card.setPlayerKey(new PlayerKey("yogane-tony/fP6cbjth"));
+        card.setPlayerKey(new PlayerKey("yogane-tony", "fP6cbjth"));
 
         return card;
     }
@@ -177,9 +177,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         card.setType(EventType.CARD);
         card.setMinute(87);
         card.setExtraMinute(0);
-        card.setTeamKey(new TeamKey("exeter/ve14a3l4"));
+        card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         card.setColor(CardColor.RED);
-        card.setPlayerKey(new PlayerKey("turns-ed/Kraw6tR1"));
+        card.setPlayerKey(new PlayerKey("turns-ed", "Kraw6tR1"));
 
         return card;
     }
@@ -190,9 +190,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(59);
         substitution.setExtraMinute(0);
-        substitution.setTeamKey(new TeamKey("nottingham/UsushcZr"));
-        substitution.setInPlayerKey(new PlayerKey("sels-matz/Qqo54dB7"));
-        substitution.setOutPlayerKey(new PlayerKey("carlos-miguel/GhFZjle9"));
+        substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
+        substitution.setInPlayerKey(new PlayerKey("sels-matz", "Qqo54dB7"));
+        substitution.setOutPlayerKey(new PlayerKey("carlos-miguel", "GhFZjle9"));
 
         return substitution;
     }
@@ -203,9 +203,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(59);
         substitution.setExtraMinute(0);
-        substitution.setTeamKey(new TeamKey("nottingham/UsushcZr"));
-        substitution.setInPlayerKey(new PlayerKey("dominguez-nicolas/A7jPNAQT"));
-        substitution.setOutPlayerKey(new PlayerKey("danilo/rsMiiNaj"));
+        substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
+        substitution.setInPlayerKey(new PlayerKey("dominguez-nicolas", "A7jPNAQT"));
+        substitution.setOutPlayerKey(new PlayerKey("danilo", "rsMiiNaj"));
 
         return substitution;
     }
@@ -216,9 +216,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(71);
         substitution.setExtraMinute(0);
-        substitution.setTeamKey(new TeamKey("exeter/ve14a3l4"));
-        substitution.setInPlayerKey(new PlayerKey("watts-caleb/fZSnywKF"));
-        substitution.setOutPlayerKey(new PlayerKey("trevitt-ryan/IDtPdIPE"));
+        substitution.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
+        substitution.setInPlayerKey(new PlayerKey("watts-caleb", "fZSnywKF"));
+        substitution.setOutPlayerKey(new PlayerKey("trevitt-ryan", "IDtPdIPE"));
 
         return substitution;
     }
@@ -229,9 +229,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(71);
         substitution.setExtraMinute(0);
-        substitution.setTeamKey(new TeamKey("nottingham/UsushcZr"));
-        substitution.setInPlayerKey(new PlayerKey("anderson-elliott/KdYCbsbE"));
-        substitution.setOutPlayerKey(new PlayerKey("yates-ryan/IwFLkXYE"));
+        substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
+        substitution.setInPlayerKey(new PlayerKey("anderson-elliott", "KdYCbsbE"));
+        substitution.setOutPlayerKey(new PlayerKey("yates-ryan", "IwFLkXYE"));
 
         return substitution;
     }
@@ -242,9 +242,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         penalty.setType(EventType.PENALTY);
         penalty.setMinute(1);
         penalty.setExtraMinute(0);
-        penalty.setTeamKey(new TeamKey("exeter/ve14a3l4"));
+        penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         penalty.setMissed(false);
-        penalty.setPlayerKey(new PlayerKey("magennis-josh/IXUzpyWo"));
+        penalty.setPlayerKey(new PlayerKey("magennis-josh", "IXUzpyWo"));
 
         return penalty;
     }
@@ -255,9 +255,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         penalty.setType(EventType.PENALTY);
         penalty.setMinute(1);
         penalty.setExtraMinute(0);
-        penalty.setTeamKey(new TeamKey("nottingham/UsushcZr"));
+        penalty.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         penalty.setMissed(false);
-        penalty.setPlayerKey(new PlayerKey("wood-chris/Cp7L7Gro"));
+        penalty.setPlayerKey(new PlayerKey("wood-chris", "Cp7L7Gro"));
 
         return penalty;
     }
@@ -268,9 +268,9 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         penalty.setType(EventType.PENALTY);
         penalty.setMinute(2);
         penalty.setExtraMinute(0);
-        penalty.setTeamKey(new TeamKey("exeter/ve14a3l4"));
+        penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         penalty.setMissed(true);
-        penalty.setPlayerKey(new PlayerKey("cole-reece/WCqq6BwA"));
+        penalty.setPlayerKey(new PlayerKey("cole-reece", "WCqq6BwA"));
 
         return penalty;
     }

@@ -23,8 +23,8 @@ public class PlayerController {
 
 
     @GetMapping(Routes.PLAYER_ROUTE)
-    public Player getPlayer(@PathVariable String playerId) throws RepositoryException {
-        return repository.get(new PlayerKey(playerId));
+    public Player getPlayer(@PathVariable String playerName, @PathVariable String playerId) throws RepositoryException {
+        return repository.get(new PlayerKey(playerName, playerId));
     }
     
 }
