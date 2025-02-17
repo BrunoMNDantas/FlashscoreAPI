@@ -1,0 +1,898 @@
+{
+	"info": {
+		"_postman_id": "cb638617-741c-45f7-a373-fada301a6631",
+		"name": "Flashscore API",
+		"description": "Flashscore API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10288004"
+	},
+	"item": [
+		{
+			"name": "teams",
+			"item": [
+				{
+					"name": "{teamName}",
+					"item": [
+						{
+							"name": "{teamId}",
+							"item": [
+								{
+									"name": "get Team",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response is JSON\", function () {\r",
+													"    pm.response.to.be.json;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains expected fields\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property(\"key\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains expected key\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var teamName = pm.environment.get(\"teamName\");\r",
+													"    var teamId = pm.environment.get(\"teamId\");\r",
+													"\r",
+													"    pm.expect(jsonData.key.teamName).to.eql(teamName);\r",
+													"    pm.expect(jsonData.key.teamId).to.eql(teamId);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/teams/:teamName/:teamId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teams",
+												":teamName",
+												":teamId"
+											],
+											"variable": [
+												{
+													"key": "teamName",
+													"value": "{{teamName}}",
+													"description": "(Required) "
+												},
+												{
+													"key": "teamId",
+													"value": "{{teamId}}",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/teams/:teamName/:teamId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"teams",
+														":teamName",
+														":teamId"
+													],
+													"variable": [
+														{
+															"key": "teamName"
+														},
+														{
+															"key": "teamId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"key\": {\n    \"teamId\": \"<string>\",\n    \"teamName\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"playersKeys\": [\n    {\n      \"playerId\": \"<string>\",\n      \"playerName\": \"<string>\"\n    },\n    {\n      \"playerId\": \"<string>\",\n      \"playerName\": \"<string>\"\n    }\n  ],\n  \"stadium\": \"<string>\",\n  \"stadiumCapacity\": \"<integer>\",\n  \"coachKey\": {\n    \"playerId\": \"<string>\",\n    \"playerName\": \"<string>\"\n  }\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "sports",
+			"item": [
+				{
+					"name": "{sportId}",
+					"item": [
+						{
+							"name": "regions",
+							"item": [
+								{
+									"name": "{regionId}",
+									"item": [
+										{
+											"name": "competitions",
+											"item": [
+												{
+													"name": "{competitionId}",
+													"item": [
+														{
+															"name": "seasons",
+															"item": [
+																{
+																	"name": "{seasonId}",
+																	"item": [
+																		{
+																			"name": "get Season",
+																			"event": [
+																				{
+																					"listen": "test",
+																					"script": {
+																						"exec": [
+																							"pm.test(\"Status code is 200\", function () {\r",
+																							"    pm.response.to.have.status(200);\r",
+																							"});\r",
+																							"\r",
+																							"pm.test(\"Response is JSON\", function () {\r",
+																							"    pm.response.to.be.json;\r",
+																							"});\r",
+																							"\r",
+																							"pm.test(\"Response contains expected fields\", function () {\r",
+																							"    var jsonData = pm.response.json();\r",
+																							"    pm.expect(jsonData).to.have.property(\"key\");\r",
+																							"});\r",
+																							"\r",
+																							"pm.test(\"Response contains expected key\", function () {\r",
+																							"    var jsonData = pm.response.json();\r",
+																							"    var sportId = pm.environment.get(\"sportId\");\r",
+																							"    var regionId = pm.environment.get(\"regionId\");\r",
+																							"    var competitionId = pm.environment.get(\"competitionId\");\r",
+																							"    var seasonId = pm.environment.get(\"seasonId\");\r",
+																							"\r",
+																							"    pm.expect(jsonData.key.sportId).to.eql(sportId);\r",
+																							"    pm.expect(jsonData.key.regionId).to.eql(regionId);\r",
+																							"    pm.expect(jsonData.key.competitionId).to.eql(competitionId);\r",
+																							"    pm.expect(jsonData.key.seasonId).to.eql(seasonId);\r",
+																							"});"
+																						],
+																						"type": "text/javascript",
+																						"packages": {}
+																					}
+																				}
+																			],
+																			"request": {
+																				"method": "GET",
+																				"header": [
+																					{
+																						"key": "Accept",
+																						"value": "*/*"
+																					}
+																				],
+																				"url": {
+																					"raw": "{{baseUrl}}/sports/:sportId/regions/:regionId/competitions/:competitionId/seasons/:seasonId",
+																					"host": [
+																						"{{baseUrl}}"
+																					],
+																					"path": [
+																						"sports",
+																						":sportId",
+																						"regions",
+																						":regionId",
+																						"competitions",
+																						":competitionId",
+																						"seasons",
+																						":seasonId"
+																					],
+																					"variable": [
+																						{
+																							"key": "sportId",
+																							"value": "{{sportId}}",
+																							"description": "(Required) "
+																						},
+																						{
+																							"key": "regionId",
+																							"value": "{{regionId}}",
+																							"description": "(Required) "
+																						},
+																						{
+																							"key": "competitionId",
+																							"value": "{{competitionId}}",
+																							"description": "(Required) "
+																						},
+																						{
+																							"key": "seasonId",
+																							"value": "{{seasonId}}",
+																							"description": "(Required) "
+																						}
+																					]
+																				}
+																			},
+																			"response": [
+																				{
+																					"name": "OK",
+																					"originalRequest": {
+																						"method": "GET",
+																						"header": [
+																							{
+																								"key": "Accept",
+																								"value": "*/*"
+																							}
+																						],
+																						"url": {
+																							"raw": "{{baseUrl}}/sports/:sportId/regions/:regionId/competitions/:competitionId/seasons/:seasonId",
+																							"host": [
+																								"{{baseUrl}}"
+																							],
+																							"path": [
+																								"sports",
+																								":sportId",
+																								"regions",
+																								":regionId",
+																								"competitions",
+																								":competitionId",
+																								"seasons",
+																								":seasonId"
+																							],
+																							"variable": [
+																								{
+																									"key": "sportId"
+																								},
+																								{
+																									"key": "regionId"
+																								},
+																								{
+																									"key": "competitionId"
+																								},
+																								{
+																									"key": "seasonId"
+																								}
+																							]
+																						}
+																					},
+																					"status": "OK",
+																					"code": 200,
+																					"_postman_previewlanguage": "text",
+																					"header": [
+																						{
+																							"key": "Content-Type",
+																							"value": "*/*"
+																						}
+																					],
+																					"cookie": [],
+																					"body": "{\n  \"key\": {\n    \"competitionId\": \"<string>\",\n    \"regionId\": \"<string>\",\n    \"seasonId\": \"2049\",\n    \"sportId\": \"<string>\"\n  },\n  \"matchesKeys\": [\n    {\n      \"matchId\": \"<string>\"\n    },\n    {\n      \"matchId\": \"<string>\"\n    }\n  ],\n  \"initYear\": \"<integer>\",\n  \"endYear\": \"<integer>\"\n}"
+																				}
+																			]
+																		}
+																	]
+																}
+															]
+														},
+														{
+															"name": "get Competition",
+															"event": [
+																{
+																	"listen": "test",
+																	"script": {
+																		"exec": [
+																			"pm.test(\"Status code is 200\", function () {\r",
+																			"    pm.response.to.have.status(200);\r",
+																			"});\r",
+																			"\r",
+																			"pm.test(\"Response is JSON\", function () {\r",
+																			"    pm.response.to.be.json;\r",
+																			"});\r",
+																			"\r",
+																			"pm.test(\"Response contains expected fields\", function () {\r",
+																			"    var jsonData = pm.response.json();\r",
+																			"    pm.expect(jsonData).to.have.property(\"key\");\r",
+																			"});\r",
+																			"\r",
+																			"pm.test(\"Response contains expected key\", function () {\r",
+																			"    var jsonData = pm.response.json();\r",
+																			"    var sportId = pm.environment.get(\"sportId\");\r",
+																			"    var regionId = pm.environment.get(\"regionId\");\r",
+																			"    var competitionId = pm.environment.get(\"competitionId\");\r",
+																			"\r",
+																			"    pm.expect(jsonData.key.sportId).to.eql(sportId);\r",
+																			"    pm.expect(jsonData.key.regionId).to.eql(regionId);\r",
+																			"    pm.expect(jsonData.key.competitionId).to.eql(competitionId);\r",
+																			"});"
+																		],
+																		"type": "text/javascript",
+																		"packages": {}
+																	}
+																}
+															],
+															"request": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/sports/:sportId/regions/:regionId/competitions/:competitionId",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"sports",
+																		":sportId",
+																		"regions",
+																		":regionId",
+																		"competitions",
+																		":competitionId"
+																	],
+																	"variable": [
+																		{
+																			"key": "sportId",
+																			"value": "{{sportId}}",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "regionId",
+																			"value": "{{regionId}}",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "competitionId",
+																			"value": "{{competitionId}}",
+																			"description": "(Required) "
+																		}
+																	]
+																}
+															},
+															"response": [
+																{
+																	"name": "OK",
+																	"originalRequest": {
+																		"method": "GET",
+																		"header": [
+																			{
+																				"key": "Accept",
+																				"value": "*/*"
+																			}
+																		],
+																		"url": {
+																			"raw": "{{baseUrl}}/sports/:sportId/regions/:regionId/competitions/:competitionId",
+																			"host": [
+																				"{{baseUrl}}"
+																			],
+																			"path": [
+																				"sports",
+																				":sportId",
+																				"regions",
+																				":regionId",
+																				"competitions",
+																				":competitionId"
+																			],
+																			"variable": [
+																				{
+																					"key": "sportId"
+																				},
+																				{
+																					"key": "regionId"
+																				},
+																				{
+																					"key": "competitionId"
+																				}
+																			]
+																		}
+																	},
+																	"status": "OK",
+																	"code": 200,
+																	"_postman_previewlanguage": "text",
+																	"header": [
+																		{
+																			"key": "Content-Type",
+																			"value": "*/*"
+																		}
+																	],
+																	"cookie": [],
+																	"body": "{\n  \"key\": {\n    \"competitionId\": \"<string>\",\n    \"regionId\": \"<string>\",\n    \"sportId\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"seasonsKeys\": [\n    {\n      \"competitionId\": \"<string>\",\n      \"regionId\": \"<string>\",\n      \"seasonId\": \"2075\",\n      \"sportId\": \"<string>\"\n    },\n    {\n      \"competitionId\": \"<string>\",\n      \"regionId\": \"<string>\",\n      \"seasonId\": \"1967-1961\",\n      \"sportId\": \"<string>\"\n    }\n  ]\n}"
+																}
+															]
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "get Region",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"Status code is 200\", function () {\r",
+															"    pm.response.to.have.status(200);\r",
+															"});\r",
+															"\r",
+															"pm.test(\"Response is JSON\", function () {\r",
+															"    pm.response.to.be.json;\r",
+															"});\r",
+															"\r",
+															"pm.test(\"Response contains expected fields\", function () {\r",
+															"    var jsonData = pm.response.json();\r",
+															"    pm.expect(jsonData).to.have.property(\"key\");\r",
+															"});\r",
+															"\r",
+															"pm.test(\"Response contains expected key\", function () {\r",
+															"    var jsonData = pm.response.json();\r",
+															"    var sportId = pm.environment.get(\"sportId\");\r",
+															"    var regionId = pm.environment.get(\"regionId\");\r",
+															"\r",
+															"    pm.expect(jsonData.key.sportId).to.eql(sportId);\r",
+															"    pm.expect(jsonData.key.regionId).to.eql(regionId);\r",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/sports/:sportId/regions/:regionId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"sports",
+														":sportId",
+														"regions",
+														":regionId"
+													],
+													"variable": [
+														{
+															"key": "sportId",
+															"value": "{{sportId}}",
+															"description": "(Required) "
+														},
+														{
+															"key": "regionId",
+															"value": "{{regionId}}",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/sports/:sportId/regions/:regionId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"sports",
+																":sportId",
+																"regions",
+																":regionId"
+															],
+															"variable": [
+																{
+																	"key": "sportId"
+																},
+																{
+																	"key": "regionId"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"competitionsKeys\": [\n    {\n      \"competitionId\": \"<string>\",\n      \"regionId\": \"<string>\",\n      \"sportId\": \"<string>\"\n    },\n    {\n      \"competitionId\": \"<string>\",\n      \"regionId\": \"<string>\",\n      \"sportId\": \"<string>\"\n    }\n  ],\n  \"key\": {\n    \"regionId\": \"<string>\",\n    \"sportId\": \"<string>\"\n  },\n  \"name\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get Sport",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is JSON\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains expected fields\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"key\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains expected key\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var sportId = pm.environment.get(\"sportId\");\r",
+											"\r",
+											"    pm.expect(jsonData.key.sportId).to.eql(sportId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/sports/:sportId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"sports",
+										":sportId"
+									],
+									"variable": [
+										{
+											"key": "sportId",
+											"value": "{{sportId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/sports/:sportId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"sports",
+												":sportId"
+											],
+											"variable": [
+												{
+													"key": "sportId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"key\": {\n    \"sportId\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"regionsKeys\": [\n    {\n      \"regionId\": \"<string>\",\n      \"sportId\": \"<string>\"\n    },\n    {\n      \"regionId\": \"<string>\",\n      \"sportId\": \"<string>\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "players",
+			"item": [
+				{
+					"name": "{playerName}",
+					"item": [
+						{
+							"name": "{playerId}",
+							"item": [
+								{
+									"name": "get Player",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response is JSON\", function () {\r",
+													"    pm.response.to.be.json;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains expected fields\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData).to.have.property(\"key\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains expected key\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    var playerName = pm.environment.get(\"playerName\");\r",
+													"    var playerId = pm.environment.get(\"playerId\");\r",
+													"\r",
+													"    pm.expect(jsonData.key.playerName).to.eql(playerName);\r",
+													"    pm.expect(jsonData.key.playerId).to.eql(playerId);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/players/:playerName/:playerId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"players",
+												":playerName",
+												":playerId"
+											],
+											"variable": [
+												{
+													"key": "playerName",
+													"value": "{{playerName}}",
+													"description": "(Required) "
+												},
+												{
+													"key": "playerId",
+													"value": "{{playerId}}",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/players/:playerName/:playerId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"players",
+														":playerName",
+														":playerId"
+													],
+													"variable": [
+														{
+															"key": "playerName"
+														},
+														{
+															"key": "playerId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"birthDate\": \"<dateTime>\",\n  \"key\": {\n    \"playerId\": \"<string>\",\n    \"playerName\": \"<string>\"\n  },\n  \"name\": \"<string>\",\n  \"role\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "matches",
+			"item": [
+				{
+					"name": "{matchId}",
+					"item": [
+						{
+							"name": "get Match",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is JSON\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains expected fields\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"key\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains expected key\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    var matchId = pm.environment.get(\"matchId\")\r",
+											"\r",
+											"    pm.expect(jsonData.key.matchId).to.eql(matchId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/matches/:matchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"matches",
+										":matchId"
+									],
+									"variable": [
+										{
+											"key": "matchId",
+											"value": "{{matchId}}",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/matches/:matchId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"matches",
+												":matchId"
+											],
+											"variable": [
+												{
+													"key": "matchId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"awayTeamKey\": {\n    \"teamId\": \"<string>\",\n    \"teamName\": \"<string>\"\n  },\n  \"date\": \"<dateTime>\",\n  \"extraTimeEvents\": [\n    {\n      \"color\": \"YELLOW\",\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"GOAL\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\"\n    },\n    {\n      \"color\": \"RED\",\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"GOAL\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\"\n    }\n  ],\n  \"firstHalfEvents\": [\n    {\n      \"color\": \"YELLOW\",\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"SUBSTITUTION\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\"\n    },\n    {\n      \"color\": \"RED\",\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"CARD\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\"\n    }\n  ],\n  \"homeTeamKey\": {\n    \"teamId\": \"<string>\",\n    \"teamName\": \"<string>\"\n  },\n  \"key\": {\n    \"matchId\": \"<string>\"\n  },\n  \"penalties\": [\n    {\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"SUBSTITUTION\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\",\n      \"missed\": \"<boolean>\"\n    },\n    {\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"GOAL\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\",\n      \"missed\": \"<boolean>\"\n    }\n  ],\n  \"secondHalfEvents\": [\n    {\n      \"color\": \"YELLOW\",\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"CARD\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\"\n    },\n    {\n      \"color\": \"YELLOW\",\n      \"playerKey\": {\n        \"playerId\": \"<string>\",\n        \"playerName\": \"<string>\"\n      },\n      \"teamKey\": {\n        \"teamId\": \"<string>\",\n        \"teamName\": \"<string>\"\n      },\n      \"type\": \"GOAL\",\n      \"minute\": \"<integer>\",\n      \"extraMinute\": \"<integer>\"\n    }\n  ],\n  \"homeTeamGoals\": \"<integer>\",\n  \"awayTeamGoals\": \"<integer>\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://flashscoreapi-production.up.railway.app"
+		}
+	]
+}

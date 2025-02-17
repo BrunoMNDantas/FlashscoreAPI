@@ -1,0 +1,25 @@
+name: Run Postman API Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman API Tests
+        run: |
+          newman run tests.postman_collection.json \
+          -e env.postman_environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export results.xml
