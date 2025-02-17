@@ -9,18 +9,27 @@ jobs:
   wait-for-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for Railway Deployment to be Ready
+      - name: Wait for Railway Deployment to Complete
         run: |
+          echo "Waiting 20 seconds before checking deployment status..."
+          sleep 20
+          
           for i in {1..30}; do
-            STATUS=$(curl -o /dev/null -s -w "%{http_code}" https://flashscoreapi-development.up.railway.app/v3/api-docs)
-            if [ "$STATUS" -eq 200 ]; then
-              echo "API is ready!"
+            DEPLOY_STATUS=$(curl -s -H "Authorization: Bearer ${{ secrets.RAILWAY_API_KEY }}" \
+            "https://backboard.railway.app/graphql/v2" \
+            -H "Content-Type: application/json" \
+            --data-raw '{"query":"query { project(id: \"5824a4b7-2bd9-45dd-96a5-188788ca1720\") { deployments(last: 1) { edges { node { status } } } } }"}' | jq -r '.data.project.deployments.edges[0].node.status')
+
+            echo "Current Deployment Status: $DEPLOY_STATUS"
+
+            if [[ "$DEPLOY_STATUS" == "SUCCESS" ]]; then
+              echo "Deployment completed!"
               exit 0
             fi
-            echo "Waiting for API... ($i/30)"
-            sleep 5
+            echo "Waiting for deployment to complete... ($i/30)"
+            sleep 10
           done
-          echo "API did not become ready in time!"
+          echo "Deployment did not complete in time!"
           exit 1
 
   test_dev:
