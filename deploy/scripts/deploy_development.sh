@@ -17,7 +17,7 @@ GRAPHQL_QUERY=$(jq -n --arg projectId "$RAILWAY_PROJECT_ID" \
 # Trigger deployment
 curl -X POST "https://backboard.railway.app/graphql/v2" \
      -H "Content-Type: application/json" \
-     -H "Authorization: Bearer $RAILWAY_API_TOKEN" \
+     -H "Authorization: Bearer $RAILWAY_API_KEY" \
      -d "$GRAPHQL_QUERY"
 
 echo "Deployment request sent to Railway."

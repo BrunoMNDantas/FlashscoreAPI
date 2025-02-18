@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to Railway Development
         run: ./deploy/scripts/deploy_development.sh
         env:
-          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
 
       - name: Run Development Tests
         run: ./deploy/scripts/test_development.sh
