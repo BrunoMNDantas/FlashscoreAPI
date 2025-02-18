@@ -19,7 +19,9 @@ jobs:
           java-version: '17'
 
       - name: Set Execution Permissions
-        run: chmod +x ./deploy/scripts/*.sh
+        run: |
+          chmod +x ./deploy/scripts/*.sh
+          chmod +x ./gradlew  # Grant execute permission to Gradle Wrapper
 
       - name: Run Gradle Build and Tests
         run: ./deploy/scripts/test_code.sh
