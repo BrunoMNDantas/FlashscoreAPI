@@ -21,9 +21,8 @@ check_deployment_status() {
         projectId: \\\"$PROJECT_ID\\\", \
         serviceId: \\\"$SERVICE_ID\\\", \
         environmentId: \\\"$ENVIRONMENT_ID\\\" \
-        }, first:1) { edges { node { status } } } }\"}"
+        }, first:1) { edges { node { status } } } }\"}")
 
-  echo "$RESPONSE"
   echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status'
 }
 
