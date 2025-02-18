@@ -8,16 +8,19 @@ RAILWAY_ENVIRONMENT_ID="7d111a97-b938-4184-a351-a8237e553c98"
 RAILWAY_SERVICE_ID="cb31c136-511d-4fb7-a7da-5b0e278e1677"
 
 # GraphQL mutation to trigger deployment
-GRAPHQL_QUERY='{
-  "query": "mutation DeployService($projectId: String!, $environmentId: String!, $serviceId: String!) {
-    deploymentCreate(input: { projectId: $projectId, environmentId: $environmentId, serviceId: $serviceId }) { id }
+GRAPHQL_QUERY=$(cat <<EOF
+{
+  "query": "mutation DeployService(\$projectId: String!, \$environmentId: String!, \$serviceId: String!) {
+    deploymentCreate(input: { projectId: \$projectId, environmentId: \$environmentId, serviceId: \$serviceId }) { id }
   }",
   "variables": {
-    "projectId": "'"$RAILWAY_PROJECT_ID"'",
-    "environmentId": "'"$RAILWAY_ENVIRONMENT_ID"'",
-    "serviceId": "'"$RAILWAY_SERVICE_ID"'"
+    "projectId": "$RAILWAY_PROJECT_ID",
+    "environmentId": "$RAILWAY_ENVIRONMENT_ID",
+    "serviceId": "$RAILWAY_SERVICE_ID"
   }
-}'
+}
+EOF
+)
 
 # Trigger deployment
 curl -X POST "https://backboard.railway.app/graphql/v2" \
