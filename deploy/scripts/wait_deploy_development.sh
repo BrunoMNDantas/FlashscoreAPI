@@ -33,6 +33,7 @@ check_deployment_status() {
       }\"
     }")
 
+  echo "$RESPONSE"
   echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status'
 }
 
