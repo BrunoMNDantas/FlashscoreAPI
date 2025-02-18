@@ -12,10 +12,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set Execution Permissions
-        run: chmod +x deploy/scripts/*.sh
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Run Code Tests
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+
+      - name: Run Gradle Build and Tests
         run: ./deploy/scripts/test_code.sh
 
       - name: Deploy to Development
