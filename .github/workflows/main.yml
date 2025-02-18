@@ -1,0 +1,25 @@
+name: Main CI/CD Workflow
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  ci_cd_pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Execution Permissions
+        run: chmod +x deploy/scripts/*.sh
+
+      - name: Run Code Tests
+        run: ./deploy/scripts/test_code.sh
+
+      - name: Deploy to Development
+        run: ./deploy/scripts/deploy_development.sh
+
+      - name: Run Development Tests
+        run: ./deploy/scripts/test_development.sh
