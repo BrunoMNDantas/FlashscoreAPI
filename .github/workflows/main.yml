@@ -5,7 +5,7 @@ on:
     branches: [dev]
 
 jobs:
-  ci_cd_pipeline:
+  test_code:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,10 +26,52 @@ jobs:
       - name: Run Gradle Build and Tests
         run: ./deploy/scripts/test_code.sh
 
+  wait_development_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+
       - name: Wait for Deploy to Railway Development
         run: ./deploy/scripts/wait_deploy_development.sh
         env:
           RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
 
-      - name: Run Development Tests
-        run: ./deploy/scripts/test_development.sh
+  test_development:
+    needs: wait_development_deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js (For Newman)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Tests on Development
+        run: |
+          newman run ./deploy/postman/tests.postman_collection.json \
+          -e ./deploy/postman/env.postman_environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export results.xml
+
+  merge_if_success:
+    needs: [test_code, test_development]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Merge dev into main
+        uses: devmasx/merge-branch@v1.4.0
+        with:
+          type: now
+          from_branch: dev
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
