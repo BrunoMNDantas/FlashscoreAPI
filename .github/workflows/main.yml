@@ -27,9 +27,7 @@ jobs:
         run: ./deploy/scripts/test_code.sh
 
       - name: Deploy to Railway Development
-        run: ./deploy/scripts/deploy_development.sh
-        env:
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+        run: ./deploy/scripts/wait_deploy_development.sh
 
       - name: Run Development Tests
         run: ./deploy/scripts/test_development.sh
