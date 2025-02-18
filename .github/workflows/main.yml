@@ -21,13 +21,15 @@ jobs:
       - name: Set Execution Permissions
         run: |
           chmod +x ./deploy/scripts/*.sh
-          chmod +x ./gradlew  # Grant execute permission to Gradle Wrapper
+          chmod +x ./gradlew
 
       - name: Run Gradle Build and Tests
         run: ./deploy/scripts/test_code.sh
 
-      - name: Deploy to Development
+      - name: Deploy to Railway Development
         run: ./deploy/scripts/deploy_development.sh
+        env:
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
 
       - name: Run Development Tests
         run: ./deploy/scripts/test_development.sh
