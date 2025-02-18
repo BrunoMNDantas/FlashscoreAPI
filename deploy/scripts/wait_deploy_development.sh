@@ -17,19 +17,7 @@ check_deployment_status() {
   RESPONSE=$(curl -s -X POST "$RAILWAY_API" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $RAILWAY_API_KEY" \
-    --data-raw '{
-      "query": "query {
-        deployments(input: {
-          projectId: \"'"$PROJECT_ID"'\",
-          serviceId: \"'"$SERVICE_ID"'\",
-          environmentId: \"'"$ENVIRONMENT_ID"'\"
-        }, first: 1) {
-          edges {
-            node { status }
-          }
-        }
-      }"
-    }')
+    --data-raw "{\"query\":\"{ projects { edges { node { environments { edges { node { name deployments(first: 1) { edges { node { status createdAt } } } } } } } } } }\"}")
 
   echo "$RESPONSE"
   echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status'
