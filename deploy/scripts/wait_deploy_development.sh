@@ -31,7 +31,8 @@ check_deployment_status() {
       }"
     }')
 
-  echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status' || echo "$RESPONSE"
+  echo "$RESPONSE"
+  echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status'
 }
 
 # Wait for the deployment to be successful
