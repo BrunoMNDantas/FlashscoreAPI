@@ -8,7 +8,7 @@ SERVICE_ID="cb31c136-511d-4fb7-a7da-5b0e278e1677"
 ENVIRONMENT_ID="7d111a97-b938-4184-a351-a8237e553c98"
 
 # Configuration
-MAX_WAIT_MINUTES=2      # Maximum wait time in minutes
+MAX_WAIT_MINUTES=5      # Maximum wait time in minutes
 CHECK_INTERVAL=10       # Time between status checks in seconds
 MAX_ATTEMPTS=$((MAX_WAIT_MINUTES * 60 / CHECK_INTERVAL))  # Convert minutes to attempts
 
