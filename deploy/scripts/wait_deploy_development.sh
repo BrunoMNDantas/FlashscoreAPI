@@ -17,24 +17,21 @@ check_deployment_status() {
   RESPONSE=$(curl -s -X POST "$RAILWAY_API" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $RAILWAY_API_KEY" \
-    --data-raw "{
-      \"query\": \"query {
+    --data-raw '{
+      "query": "query {
         deployments(input: {
-          projectId: \\\"$PROJECT_ID\\\",
-          serviceId: \\\"$SERVICE_ID\\\",
-          environmentId: \\\"$ENVIRONMENT_ID\\\"
+          projectId: \"'"$PROJECT_ID"'\",
+          serviceId: \"'"$SERVICE_ID"'\",
+          environmentId: \"'"$ENVIRONMENT_ID"'\"
         }, first: 1) {
           edges {
-            node {
-              status
-            }
+            node { status }
           }
         }
-      }\"
-    }")
+      }"
+    }')
 
-  echo "$RESPONSE"
-  echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status'
+  echo "$RESPONSE" | jq -r '.data.deployments.edges[0].node.status' || echo "$RESPONSE"
 }
 
 # Wait for the deployment to be successful
