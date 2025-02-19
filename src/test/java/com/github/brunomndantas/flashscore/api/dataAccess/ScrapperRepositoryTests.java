@@ -87,17 +87,15 @@ public abstract class ScrapperRepositoryTests<K,E> {
     public void shouldReturnDriverToPool() throws Exception {
         WebDriver driver = DRIVER_POOL.getDriver();
         IDriverSupplier driverSupplier = () -> driver;
-        IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
-            @Override
-            public void returnDriver(WebDriver driver) throws DriverPoolException {
-                DRIVER_POOL.returnDriver(driver);
-                super.returnDriver(driver);
-            }
-        };
+        IDriverPool driverPool = new DriverPool(driverSupplier, 1);
 
-        ScrapperRepository<K,E> repository = createRepository(driverPool);
-        repository.get(getExistentKey());
-        Assertions.assertSame(driver, driverPool.getDriver());
+        try {
+            ScrapperRepository<K,E> repository = createRepository(driverPool);
+            repository.get(getExistentKey());
+            Assertions.assertSame(driver, driverPool.getDriver());
+        } finally {
+            DRIVER_POOL.returnDriver(driver);
+        }
     }
 
     @Test
@@ -130,14 +128,17 @@ public abstract class ScrapperRepositoryTests<K,E> {
         IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
             @Override
             public void returnDriver(WebDriver driver) throws DriverPoolException {
-                DRIVER_POOL.returnDriver(driver);
                 throw exception;
             }
         };
 
-        ScrapperRepository<K,E> repository = createRepository(driverPool);
-        Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
-        Assertions.assertSame(exception, returnedException.getCause());
+        try {
+            ScrapperRepository<K,E> repository = createRepository(driverPool);
+            Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
+            Assertions.assertSame(exception, returnedException.getCause());
+        } finally {
+            DRIVER_POOL.returnDriver(driver);
+        }
     }
 
     @Test
