@@ -85,8 +85,8 @@ public abstract class ScrapperRepositoryTests<K,E> {
 
     @Test
     public void shouldReturnDriverToPool() throws Exception {
-        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
-        IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
+        WebDriver driver = DRIVER_POOL.getDriver();
+        IDriverSupplier driverSupplier = () -> driver;
         IDriverPool driverPool = new DriverPool(driverSupplier, 1);
 
         try {
@@ -94,7 +94,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
             repository.get(getExistentKey());
             Assertions.assertSame(driver, driverPool.getDriver());
         } finally {
-            driverPool.close();
+            DRIVER_POOL.returnDriver(driver);
         }
     }
 
@@ -123,8 +123,8 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Test
     public void shouldWrapExceptionReturningDriverToPool() throws Exception {
         DriverPoolException exception = new DriverPoolException();
-        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
-        IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
+        WebDriver driver = DRIVER_POOL.getDriver();
+        IDriverSupplier driverSupplier = () -> driver;
         IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
             @Override
             public void returnDriver(WebDriver driver) throws DriverPoolException {
@@ -137,7 +137,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
             Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
             Assertions.assertSame(exception, returnedException.getCause());
         } finally {
-            driverPool.close();
+            DRIVER_POOL.returnDriver(driver);
         }
     }
 

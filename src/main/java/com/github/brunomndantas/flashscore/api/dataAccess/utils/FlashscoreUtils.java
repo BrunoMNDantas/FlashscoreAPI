@@ -19,7 +19,7 @@ public class FlashscoreUtils {
 
         WebElement showMoreLabel = showMoreLabels.stream().findFirst().get();
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showMoreLabel);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", showMoreLabel);
 
         showMoreLabel.click();
     }
@@ -33,7 +33,7 @@ public class FlashscoreUtils {
 
         WebElement showMoreLabel = showMoreLabels.stream().findFirst().get();
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showMoreLabel);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", showMoreLabel);
 
         showMoreLabel.click();
     }
@@ -50,7 +50,7 @@ public class FlashscoreUtils {
             }
 
             loadMoreElement = loadMoreElements.stream().findFirst().get();
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", loadMoreElement);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", loadMoreElement);
             loadMoreElement.click();
 
             Utils.sleep(Config.QUICK_WAIT);
