@@ -1,8 +1,27 @@
 # Flashscore API
 
+## Index
+
+- [Overview](#overview)
+- [Supported Sports](#supported-sports)
+- [Future Goals](#future-goals)
+- [Tech Stack](#tech-stack)
+- [UML Diagrams](#uml-diagrams)
+- [Deployment](#deployment)
+- [Setup & Installation](#setup--installation)
+    - [Prerequisites](#prerequisites)
+    - [Installation Steps](#installation-steps)
+    - [API Documentation](#api-documentation)
+- [License](#license)
+- [Contributors](#contributors)
+
 ## Overview
 
-Flashscore API is a Java-based web scraping application that extracts sports data from [Flashscore.com](https://www.flashscore.com). The API is implemented using **Spring Boot**, **Selenium**, and **Swagger** for documentation. The project is deployed using **Railway** and includes CI/CD automation with **GitHub Actions**.
+Flashscore API is a Java-based web scraping application that extracts sports data from [Flashscore.com](https://www.flashscore.com).
+
+The API is implemented using **Spring Boot**, **Selenium**, and **Swagger** for documentation. The project is deployed using **Railway** and includes CI/CD automation with **GitHub Actions**.
+
+You can explore the API [here](https://flashscoreapi-production.up.railway.app/swagger-ui/index.html#/).
 
 ## Supported Sports
 
@@ -135,3 +154,4 @@ This project is licensed under the GNU License - see the [LICENSE](LICENSE) file
 ## Contributors
 
 - [BrunoMNDantas](https://github.com/BrunoMNDantas)
+
