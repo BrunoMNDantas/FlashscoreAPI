@@ -1,5 +1,20 @@
 # Flashscore API
 
+## Index
+
+- [Overview](#overview)
+- [Supported Sports](#supported-sports)
+- [Future Goals](#future-goals)
+- [Tech Stack](#tech-stack)
+- [UML Diagrams](#uml-diagrams)
+- [Deployment](#deployment)
+- [Setup & Installation](#setup--installation)
+    - [Prerequisites](#prerequisites)
+    - [Installation Steps](#installation-steps)
+    - [API Documentation](#api-documentation)
+- [License](#license)
+- [Contributors](#contributors)
+
 ## Overview
 
 Flashscore API is a Java-based web scraping application that extracts sports data from [Flashscore.com](https://www.flashscore.com).
