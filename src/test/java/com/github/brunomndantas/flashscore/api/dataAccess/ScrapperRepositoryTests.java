@@ -85,17 +85,19 @@ public abstract class ScrapperRepositoryTests<K,E> {
 
     @Test
     public void shouldReturnDriverToPool() throws Exception {
-        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
-        IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
-        IDriverPool driverPool = new DriverPool(driverSupplier, 1);
+        WebDriver driver = DRIVER_POOL.getDriver();
+        IDriverSupplier driverSupplier = () -> driver;
+        IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
+            @Override
+            public void returnDriver(WebDriver driver) throws DriverPoolException {
+                DRIVER_POOL.returnDriver(driver);
+                super.returnDriver(driver);
+            }
+        };
 
-        try {
-            ScrapperRepository<K,E> repository = createRepository(driverPool);
-            repository.get(getExistentKey());
-            Assertions.assertSame(driver, driverPool.getDriver());
-        } finally {
-            driverPool.close();
-        }
+        ScrapperRepository<K,E> repository = createRepository(driverPool);
+        repository.get(getExistentKey());
+        Assertions.assertSame(driver, driverPool.getDriver());
     }
 
     @Test
@@ -123,22 +125,19 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Test
     public void shouldWrapExceptionReturningDriverToPool() throws Exception {
         DriverPoolException exception = new DriverPoolException();
-        WebDriver driver = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless).getDriver();
-        IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(() -> driver);
+        WebDriver driver = DRIVER_POOL.getDriver();
+        IDriverSupplier driverSupplier = () -> driver;
         IDriverPool driverPool = new DriverPool(driverSupplier, 1) {
             @Override
             public void returnDriver(WebDriver driver) throws DriverPoolException {
+                DRIVER_POOL.returnDriver(driver);
                 throw exception;
             }
         };
 
-        try {
-            ScrapperRepository<K,E> repository = createRepository(driverPool);
-            Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
-            Assertions.assertSame(exception, returnedException.getCause());
-        } finally {
-            driverPool.close();
-        }
+        ScrapperRepository<K,E> repository = createRepository(driverPool);
+        Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
+        Assertions.assertSame(exception, returnedException.getCause());
     }
 
     @Test
