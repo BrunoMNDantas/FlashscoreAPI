@@ -39,6 +39,9 @@ jobs:
       - name: Wait for Deploy to Railway Development
         run: ./deploy/scripts/wait_deploy_development.sh
         env:
+          PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          ENVIRONMENT_ID: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
           RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
 
   test_development:
