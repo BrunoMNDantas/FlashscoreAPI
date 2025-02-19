@@ -3,9 +3,6 @@ set -e
 
 # Railway API Configuration
 RAILWAY_API="https://backboard.railway.app/graphql/v2"
-PROJECT_ID="5824a4b7-2bd9-45dd-96a5-188788ca1720"
-SERVICE_ID="cb31c136-511d-4fb7-a7da-5b0e278e1677"
-ENVIRONMENT_ID="7d111a97-b938-4184-a351-a8237e553c98"
 
 # Configuration
 MAX_WAIT_MINUTES=5      # Maximum wait time in minutes
