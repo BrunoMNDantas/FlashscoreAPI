@@ -4,6 +4,6 @@ set -e
 echo "Running Gradle build and tests..."
 
 # Run Gradle build and tests from the project root
-./gradlew clean build test --tests "com.github.brunomndantas.flashscore.api.transversal.driverSupplier.*"
+./gradlew clean build test
 
 echo "Gradle build and tests completed!"
