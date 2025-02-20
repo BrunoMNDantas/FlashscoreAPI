@@ -24,7 +24,7 @@ jobs:
           chmod +x ./gradlew
 
       - name: Build Selenium environment
-        run: ./deploy/scripts/build_selenium_environment.sh
+        run: sudo ./deploy/scripts/build_selenium_environment.sh
 
       - name: Export Selenium environment variables
         run: |
