@@ -23,6 +23,15 @@ jobs:
           chmod +x ./deploy/scripts/*.sh
           chmod +x ./gradlew
 
+      - name: Build Selenium environment
+        run: ./deploy/scripts/build_selenium_environment.sh
+
+      - name: Export Selenium environment variables
+        run: |
+          echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
+          echo "CHROMEDRIVER_BIN=/usr/bin/chromedriver" >> $GITHUB_ENV
+          echo "DRIVER_PATH=/usr/bin/chromedriver" >> $GITHUB_ENV
+
       - name: Run Gradle Build and Tests
         run: ./deploy/scripts/test_code.sh
 
