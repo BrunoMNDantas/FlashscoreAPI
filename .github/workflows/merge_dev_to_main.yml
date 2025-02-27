@@ -10,9 +10,6 @@ on:
         description: "Unique identifier of the Telegram chat"
         required: true
 
-permissions:
-  contents: write
-
 jobs:
   notify_start:
     runs-on: ubuntu-latest
@@ -36,6 +33,7 @@ jobs:
         uses: ./.github/actions/merge_dev_to_main/
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
   notify_end:
     needs: merge
     runs-on: ubuntu-latest
