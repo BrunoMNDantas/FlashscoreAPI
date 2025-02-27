@@ -3,7 +3,6 @@ description: "Runs JUnit tests"
 
 runs:
   using: "composite"
-  timeout-minutes: 15
   steps:
     - name: Set Up Java
       uses: actions/setup-java@v3
@@ -19,12 +18,15 @@ runs:
 
     - name: Build Selenium environment
       run: sudo ./deploy/scripts/build_selenium_environment.sh
+      shell: bash
 
     - name: Export Selenium environment variables
       run: |
         echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
         echo "CHROMEDRIVER_BIN=/usr/bin/chromedriver" >> $GITHUB_ENV
         echo "DRIVER_PATH=/usr/bin/chromedriver" >> $GITHUB_ENV
+      shell: bash
 
     - name: Run Gradle Build and Tests
       run: ./gradlew clean build test
+      shell: bash
