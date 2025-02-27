@@ -38,17 +38,10 @@ jobs:
   wait_deployment:
     needs: notify_start
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Wait deployment
-        uses: ./.github/actions/wait_deployment/
-        with:
-          railway_api_key: ${{ secrets.railway_api_key }}
-          project_id: ${{ secrets.project_id }}
-          service_id: ${{ secrets.service_id }}
-          environment_id: ${{ secrets.environment_id }}
+      - name: Junit
+        run: exit 1
+        shell: bash
 
   notify_end:
     needs: wait_deployment
