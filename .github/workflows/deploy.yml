@@ -2,7 +2,8 @@ name: Deploy to Development then to Production
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - dev
 
 jobs:
   notify_start:
