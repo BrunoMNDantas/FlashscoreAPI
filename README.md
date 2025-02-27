@@ -186,4 +186,3 @@ This project is licensed under the GNU License - see the [LICENSE](LICENSE) file
 ## Contributors
 
 - [BrunoMNDantas](https://github.com/BrunoMNDantas)
-
