@@ -37,6 +37,7 @@ jobs:
 
   test_development:
     needs: wait_development_deploy
+    if: success()
     uses: ./.github/workflows/postman_tests.yml
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
