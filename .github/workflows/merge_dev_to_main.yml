@@ -9,9 +9,6 @@ on:
       chat_id:
         description: "Unique identifier of the Telegram chat"
         required: true
-      github_token:
-        description: "Token for Github API"
-        required: true
 
 jobs:
   notify_start:
