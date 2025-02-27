@@ -17,7 +17,7 @@ jobs:
 
   test_code:
     needs: notify_start
-    uses: .github/workflows/junit-tests.yml
+    uses: ./.github/workflows/junit-tests.yml
     with:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
@@ -35,7 +35,7 @@ jobs:
 
   test_development:
     needs: [wait_development_deploy]
-    uses: BrunoMNDantas/FlashscoreAPI/.github/workflows/postman-tests.yml@dev
+    uses: ./.github/workflows/postman-tests.yml@dev
     with:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
