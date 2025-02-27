@@ -85,6 +85,12 @@ jobs:
       - name: Install Newman (Postman CLI)
         run: npm install -g newman
 
+      - name: Debug Env Vars
+        run: |
+          echo "SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}"
+          echo "SCHEMA_URL=${{ secrets.DEVELOPMENT_SCHEMA_URL }}"
+    
+
       - name: Run Contract Tests on Development
         run: |
           newman run ./deploy/postman/contract_tests.postman_collection.json \
