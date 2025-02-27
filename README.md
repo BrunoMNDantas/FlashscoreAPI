@@ -36,7 +36,6 @@ Currently, the Flashscore API supports scraping data for the following sports:
 
 - Expand the number of supported sports:
   - 🏀 Basketball
-  - 🎾 Tennis
   - ⚾ Baseball
   - 🏈 American Football
   - 🏒 Ice Hockey
