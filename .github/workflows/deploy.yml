@@ -25,7 +25,7 @@ jobs:
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
 
   wait_development_deploy:
-    needs: [notify_start]
+    needs: notify_start
     uses: ./.github/workflows/wait_deployment.yml
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -36,7 +36,7 @@ jobs:
       environment_id: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
 
   test_development:
-    needs: [wait_development_deploy]
+    needs: wait_development_deploy
     uses: ./.github/workflows/postman_tests.yml
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
