@@ -18,7 +18,7 @@ jobs:
   test_development:
     needs: [ notify_start ]
     uses: ./.github/workflows/postman_tests.yml
-    with:
+    secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
       postman_api_key: ${{ secrets.POSTMAN_API_KEY }}
