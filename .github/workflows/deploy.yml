@@ -90,7 +90,7 @@ jobs:
           newman run ./deploy/postman/contract_tests.postman_collection.json \
           -e ./deploy/postman/contract_tests.postman_environment.json \
           --env-var 'env-apiKey=${{ secrets.POSTMAN_API_KEY }}' \
-          --env-var 'env-serverL=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
+          --env-var 'env-server=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
           --env-var 'env-schemaUrl=${{ secrets.DEVELOPMENT_SCHEMA_URL }}' \
           --reporters cli,junit \
           --reporter-junit-export results.xml
