@@ -22,10 +22,13 @@ on:
 jobs:
   notify_start:
     runs-on: ubuntu-latest
+    outputs:
+      message_id: ${{ steps.send_notification.outputs.new_message_id }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Notify start
+        id: send_notification
         uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ secrets.bot_token }}
@@ -67,4 +70,5 @@ jobs:
         with:
           bot_token: ${{ secrets.bot_token }}
           chat_id: ${{ secrets.chat_id }}
+          message_id: ${{ needs.notify_start.outputs.message_id }}
           message: "${{ env.MESSAGE }}"
