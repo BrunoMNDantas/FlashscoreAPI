@@ -89,9 +89,9 @@ jobs:
         run: |
           newman run ./deploy/postman/contract_tests.postman_collection.json \
           -e ./deploy/postman/contract_tests.postman_environment.json \
-          --env-var "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" \
-          --env-var "SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}" \
-          --env-var "SCHEMA_URL=${{ secrets.DEVELOPMENT_SCHEMA_URL }}" \
+          --env-var 'POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}' \
+          --env-var 'SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
+          --env-var 'SCHEMA_URL=${{ secrets.DEVELOPMENT_SCHEMA_URL }}' \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
@@ -99,7 +99,7 @@ jobs:
         run: |
           newman run ./deploy/postman/api_tests.postman_collection.json \
           -e ./deploy/postman/api_tests.postman_environment.json \
-          --env-var "SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}" \
+          --env-var 'SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
