@@ -35,6 +35,20 @@ jobs:
       service_id: ${{ secrets.RAILWAY_SERVICE_ID }}
       environment_id: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
 
+  aux:
+    needs: wait_development_deploy
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Print
+        run: |
+          if [ "${{ needs.wait_development_deploy.result == 'success' }}" ]; then
+            echo SUCCESS
+          else
+            echo FAIL
+          fi
+        shell: bash
+
   test_development:
     needs: wait_development_deploy
     uses: ./.github/workflows/postman_tests.yml
