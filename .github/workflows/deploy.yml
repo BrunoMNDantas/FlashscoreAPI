@@ -17,9 +17,60 @@ jobs:
           chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
           message: "🚀 Launching new deployment"
 
+  test_code:
+    needs: notify_start
+    uses: ./.github/workflows/junit_tests.yml
+    secrets:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+
+  wait_development_deploy:
+    needs: [notify_start]
+    uses: ./.github/workflows/wait_deployment.yml
+    secrets:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+      railway_api_key: ${{ secrets.RAILWAY_API_KEY }}
+      project_id: ${{ secrets.RAILWAY_PROJECT_ID }}
+      service_id: ${{ secrets.RAILWAY_SERVICE_ID }}
+      environment_id: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
+
+  test_development:
+    needs: [wait_development_deploy]
+    uses: ./.github/workflows/postman_tests.yml
+    secrets:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+      postman_api_key: ${{ secrets.POSTMAN_API_KEY }}
+      server_url: ${{ secrets.DEVELOPMENT_SERVER_URL }}
+      schema_url: ${{ secrets.DEVELOPMENT_SCHEMA_URL }}
+
   merge:
+    needs: [test_code, test_development]
     if: success()
     uses: ./.github/workflows/merge_dev_to_main.yml
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+
+  notify_end:
+    needs: [test_code, test_development, merge]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set result message
+        run: |
+          if [ "${{ needs.test_code.result == 'success' && needs.test_development.result == 'success' && needs.merge.result == 'success' }}" ]; then
+            echo "MESSAGE=✅ New version deployed successfully!" >> $GITHUB_ENV
+          else
+            echo "MESSAGE=❌ New version deployment failed!" >> $GITHUB_ENV
+          fi
+        shell: bash
+      - name: Notify end
+        uses: ./.github/actions/send_notification/
+        with:
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+          message: "${{ env.MESSAGE }}"
