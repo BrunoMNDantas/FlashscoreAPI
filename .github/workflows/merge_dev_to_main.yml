@@ -32,7 +32,7 @@ jobs:
       - name: Merge
         uses: ./.github/actions/merge_dev_to_main/
         with:
-          token_github: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
   notify_end:
     needs: merge
     runs-on: ubuntu-latest
