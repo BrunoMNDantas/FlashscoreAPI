@@ -2,8 +2,7 @@ name: Deploy to Development then to Production
 
 on:
   push:
-    branches:
-      - dev
+    branches: [dev]
 
 jobs:
   notify_start:
@@ -18,7 +17,7 @@ jobs:
 
   test_code:
     needs: notify_start
-    uses: ./.github/workflows/junit-tests.yml
+    uses: ./.github/workflows/junit_tests.yml
     with:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
@@ -36,7 +35,7 @@ jobs:
 
   test_development:
     needs: [wait_development_deploy]
-    uses: ./.github/workflows/postman-tests.yml
+    uses: ./.github/workflows/postman_tests.yml
     with:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
@@ -66,7 +65,7 @@ jobs:
             echo "MESSAGE=❌ New version deployment failed!" >> $GITHUB_ENV
         shell: bash
       - name: Notify end
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}

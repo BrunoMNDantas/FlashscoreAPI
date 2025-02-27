@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify start
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ inputs.bot_token }}
           chat_id: ${{ inputs.chat_id }}
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run tests
-        uses: ./.github/actions/postman-tests/
+        uses: ./.github/actions/postman_tests/
         with:
           postman_api_key: ${{ inputs.postman_api_key }}
           server_url: ${{ inputs.server_url }}
@@ -53,14 +53,14 @@ jobs:
     steps:
       - name: Set result message
         run: |
-          if [ "${{ needs.run-tests.result }}" == "success" ]; then
+          if [ "${{ needs.run_tests.result }}" == "success" ]; then
             echo "MESSAGE=⚙️ Postman tests completed successfully! ✅" >> $GITHUB_ENV
           else
             echo "MESSAGE=⚙️ Postman tests failed! ❌" >> $GITHUB_ENV
         shell: bash
 
       - name: Notify end
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ inputs.bot_token }}
           chat_id: ${{ inputs.chat_id }}

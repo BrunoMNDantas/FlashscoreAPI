@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify start
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ inputs.bot_token }}
           chat_id: ${{ inputs.chat_id }}
@@ -50,7 +50,7 @@ jobs:
         shell: bash
 
       - name: Notify end
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ inputs.bot_token }}
           chat_id: ${{ inputs.chat_id }}

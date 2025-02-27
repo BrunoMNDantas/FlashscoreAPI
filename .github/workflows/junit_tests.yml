@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify start
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ inputs.bot_token }}
           chat_id: ${{ inputs.chat_id }}
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run tests
-        uses: ./.github/actions/junit-tests/
+        uses: ./.github/actions/junit_tests/
 
   notify_end:
     needs: run_tests
@@ -37,14 +37,14 @@ jobs:
     steps:
       - name: Set result message
         run: |
-          if [ "${{ needs.run-tests.result }}" == "success" ]; then
+          if [ "${{ needs.run_tests.result }}" == "success" ]; then
             echo "MESSAGE=⚙️ JUnit tests completed successfully! ✅" >> $GITHUB_ENV
           else
             echo "MESSAGE=⚙️ JUnit tests failed! ❌" >> $GITHUB_ENV
         shell: bash
 
       - name: Notify end
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ inputs.bot_token }}
           chat_id: ${{ inputs.chat_id }}

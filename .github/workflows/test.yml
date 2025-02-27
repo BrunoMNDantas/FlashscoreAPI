@@ -17,7 +17,7 @@ jobs:
 
   test_development:
     needs: [ notify_start ]
-    uses: ./.github/workflows/postman-tests.yml
+    uses: ./.github/workflows/postman_tests.yml
     with:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
@@ -38,7 +38,7 @@ jobs:
             echo "MESSAGE=❌ Production tests failed!" >> $GITHUB_ENV
         shell: bash
       - name: Notify end
-        uses: ./.github/actions/send-notification/
+        uses: ./.github/actions/send_notification/
         with:
           bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}

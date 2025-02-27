@@ -6,7 +6,7 @@ runs:
   timeout-minutes: 15
   steps:
     - name: Setup repository
-      uses: ./.github/actions/setup-repository/
+      uses: ./.github/actions/setup_repository/
 
     - name: Set Up Java
       uses: actions/setup-java@v3
