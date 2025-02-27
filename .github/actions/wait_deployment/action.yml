@@ -1,0 +1,52 @@
+name: "Wait for Railway deployment"
+description: "Checks the status of the latest Railway deployment until completion."
+
+inputs:
+  railway_api_key:
+    description: "Railway API key for authentication"
+    required: true
+  project_id:
+    description: "Railway project ID"
+    required: true
+  service_id:
+    description: "Railway service ID"
+    required: true
+  environment_id:
+    description: "Railway environment ID"
+    required: true
+
+runs:
+  using: "composite"
+  timeout-minutes: 5
+  steps:
+    - name: Set Variables
+      shell: bash
+      run: |
+        echo "RAILWAY_API=https://backboard.railway.app/graphql/v2" >> $GITHUB_ENV
+
+    - name: Define deployment status function
+      shell: bash
+      run: |
+        echo 'check_deployment_status() {' >> check_status.sh
+        echo '  RESPONSE=$(curl -s -X POST "$RAILWAY_API" \' >> check_status.sh
+        echo '    -H "Content-Type: application/json" \' >> check_status.sh
+        echo '    -H "Authorization: Bearer ${{ inputs.railway_api_key }}" \' >> check_status.sh
+        echo '    --data-raw "{\"query\":\"{ deployments(input: { projectId: \\\"${{ inputs.project_id }}\\\", serviceId: \\\"${{ inputs.service_id }}\\\", environmentId: \\\"${{ inputs.environment_id }}\\\" }, first:1) { edges { node { status } } } }\"}"' >> check_status.sh
+        echo '  )' >> check_status.sh
+        echo '  echo "$RESPONSE" | jq -r ".data.deployments.edges[0].node.status"' >> check_status.sh
+        echo '}' >> check_status.sh
+        chmod +x check_status.sh
+
+    - name: Wait for Railway deployment
+      shell: bash
+      run: |
+        source check_status.sh
+        while true; do
+          STATUS=$(check_deployment_status)
+        
+          if [[ "$STATUS" == "SUCCESS" ]]; then
+            exit 0
+          fi
+        
+          sleep 10
+        done

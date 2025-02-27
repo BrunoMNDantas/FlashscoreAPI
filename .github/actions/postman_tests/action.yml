@@ -1,0 +1,46 @@
+name: "Postman Tests"
+description: "Runs Postman tests"
+
+inputs:
+  postman_api_key:
+    description: "Key for postman API"
+    required: true
+  server_url:
+    description: "Server's Url"
+    required: true
+  schema_url:
+    description: "Schema's Url"
+    required: true
+
+runs:
+  using: "composite"
+  timeout-minutes: 10
+  steps:
+    - name: Setup repository
+      uses: ./.github/actions/setup-repository/
+
+    - name: Set Up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Newman
+      run: npm install -g newman
+
+    - name: Run Contract Tests
+      run: |
+        newman run ./deploy/postman/contract_tests.postman_collection.json \
+        -e ./deploy/postman/contract_tests.postman_environment.json \
+        --env-var 'env-apiKey=${{ inputs.postman_api_key }}' \
+        --env-var 'env-server=${{ inputs.server_url }}' \
+        --env-var 'env-schemaUrl=${{ inputs.schema_url }}' \
+        --reporters cli,junit \
+        --reporter-junit-export results.xml
+
+    - name: Run API Tests
+      run: |
+        newman run ./deploy/postman/api_tests.postman_collection.json \
+        -e ./deploy/postman/api_tests.postman_environment.json \
+        --env-var 'baseUrl=${{ inputs.server_url }}' \
+        --reporters cli,junit \
+        --reporter-junit-export results.xml

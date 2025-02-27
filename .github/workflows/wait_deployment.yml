@@ -1,0 +1,72 @@
+name: "Wait for Deployment Workflow"
+
+on:
+  workflow_call:
+    inputs:
+      bot_token:
+        description: "The API token used to send messages via Telegram bot"
+        required: true
+        type: string
+      chat_id:
+        description: "Unique identifier of the Telegram chat"
+        required: true
+        type: string
+      railway_api_key:
+        description: "Railway API key for authentication"
+        required: true
+        type: string
+      project_id:
+        description: "Railway project ID"
+        required: true
+        type: string
+      service_id:
+        description: "Railway service ID"
+        required: true
+        type: string
+      environment_id:
+        description: "Railway environment ID"
+        required: true
+        type: string
+
+jobs:
+  notify_start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify start
+        uses: ./.github/actions/send-notification/
+        with:
+          bot_token: ${{ inputs.bot_token }}
+          chat_id: ${{ inputs.chat_id }}
+          message: "⚙️ Starting to wait for Deployment!"
+
+  wait_deployment:
+    needs: notify_start
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait deployment
+        uses: ./.github/actions/wait_deployment/
+        with:
+          railway_api_key: ${{ inputs.railway_api_key }}
+          project_id: ${{ inputs.project_id }}
+          service_id: ${{ inputs.service_id }}
+          environment_id: ${{ inputs.environment_id }}
+
+  notify_end:
+    needs: wait_deployment
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Set result message
+        run: |
+          if [ "${{ needs.wait_deployment.result }}" == "success" ]; then
+            echo "MESSAGE=⚙️ Railway Deployment completed successfully! ✅" >> $GITHUB_ENV
+          else
+            echo "MESSAGE=⚙️ Railway Deployment failed! ❌" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Notify end
+        uses: ./.github/actions/send-notification/
+        with:
+          bot_token: ${{ inputs.bot_token }}
+          chat_id: ${{ inputs.chat_id }}
+          message: "${{ env.MESSAGE }}"

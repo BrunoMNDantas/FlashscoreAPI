@@ -8,62 +8,38 @@ jobs:
   notify_start:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Set Execution Permissions
-        run: chmod +x ./deploy/scripts/*.sh
       - name: Notify start
-        run: ./deploy/scripts/notify.sh
-        env:
-          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
-          MESSAGE: "📈 Starting daily test to Production"
-
-  test_production:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set Up Node.js (For Newman)
-        uses: actions/setup-node@v3
+        uses: ./.github/actions/send_notification/
         with:
-          node-version: '18'
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
+          message: "📈 Starting daily test to Production"
 
-      - name: Install Newman (Postman CLI)
-        run: npm install -g newman
-
-      - name: Run Contract Tests on Production
-        run: |
-          newman run ./deploy/postman/contract_tests.postman_collection.json \
-          -e ./deploy/postman/contract_tests.postman_environment.json \
-          --env-var 'env-apiKey=${{ secrets.POSTMAN_API_KEY }}' \
-          --env-var 'env-server=${{ secrets.PRODUCTION_SERVER_URL }}' \
-          --env-var 'env-schemaUrl=${{ secrets.PRODUCTION_SCHEMA_URL }}' \
-          --reporters cli,junit \
-          --reporter-junit-export results.xml
-
-      - name: Run API Tests on Production
-        run: |
-          newman run ./deploy/postman/api_tests.postman_collection.json \
-          -e ./deploy/postman/api_tests.postman_environment.json \
-          --env-var 'baseUrl=${{ secrets.PRODUCTION_SERVER_URL }}' \
-          --reporters cli,junit \
-          --reporter-junit-export results.xml
+  test_development:
+    needs: [ notify_start ]
+    uses: ./.github/workflows/postman-tests.yml
+    with:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
+      postman_api_key: ${{ secrets.POSTMAN_API_KEY }}
+      server_url: ${{ secrets.PRODUCTION_SERVER_URL }}
+      schema_url: ${{ secrets.PRODUCTION_SCHEMA_URL }}
 
   notify_end:
     needs: [test_production]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Set Execution Permissions
-        run: chmod +x ./deploy/scripts/*.sh
-      - name: Notify completion
-        run: ./deploy/scripts/notify.sh
-        env:
-          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
-          MESSAGE: "${{ needs.test_production.result == 'success' && '✅ Production tests passed!' || '❌ Production tests failed!' }}"
+      - name: Set result message
+        run: |
+          if [ "${{ needs.test_production.result == 'success' }}" ]; then
+            echo "MESSAGE=✅ Production tests passed!" >> $GITHUB_ENV
+          else
+            echo "MESSAGE=❌ Production tests failed!" >> $GITHUB_ENV
+        shell: bash
+      - name: Notify end
+        uses: ./.github/actions/send-notification/
+        with:
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
+          message: "${{ env.MESSAGE }}"

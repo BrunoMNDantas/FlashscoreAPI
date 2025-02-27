@@ -8,124 +8,65 @@ jobs:
   notify_start:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Set Execution Permissions
-        run: chmod +x ./deploy/scripts/*.sh
       - name: Notify start
-        run: ./deploy/scripts/notify.sh
-        env:
-          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
-          MESSAGE: "🚀 Launching new deployment"
+        uses: ./.github/actions/send_notification/
+        with:
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+          message: "🚀 Launching new deployment"
 
   test_code:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set Up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Set Execution Permissions
-        run: |
-          chmod +x ./deploy/scripts/*.sh
-          chmod +x ./gradlew
-
-      - name: Build Selenium environment
-        run: sudo ./deploy/scripts/build_selenium_environment.sh
-
-      - name: Export Selenium environment variables
-        run: |
-          echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
-          echo "CHROMEDRIVER_BIN=/usr/bin/chromedriver" >> $GITHUB_ENV
-          echo "DRIVER_PATH=/usr/bin/chromedriver" >> $GITHUB_ENV
-
-      - name: Run Gradle Build and Tests
-        run: ./deploy/scripts/test_code.sh
+    needs: notify_start
+    uses: ./.github/workflows/junit-tests.yml
+    with:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
 
   wait_development_deploy:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set Execution Permissions
-        run: chmod +x ./deploy/scripts/*.sh
-
-      - name: Wait for Deploy to Railway Development
-        run: ./deploy/scripts/wait_deploy_development.sh
-        env:
-          PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
-          ENVIRONMENT_ID: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+    needs: [notify_start]
+    uses: ./.github/workflows/wait_deployment.yml
+    with:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+      railway_api_key: ${{ secrets.RAILWAY_API_KEY }}
+      project_id: ${{ secrets.RAILWAY_PROJECT_ID }}
+      service_id: ${{ secrets.RAILWAY_SERVICE_ID }}
+      environment_id: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
 
   test_development:
-    needs: wait_development_deploy
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    needs: [wait_development_deploy]
+    uses: ./.github/workflows/postman-tests.yml
+    with:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+      postman_api_key: ${{ secrets.POSTMAN_API_KEY }}
+      server_url: ${{ secrets.DEVELOPMENT_SERVER_URL }}
+      schema_url: ${{ secrets.DEVELOPMENT_SCHEMA_URL }}
 
-      - name: Set Up Node.js (For Newman)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install Newman (Postman CLI)
-        run: npm install -g newman
-
-      - name: Run Contract Tests on Development
-        run: |
-          newman run ./deploy/postman/contract_tests.postman_collection.json \
-          -e ./deploy/postman/contract_tests.postman_environment.json \
-          --env-var 'env-apiKey=${{ secrets.POSTMAN_API_KEY }}' \
-          --env-var 'env-server=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
-          --env-var 'env-schemaUrl=${{ secrets.DEVELOPMENT_SCHEMA_URL }}' \
-          --reporters cli,junit \
-          --reporter-junit-export results.xml
-
-      - name: Run API Tests on Development
-        run: |
-          newman run ./deploy/postman/api_tests.postman_collection.json \
-          -e ./deploy/postman/api_tests.postman_environment.json \
-          --env-var 'baseUrl=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
-          --reporters cli,junit \
-          --reporter-junit-export results.xml
-
-  merge_if_success:
+  merge:
     needs: [test_code, test_development]
-    runs-on: ubuntu-latest
     if: success()
-    steps:
-      - name: Merge dev into main
-        uses: devmasx/merge-branch@v1.4.0
-        with:
-          type: now
-          from_branch: dev
-          target_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: ./.github/workflows/merge_dev_to_main.yml
+    with:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+      github_token: ${{ secrets.GITHUB_TOKEN }}
 
   notify_end:
-    needs: [test_code, test_development, merge_if_success]
+    needs: [test_code, test_development, merge]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Set Execution Permissions
-        run: chmod +x ./deploy/scripts/*.sh
-      - name: Notify completion
-        run: ./deploy/scripts/notify.sh
-        env:
-          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
-          MESSAGE: "${{ needs.test_code.result == 'success' && needs.test_development.result == 'success' && needs.merge_if_success.result == 'success' && '✅ New version deployed successfully!' || '❌ New version deployment failed!' }}"
+      - name: Set result message
+        run: |
+          if [ "${{ needs.test_code.result == 'success' && needs.test_development.result == 'success' && needs.merge.result == 'success' }}" ]; then
+            echo "MESSAGE=✅ New version deployed successfully!" >> $GITHUB_ENV
+          else
+            echo "MESSAGE=❌ New version deployment failed!" >> $GITHUB_ENV
+        shell: bash
+      - name: Notify end
+        uses: ./.github/actions/send-notification/
+        with:
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+          message: "${{ env.MESSAGE }}"

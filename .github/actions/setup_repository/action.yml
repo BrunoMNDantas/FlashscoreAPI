@@ -1,0 +1,14 @@
+name: "Setup Repository"
+description: "Checks out repository and sets execution permissions"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set Execution Permissions
+      run: |
+        chmod +x ./deploy/scripts/*.sh
+        chmod +x ./gradlew
+      shell: bash
