@@ -133,6 +133,14 @@ Both workflows use the following GitHub Secrets for authentication and configura
   - `RAILWAY_SERVICE_ID` - The identifier of the specific Railway service being deployed.
   - `RAILWAY_ENVIRONMENT_ID` - The identifier for the environment where the service is deployed.
 
+- **Postman & API Secrets:**
+
+  - `POSTMAN_API_KEY` - API key used to authenticate Postman requests.
+  - `PRODUCTION_SERVER_URL` - The base URL of the production server.
+  - `PRODUCTION_SCHEMA_URL` - The schema URL of the production server.
+  - `DEVELOPMENT_SERVER_URL` - The base URL of the development server.
+  - `DEVELOPMENT_SCHEMA_URL` - The schema URL of the development server.
+
 These secrets are stored in GitHub and used within workflows to manage deployments and notifications.
 
 You can access the API documentation for the production environment [here](https://flashscoreapi-production.up.railway.app/swagger-ui/index.html#/), and for the development environment [here](https://flashscoreapi-development.up.railway.app/swagger-ui/index.html#/).
