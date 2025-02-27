@@ -85,10 +85,17 @@ jobs:
       - name: Install Newman (Postman CLI)
         run: npm install -g newman
 
-      - name: Run Postman Tests on Development
+      - name: Run Contract Postman Tests on Development
         run: |
-          newman run ./deploy/postman/tests.postman_collection.json \
-          -e ./deploy/postman/development.postman_environment.json \
+          newman run ./deploy/postman/tests_contract.postman_collection.json \
+          -e ./deploy/postman/test_contract_development.postman_environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export results.xml
+
+      - name: Run API Postman Tests on Development
+        run: |
+          newman run ./deploy/postman/tests_api.postman_collection.json \
+          -e ./deploy/postman/test_api_development.postman_environment.json \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
