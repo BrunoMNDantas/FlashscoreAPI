@@ -15,11 +15,9 @@ jobs:
       - name: Notify start
         run: ./deploy/scripts/notify.sh
         env:
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
           MESSAGE: "🚀 Launching new deployment"
-          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
-          TWILIO_NOTIFY_NUMBER: ${{ secrets.TWILIO_NOTIFY_NUMBER }}
 
   test_code:
     runs-on: ubuntu-latest
@@ -128,8 +126,6 @@ jobs:
       - name: Notify completion
         run: ./deploy/scripts/notify.sh
         env:
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
           MESSAGE: "${{ needs.test_code.result == 'success' && needs.test_development.result == 'success' && needs.merge_if_success.result == 'success' && '✅ New version deployed successfully!' || '❌ New version deployment failed!' }}"
-          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
-          TWILIO_NOTIFY_NUMBER: ${{ secrets.TWILIO_NOTIFY_NUMBER }}
