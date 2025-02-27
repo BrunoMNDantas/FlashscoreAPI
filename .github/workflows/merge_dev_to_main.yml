@@ -9,9 +9,6 @@ on:
       chat_id:
         description: "Unique identifier of the Telegram chat"
         required: true
-      token_github:
-        description: "Token for Github API"
-        required: true
 
 jobs:
   notify_start:
@@ -35,7 +32,7 @@ jobs:
       - name: Merge
         uses: ./.github/actions/merge_dev_to_main/
         with:
-          token_github: ${{ secrets.token_github }}
+          token_github: ${{ secrets.GITHUB_TOKEN }}
   notify_end:
     needs: merge
     runs-on: ubuntu-latest

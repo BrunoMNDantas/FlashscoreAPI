@@ -23,4 +23,3 @@ jobs:
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
-      token_github: ${{ secrets.GITHUB_TOKEN }}
