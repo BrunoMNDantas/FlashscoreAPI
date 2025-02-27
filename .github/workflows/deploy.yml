@@ -17,7 +17,7 @@ jobs:
 
   test_code:
     needs: notify_start
-    uses: BrunoMNDantas/FlashscoreAPI/.github/workflows/junit-tests.yml@dev
+    uses: .github/workflows/junit-tests.yml
     with:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}

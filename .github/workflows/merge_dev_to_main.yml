@@ -11,10 +11,10 @@ on:
         description: "Unique identifier of the Telegram chat"
         required: true
         type: string
-    github_token:
-      description: "Token for Github API"
-      required: true
-      type: string
+      github_token:
+        description: "Token for Github API"
+        required: true
+        type: string
 
 jobs:
   notify_start:
