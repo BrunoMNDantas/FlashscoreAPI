@@ -1,0 +1,82 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.2'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.github.brunomndantas'
+version = '1.0.0'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//REST ASSURED
+	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation 'io.rest-assured:json-path:5.4.0'
+	testImplementation 'io.rest-assured:xml-path:5.4.0'
+
+	//MOCKITO
+	testImplementation 'org.mockito:mockito-core:5.7.0'
+	testImplementation 'org.mockito:mockito-junit-jupiter:5.7.0'
+
+	//LOMBOK
+	compileOnly 'org.projectlombok:lombok:1.18.36'
+	annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+	//TPL4J
+	implementation group: 'com.github.brunomndantas', name: 'tpl4j', version: '1.2.1'
+
+	//Repository4J
+	implementation group: 'com.github.brunomndantas', name: 'repository4j', version: '1.0.0'
+
+	//JScrapper
+	implementation group: 'com.github.brunomndantas', name: 'jscrapper', version: '1.1.1'
+
+	//COMMONS IO
+	implementation 'commons-io:commons-io:2.11.0'
+
+	//APACHE COMMONS
+	implementation 'org.apache.commons:commons-text:1.10.0'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+	//HIBERNATE VALIDATOR
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+
+	//JAKARTA
+	implementation 'jakarta.el:jakarta.el-api:5.0.1'
+
+	//SELENIUM
+	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-remote-driver:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-firefox-driver:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-edge-driver:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-ie-driver:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-safari-driver:3.141.59'
+	implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
+
+	//SWAGGER
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+	//API COMMON
+	implementation 'com.google.api:api-common:2.14.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
