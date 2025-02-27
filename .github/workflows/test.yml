@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Set result message
         run: |
-          if [ "${{ needs.test_production.result == 'success' }}" ]; then
+          if [ "${{ needs.test_production.result }}" == "success" ]; then
             echo "MESSAGE=✅ Daily tests to Production passed" >> $GITHUB_ENV
           else
             echo "MESSAGE=❌ Daily tests to Production failed" >> $GITHUB_ENV

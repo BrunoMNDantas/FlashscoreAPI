@@ -26,10 +26,12 @@ jobs:
   run_tests:
     needs: notify_start
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Junit
-        run: echo JUnit
-        shell: bash
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Run tests
+        uses: ./.github/actions/junit_tests/
 
   notify_end:
     needs: run_tests

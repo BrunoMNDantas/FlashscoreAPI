@@ -27,9 +27,12 @@ jobs:
     needs: notify_start
     runs-on: ubuntu-latest
     steps:
-      - name: Junit
-        run: echo Merge
-        shell: bash
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Merge
+        uses: ./.github/actions/merge_dev_to_main/
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   notify_end:
     needs: merge

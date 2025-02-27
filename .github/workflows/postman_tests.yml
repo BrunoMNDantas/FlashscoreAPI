@@ -35,10 +35,16 @@ jobs:
   run_tests:
     needs: notify_start
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Junit
-        run: echo Postman
-        shell: bash
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Run tests
+        uses: ./.github/actions/postman_tests/
+        with:
+          postman_api_key: ${{ secrets.postman_api_key }}
+          server_url: ${{ secrets.server_url }}
+          schema_url: ${{ secrets.schema_url }}
 
   notify_end:
     needs: run_tests
