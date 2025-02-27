@@ -23,9 +23,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Print
-      run: echo "${{ inputs.message_id }}"
-      shell: bash
     - name: Send or Edit Notification
       id: send_message
       run: |
