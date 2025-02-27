@@ -8,8 +8,8 @@
 - [Tech Stack](#tech-stack)
 - [UML Diagrams](#uml-diagrams)
 - [Deployment](#deployment)
-  - [Deployment Workflow (](#deployment-workflow-deployyml)[`deploy.yml`](#deployment-workflow-deployyml)[)](#deployment-workflow-deployyml)
-  - [Testing Workflow (](#testing-workflow-testyml)[`test.yml`](#testing-workflow-testyml)[)](#testing-workflow-testyml)
+  - [Deployment Workflow (`deploy.yml`)](#deployment-workflow-deployyml)
+  - [Testing Workflow (`test.yml`)](#testing-workflow-testyml)
   - [GitHub Secrets](#github-secrets)
 - [Setup & Installation](#setup--installation)
   - [Prerequisites](#prerequisites)
@@ -48,7 +48,7 @@ Currently, the Flashscore API supports scraping data for the following sports:
 - **Backend:** Java, Spring Boot, Swagger
 - **Containerization:** Docker
 - **Web Scraping:** Selenium
-- **CI/CD:** GitHub Actions, Railway, Twilio
+- **CI/CD:** GitHub Actions, Railway, Telegram
 - **Testing:** JUnit, Postman
 
 ## UML Diagrams
@@ -107,34 +107,30 @@ The project uses **GitHub Actions** and **Railway** for automated deployment and
 - JUnit tests and Postman tests run after the development deployment.
 - If all tests pass, the code is automatically merged into `main`.
 - Pushing to `main` triggers deployment to the **production** environment on Railway.
-- A job inside this workflow notifies WhatsApp via Twilio of the start and finish of the deployment process.
+- A job inside this workflow notifies Telegram of the start and finish of the deployment process.
 
 ### Testing Workflow (`test.yml`)
 
 - A scheduled workflow runs daily to test the **production** environment.
 - This ensures the API remains operational and detects potential issues early.
-- A job inside this workflow notifies WhatsApp via Twilio of the start and finish of the testing process.
+- A job inside this workflow notifies Telegram of the start and finish of the testing process.
 
 ### GitHub Secrets
 
 Both workflows use the following GitHub Secrets for authentication and configuration:
 
-- **Twilio Secrets:**
-
-  - `TWILIO_ACCOUNT_SID` - The account identifier for Twilio API access.
-  - `TWILIO_AUTH_TOKEN` - Authentication token required to authenticate API requests.
-  - `TWILIO_WHATSAPP_NUMBER` - The Twilio phone number used to send WhatsApp notifications.
-  - `TWILIO_NOTIFY_NUMBER` - The recipient phone number for WhatsApp notifications.
+- **Telegram Secrets:**
+  - `TELEGRAM_BOT_TOKEN` - The API token used to send messages via Telegram bot.
+  - `TELEGRAM_DEPLOYMENT_CHAT_ID` - The chat ID for deployment notifications.
+  - `TELEGRAM_PRODUCTION_CHAT_ID` - The chat ID for production notifications.
 
 - **Railway Secrets:**
-
   - `RAILWAY_API_KEY` - API key used to authenticate and deploy the application on Railway.
   - `RAILWAY_PROJECT_ID` - The unique identifier of the Railway project.
   - `RAILWAY_SERVICE_ID` - The identifier of the specific Railway service being deployed.
   - `RAILWAY_ENVIRONMENT_ID` - The identifier for the environment where the service is deployed.
 
 - **Postman & API Secrets:**
-
   - `POSTMAN_API_KEY` - API key used to authenticate Postman requests.
   - `PRODUCTION_SERVER_URL` - The base URL of the production server.
   - `PRODUCTION_SCHEMA_URL` - The schema URL of the production server.
@@ -193,3 +189,4 @@ This project is licensed under the GNU License - see the [LICENSE](LICENSE) file
 ## Contributors
 
 - [BrunoMNDantas](https://github.com/BrunoMNDantas)
+
