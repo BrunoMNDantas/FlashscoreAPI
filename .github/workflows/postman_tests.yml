@@ -50,7 +50,7 @@ jobs:
           schema_url: ${{ secrets.schema_url }}
 
   notify_end:
-    needs: run_tests
+    needs: [ notify_start, run_tests ]
     runs-on: ubuntu-latest
     if: always()
     steps:

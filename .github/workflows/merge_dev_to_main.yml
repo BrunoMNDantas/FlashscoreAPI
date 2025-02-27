@@ -38,7 +38,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   notify_end:
-    needs: merge
+    needs: [ notify_start, merge ]
     runs-on: ubuntu-latest
     if: always()
     steps:
