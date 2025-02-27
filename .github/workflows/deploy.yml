@@ -1,0 +1,124 @@
+name: Deploy to Development then to Production
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  notify_start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+      - name: Notify start
+        run: ./deploy/scripts/notify.sh
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          MESSAGE: "🚀 Launching new deployment"
+          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
+          TWILIO_NOTIFY_NUMBER: ${{ secrets.TWILIO_NOTIFY_NUMBER }}
+
+  test_code:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set Execution Permissions
+        run: |
+          chmod +x ./deploy/scripts/*.sh
+          chmod +x ./gradlew
+
+      - name: Build Selenium environment
+        run: sudo ./deploy/scripts/build_selenium_environment.sh
+
+      - name: Export Selenium environment variables
+        run: |
+          echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
+          echo "CHROMEDRIVER_BIN=/usr/bin/chromedriver" >> $GITHUB_ENV
+          echo "DRIVER_PATH=/usr/bin/chromedriver" >> $GITHUB_ENV
+
+      - name: Run Gradle Build and Tests
+        run: ./deploy/scripts/test_code.sh
+
+  wait_development_deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+
+      - name: Wait for Deploy to Railway Development
+        run: ./deploy/scripts/wait_deploy_development.sh
+        env:
+          PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          ENVIRONMENT_ID: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+
+  test_development:
+    needs: wait_development_deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js (For Newman)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Tests on Development
+        run: |
+          newman run ./deploy/postman/tests.postman_collection.json \
+          -e ./deploy/postman/development.postman_environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export results.xml
+
+  merge_if_success:
+    needs: [test_code, test_development]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Merge dev into main
+        uses: devmasx/merge-branch@v1.4.0
+        with:
+          type: now
+          from_branch: dev
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  notify_end:
+    needs: [test_code, test_development, merge_if_success]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+      - name: Notify completion
+        run: ./deploy/scripts/notify.sh
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          MESSAGE: "${{ needs.test_code.result == 'success' && needs.test_development.result == 'success' && needs.merge_if_success.result == 'success' && '✅ New version deployed successfully!' || '❌ New version deployment failed!' }}"
+          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
+          TWILIO_NOTIFY_NUMBER: ${{ secrets.TWILIO_NOTIFY_NUMBER }}

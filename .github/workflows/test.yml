@@ -1,0 +1,62 @@
+name: Test Production
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  notify_start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+      - name: Notify start
+        run: ./deploy/scripts/notify.sh
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          MESSAGE: "📈 Starting daily test to Production"
+          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
+          TWILIO_NOTIFY_NUMBER: ${{ secrets.TWILIO_NOTIFY_NUMBER }}
+
+  test_production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js (For Newman)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Tests on Development
+        run: |
+          newman run ./deploy/postman/tests.postman_collection.json \
+          -e ./deploy/postman/production.postman_environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export results.xml
+
+  notify_end:
+    needs: [test_production]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set Execution Permissions
+        run: chmod +x ./deploy/scripts/*.sh
+      - name: Notify completion
+        run: ./deploy/scripts/notify.sh
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          MESSAGE: "${{ needs.test_production.result == 'success' && '✅ Production tests passed!' || '❌ Production tests failed!' }}"
+          TWILIO_WHATSAPP_NUMBER: ${{ secrets.TWILIO_WHATSAPP_NUMBER }}
+          TWILIO_NOTIFY_NUMBER: ${{ secrets.TWILIO_NOTIFY_NUMBER }}
