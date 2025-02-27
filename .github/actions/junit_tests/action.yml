@@ -5,14 +5,17 @@ runs:
   using: "composite"
   timeout-minutes: 15
   steps:
-    - name: Setup repository
-      uses: ./.github/actions/setup_repository/
-
     - name: Set Up Java
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
+
+    - name: Set Execution Permissions
+      run: |
+        chmod +x ./deploy/scripts/*.sh
+        chmod +x ./gradlew
+      shell: bash
 
     - name: Build Selenium environment
       run: sudo ./deploy/scripts/build_selenium_environment.sh

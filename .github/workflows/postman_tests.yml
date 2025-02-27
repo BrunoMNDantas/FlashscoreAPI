@@ -23,6 +23,8 @@ jobs:
   notify_start:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Notify start
         uses: ./.github/actions/send_notification/
         with:
@@ -34,6 +36,8 @@ jobs:
     needs: notify_start
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Run tests
         uses: ./.github/actions/postman_tests/
         with:
@@ -46,6 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Set result message
         run: |
           if [ "${{ needs.run_tests.result }}" == "success" ]; then

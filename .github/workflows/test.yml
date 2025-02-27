@@ -8,6 +8,8 @@ jobs:
   notify_start:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Notify start
         uses: ./.github/actions/send_notification/
         with:
@@ -30,6 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Set result message
         run: |
           if [ "${{ needs.test_production.result == 'success' }}" ]; then

@@ -16,9 +16,6 @@ runs:
   using: "composite"
   timeout-minutes: 10
   steps:
-    - name: Setup repository
-      uses: ./.github/actions/setup_repository/
-
     - name: Set Up Node.js
       uses: actions/setup-node@v3
       with:
