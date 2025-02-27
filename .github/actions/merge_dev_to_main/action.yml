@@ -1,11 +1,6 @@
 name: "Merge Dev to Main"
 description: "Merges dev branch with main branch"
 
-inputs:
-  github_token:
-    description: "Token for Github API"
-    required: true
-
 runs:
   using: "composite"
   steps:
@@ -15,4 +10,4 @@ runs:
         type: now
         from_branch: dev
         target_branch: main
-        github_token: ${{ inputs.github_token }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
