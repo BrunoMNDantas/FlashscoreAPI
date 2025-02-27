@@ -5,6 +5,10 @@ import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competit
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +27,9 @@ public class CompetitionController {
 
 
     @GetMapping(Routes.COMPETITION_ROUTE)
+    @Operation(summary = "Get competition by key", description = "Returns the competition with the given key if found, otherwise returns 404")
+    @ApiResponse(responseCode = "200", description = "Competition found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Competition.class)))
+    @ApiResponse(responseCode = "404", description = "Competition not found", content = @Content(mediaType = "text/plain"))
     public Competition getCompetition(@PathVariable String sportId, @PathVariable String regionId, @PathVariable String competitionId) throws RepositoryException {
         return repository.get(new CompetitionKey(sportId, regionId, competitionId));
     }

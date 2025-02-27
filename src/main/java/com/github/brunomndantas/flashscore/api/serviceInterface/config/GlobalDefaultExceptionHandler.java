@@ -23,7 +23,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     @ExceptionHandler(NonExistentEntityException.class)
     public ResponseEntity<Object> handleNotFound(NonExistentEntityException ex, WebRequest request) {
         log.error("Non existent entity requested", ex);
-        return handleExceptionInternal(ex, "Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, "", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
 }

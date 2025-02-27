@@ -1,5 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.player;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,11 +16,13 @@ public class PlayerKey {
     @NotNull
     @NotEmpty
     @NotBlank
+    @Schema(description = "Name identifier for the player", example = "gyokeres-viktor")
     private String playerName;
 
     @NotNull
     @NotEmpty
     @NotBlank
+    @Schema(description = "Unique identifier for the player", example = "zaBZ1xIk")
     private String playerId;
 
 }

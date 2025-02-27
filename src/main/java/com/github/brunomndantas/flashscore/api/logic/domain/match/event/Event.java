@@ -17,18 +17,22 @@ import lombok.NoArgsConstructor;
 public class Event {
 
     @NotNull
+    @Schema(description = "Type of the event", example = "GOAL")
     private EventType type;
 
     @Min(0)
     @Max(150)
+    @Schema(description = "Minute in which the event occurred", example = "29")
     private int minute;
 
     @Min(0)
     @Max(30)
+    @Schema(description = "Extra minute in which the event occurred", example = "0")
     private int extraMinute;
 
     @NotNull
     @Valid
+    @Schema(description = "Unique identifier for the team", example = "{\"teamName\": \"sporting-lisbon\",\"teamId\": \"tljXuHBC\"}")
     private TeamKey teamKey;
 
 }
