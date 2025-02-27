@@ -85,19 +85,13 @@ jobs:
       - name: Install Newman (Postman CLI)
         run: npm install -g newman
 
-      - name: Debug Env Vars
-        run: |
-          echo "SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}"
-          echo "SCHEMA_URL=${{ secrets.DEVELOPMENT_SCHEMA_URL }}"
-    
-
       - name: Run Contract Tests on Development
         run: |
           newman run ./deploy/postman/contract_tests.postman_collection.json \
           -e ./deploy/postman/contract_tests.postman_environment.json \
-          --env-var 'POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}' \
-          --env-var 'SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
-          --env-var 'SCHEMA_URL=${{ secrets.DEVELOPMENT_SCHEMA_URL }}' \
+          --env-var 'env-apiKey=${{ secrets.POSTMAN_API_KEY }}' \
+          --env-var 'env-serverL=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
+          --env-var 'env-schemaUrl=${{ secrets.DEVELOPMENT_SCHEMA_URL }}' \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
@@ -105,7 +99,7 @@ jobs:
         run: |
           newman run ./deploy/postman/api_tests.postman_collection.json \
           -e ./deploy/postman/api_tests.postman_environment.json \
-          --env-var 'SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
+          --env-var 'baseUrl=${{ secrets.DEVELOPMENT_SERVER_URL }}' \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
