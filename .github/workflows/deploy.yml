@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Set result message
         run: |
-          if [ "${{ needs.test_code.result }}" == "success" && "${{ needs.test_development.result }}" == "success" && "${{ needs.merge.result }}" == "success" }}" ]; then
+          if [ "${{ needs.test_code.result }}" == "success" && "${{ needs.test_development.result }}" == "success" && "${{ needs.merge.result }}" == "success" ]; then
             echo "MESSAGE=✅ New version deployed successfully" >> $GITHUB_ENV
           else
             echo "MESSAGE=❌ New version deployment failed" >> $GITHUB_ENV
