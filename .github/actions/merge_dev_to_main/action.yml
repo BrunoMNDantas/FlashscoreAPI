@@ -15,4 +15,4 @@ runs:
         type: now
         from_branch: dev
         target_branch: main
-        token_github: ${{ inputs.github_token }}
+        github_token: ${{ inputs.github_token }}
