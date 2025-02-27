@@ -19,8 +19,9 @@ jobs:
     needs: notify_start
     uses: ./.github/workflows/junit_tests.yml
     with:
-      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+    secrets:
+      bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
   wait_development_deploy:
     needs: [notify_start]
