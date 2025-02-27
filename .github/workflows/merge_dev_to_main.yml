@@ -31,7 +31,7 @@ jobs:
       - name: Merge
         uses: ./.github/actions/merge_dev_to_main/
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   notify_end:
     needs: merge

@@ -50,7 +50,6 @@ jobs:
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
-      github_token: ${{ secrets.GITHUB_TOKEN }}
 
   notify_end:
     needs: [test_code, test_development, merge]
