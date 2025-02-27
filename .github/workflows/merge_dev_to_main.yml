@@ -38,13 +38,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   notify_end:
-    needs: [ notify_start, merge ]
+    needs: merge
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Print
-        run: echo  "${{ needs.notify_start.outputs.message_id }}"
-        shell: bash
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Set result message

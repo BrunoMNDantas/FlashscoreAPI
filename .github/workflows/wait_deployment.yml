@@ -54,10 +54,12 @@ jobs:
           environment_id: ${{ secrets.environment_id }}
 
   notify_end:
-    needs: wait_deployment
+    needs: [ notify_start, wait_deployment ]
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - name: Print
+        run: echo  "${{ needs.notify_start.outputs.message_id }}"
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Set result message
