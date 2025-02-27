@@ -41,12 +41,7 @@ jobs:
     if: always()
     steps:
       - name: Print
-        run: |
-          if [ "${{ needs.wait_development_deploy.result == 'success' }}" ]; then
-            echo SUCCESS
-          else
-            echo FAIL
-          fi
+        run: echo ${{ needs.wait_development_deploy.result }}
         shell: bash
 
   test_development:
