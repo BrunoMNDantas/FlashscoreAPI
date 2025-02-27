@@ -46,6 +46,7 @@ jobs:
             echo "MESSAGE=⚙️ JUnit tests completed successfully! ✅" >> $GITHUB_ENV
           else
             echo "MESSAGE=⚙️ JUnit tests failed! ❌" >> $GITHUB_ENV
+          fi
         shell: bash
 
       - name: Notify end

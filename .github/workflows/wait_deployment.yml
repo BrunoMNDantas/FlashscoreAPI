@@ -63,6 +63,7 @@ jobs:
             echo "MESSAGE=⚙️ Railway Deployment completed successfully! ✅" >> $GITHUB_ENV
           else
             echo "MESSAGE=⚙️ Railway Deployment failed! ❌" >> $GITHUB_ENV
+          fi
         shell: bash
 
       - name: Notify end

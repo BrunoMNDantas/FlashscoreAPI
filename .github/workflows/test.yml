@@ -40,6 +40,7 @@ jobs:
             echo "MESSAGE=✅ Production tests passed!" >> $GITHUB_ENV
           else
             echo "MESSAGE=❌ Production tests failed!" >> $GITHUB_ENV
+          fi
         shell: bash
       - name: Notify end
         uses: ./.github/actions/send_notification/

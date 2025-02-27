@@ -66,6 +66,7 @@ jobs:
             echo "MESSAGE=✅ New version deployed successfully!" >> $GITHUB_ENV
           else
             echo "MESSAGE=❌ New version deployment failed!" >> $GITHUB_ENV
+          fi
         shell: bash
       - name: Notify end
         uses: ./.github/actions/send_notification/

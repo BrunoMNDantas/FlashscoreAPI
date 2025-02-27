@@ -45,6 +45,7 @@ jobs:
             echo "MESSAGE=⚙️ Merge dev to main completed successfully! ✅" >> $GITHUB_ENV
           else
             echo "MESSAGE=⚙️ Merge dev to main failed! ❌" >> $GITHUB_ENV
+          fi
         shell: bash
 
       - name: Notify end
