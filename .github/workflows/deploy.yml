@@ -85,17 +85,21 @@ jobs:
       - name: Install Newman (Postman CLI)
         run: npm install -g newman
 
-      - name: Run Contract Postman Tests on Development
+      - name: Run Contract Tests on Development
         run: |
-          newman run ./deploy/postman/tests_contract.postman_collection.json \
-          -e ./deploy/postman/test_contract_development.postman_environment.json \
+          newman run ./deploy/postman/contract_tests.postman_collection.json \
+          -e ./deploy/postman/contract_tests.postman_environment.json \
+          --env-var "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" \
+          --env-var "SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}" \
+          --env-var "SCHEMA_URL=${{ secrets.DEVELOPMENT_SCHEMA_URL }}" \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
-      - name: Run API Postman Tests on Development
+      - name: Run API Tests on Development
         run: |
-          newman run ./deploy/postman/tests_api.postman_collection.json \
-          -e ./deploy/postman/test_api_development.postman_environment.json \
+          newman run ./deploy/postman/api_tests.postman_collection.json \
+          -e ./deploy/postman/api_tests.postman_environment.json \
+          --env-var "SERVER_URL=${{ secrets.DEVELOPMENT_SERVER_URL }}" \
           --reporters cli,junit \
           --reporter-junit-export results.xml
 
