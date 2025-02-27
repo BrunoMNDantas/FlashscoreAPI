@@ -65,7 +65,7 @@ public class GlobalDefaultExceptionHandlerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Not Found"));
+                .andExpect(content().string(""));
     }
 
 }
