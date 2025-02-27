@@ -30,7 +30,7 @@ jobs:
         with:
           bot_token: ${{ secrets.bot_token }}
           chat_id: ${{ secrets.chat_id }}
-          message: "⚙️ Starting Postman tests!"
+          message: "⚙️ Starting Postman tests"
 
   run_tests:
     needs: notify_start
@@ -56,9 +56,9 @@ jobs:
       - name: Set result message
         run: |
           if [ "${{ needs.run_tests.result }}" == "success" ]; then
-            echo "MESSAGE=⚙️ Postman tests completed successfully! ✅" >> $GITHUB_ENV
+            echo "MESSAGE=⚙️ Postman tests completed successfully ✅" >> $GITHUB_ENV
           else
-            echo "MESSAGE=⚙️ Postman tests failed! ❌" >> $GITHUB_ENV
+            echo "MESSAGE=⚙️ Postman tests failed ❌" >> $GITHUB_ENV
           fi
         shell: bash
 

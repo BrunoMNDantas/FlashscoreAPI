@@ -37,9 +37,9 @@ jobs:
       - name: Set result message
         run: |
           if [ "${{ needs.test_production.result == 'success' }}" ]; then
-            echo "MESSAGE=✅ Production tests passed!" >> $GITHUB_ENV
+            echo "MESSAGE=✅ Daily tests to Production passed" >> $GITHUB_ENV
           else
-            echo "MESSAGE=❌ Production tests failed!" >> $GITHUB_ENV
+            echo "MESSAGE=❌ Daily tests to Production failed" >> $GITHUB_ENV
           fi
         shell: bash
       - name: Notify end

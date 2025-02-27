@@ -33,7 +33,7 @@ jobs:
         with:
           bot_token: ${{ secrets.bot_token }}
           chat_id: ${{ secrets.chat_id }}
-          message: "⚙️ Starting to wait for Deployment!"
+          message: "⚙️ Starting to wait for Railway deployment"
 
   wait_deployment:
     needs: notify_start
@@ -60,9 +60,9 @@ jobs:
       - name: Set result message
         run: |
           if [ "${{ needs.wait_deployment.result }}" == "success" ]; then
-            echo "MESSAGE=⚙️ Railway Deployment completed successfully! ✅" >> $GITHUB_ENV
+            echo "MESSAGE=⚙️ Railway deployment completed successfully ✅" >> $GITHUB_ENV
           else
-            echo "MESSAGE=⚙️ Railway Deployment failed! ❌" >> $GITHUB_ENV
+            echo "MESSAGE=⚙️ Railway deployment failed ❌" >> $GITHUB_ENV
           fi
         shell: bash
 

@@ -21,7 +21,7 @@ jobs:
         with:
           bot_token: ${{ secrets.bot_token }}
           chat_id: ${{ secrets.chat_id }}
-          message: "⚙️ Starting Merge dev to main!"
+          message: "⚙️ Starting merge to main"
 
   merge:
     needs: notify_start
@@ -44,9 +44,9 @@ jobs:
       - name: Set result message
         run: |
           if [ "${{ needs.merge.result }}" == "success" ]; then
-            echo "MESSAGE=⚙️ Merge dev to main completed successfully! ✅" >> $GITHUB_ENV
+            echo "MESSAGE=⚙️ Merge to main completed successfully ✅" >> $GITHUB_ENV
           else
-            echo "MESSAGE=⚙️ Merge dev to main failed! ❌" >> $GITHUB_ENV
+            echo "MESSAGE=⚙️ Merge to main failed ❌" >> $GITHUB_ENV
           fi
         shell: bash
 
