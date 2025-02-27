@@ -10,6 +10,9 @@ on:
         description: "Unique identifier of the Telegram chat"
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   notify_start:
     runs-on: ubuntu-latest
