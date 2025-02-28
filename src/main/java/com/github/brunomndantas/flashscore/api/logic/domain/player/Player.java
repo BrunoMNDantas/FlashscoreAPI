@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Player")
 public class Player {
 
     @NotNull

@@ -19,6 +19,7 @@ import java.util.Date;
 @Setter
 @ToString
 @EqualsAndHashCode
+@Schema(description = "Match")
 public class Match {
 
     @NotNull

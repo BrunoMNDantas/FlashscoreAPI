@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Schema(oneOf = {Card.class, Goal.class, Substitution.class, Penalty.class})
+@Schema(description= "Event", oneOf = {Card.class, Goal.class, Substitution.class, Penalty.class})
 public class Event {
 
     @NotNull

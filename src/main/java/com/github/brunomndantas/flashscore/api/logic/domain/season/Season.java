@@ -16,6 +16,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Season")
 public class Season {
 
     @NotNull

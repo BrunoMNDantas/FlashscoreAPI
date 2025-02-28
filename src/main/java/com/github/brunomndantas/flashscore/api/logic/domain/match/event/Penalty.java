@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Penalty")
 public class Penalty extends Event {
 
     @Schema(description = "Penalty missedUnique", example = "false")
