@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @SpringBootTest
 public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchKey, Match> {
@@ -51,6 +52,14 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         Assertions.assertEquals(2, match.getHomeTeamGoals());
         Assertions.assertEquals(3, match.getAwayTeamGoals());
         Assertions.assertEquals(MatchScrapperRepository.DATE_FORMAT.parse("11.02.2025 20:00"), match.getDate());
+        Assertions.assertEquals(new PlayerKey("caldwell-gary", "prPkSBdq"), match.getHomeCoachPlayerKey());
+        Assertions.assertEquals(new PlayerKey("espirito-santo", "IoJ2QpOs"), match.getAwayCoachPlayerKey());
+        Assertions.assertEquals(11, match.getHomeLineupPlayersKeys().size());
+        Assertions.assertEquals(11, match.getAwayLineupPlayersKeys().size());
+        Assertions.assertTrue(Collections.disjoint(match.getHomeLineupPlayersKeys(), match.getAwayLineupPlayersKeys()));
+        Assertions.assertEquals(9, match.getHomeBenchPlayersKeys().size());
+        Assertions.assertEquals(9, match.getAwayBenchPlayersKeys().size());
+        Assertions.assertTrue(Collections.disjoint(match.getHomeBenchPlayersKeys(), match.getAwayBenchPlayersKeys()));
 
         Collection<Event> firstHalfEvents = match.getFirstHalfEvents();
         Assertions.assertEquals(4, firstHalfEvents.size());

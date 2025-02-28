@@ -7,18 +7,24 @@ import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.event.*;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
+import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match> {
 
@@ -49,6 +55,15 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         match.setSecondHalfEvents(scrapEvents(driver, "2nd Half"));
         match.setExtraTimeEvents(scrapEvents(driver, "Extra Time"));
         match.setPenalties(scrapPenalties(driver));
+
+        loadPlayersURL(matchKey, driver);
+
+        match.setHomeCoachPlayerKey(scrapHomeCoachPlayerKey(driver));
+        match.setAwayCoachPlayerKey(scrapAwayCoachPlayerKey(driver));
+        match.setHomeLineupPlayersKeys(scrapHomeLineupPlayersKeys(driver));
+        match.setAwayLineupPlayersKeys(scrapAwayLineupPlayersKeys(driver));
+        match.setHomeBenchPlayersKeys(scrapHomeBenchPlayersKeys(driver));
+        match.setAwayBenchPlayersKeys(scrapAwayBenchPlayersKeys(driver));
 
         return match;
     }
@@ -271,6 +286,73 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
                 .stream()
                 .map(element -> scrapPenalty(driver, element))
                 .toList();
+    }
+
+    private void loadPlayersURL(MatchKey matchKey, WebDriver driver) {
+        if(!driver.findElements(FlashscoreSelectors.MATCH_LINEUP_BUTTON_SELECTOR).isEmpty()) {
+            String url = FlashscoreURLs.getMatchPlayersURL(matchKey);
+            driver.get(url);
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(Config.MEDIUM_WAIT).getSeconds());
+            ExpectedCondition<WebElement> condition = ExpectedConditions.presenceOfElementLocated(FlashscoreSelectors.MATCH_HOME_LINEUP_SELECTOR);
+            wait.until(condition);
+        } else {
+            super.waitPageToBeLoaded(driver);
+        }
+    }
+
+    protected PlayerKey scrapHomeCoachPlayerKey(WebDriver driver) {
+        if(!driver.findElements(FlashscoreSelectors.MATCH_HOME_COACH_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(FlashscoreSelectors.MATCH_HOME_COACH_SELECTOR);
+            return FlashscoreURLs.getPlayerKey(element.getAttribute("href"));
+        }
+
+        return null;
+    }
+
+    protected PlayerKey scrapAwayCoachPlayerKey(WebDriver driver) {
+        if(!driver.findElements(FlashscoreSelectors.MATCH_AWAY_COACH_SELECTOR).isEmpty()) {
+            WebElement element = driver.findElement(FlashscoreSelectors.MATCH_AWAY_COACH_SELECTOR);
+            return FlashscoreURLs.getPlayerKey(element.getAttribute("href"));
+        }
+
+        return null;
+    }
+
+    protected Collection<PlayerKey> scrapHomeLineupPlayersKeys(WebDriver driver) {
+        Collection<WebElement> elements = driver.findElements(FlashscoreSelectors.MATCH_HOME_LINEUP_SELECTOR);
+        return elements
+                .stream()
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getPlayerKey)
+                .collect(Collectors.toSet());
+    }
+
+    protected Collection<PlayerKey> scrapAwayLineupPlayersKeys(WebDriver driver) {
+        Collection<WebElement> elements = driver.findElements(FlashscoreSelectors.MATCH_AWAY_LINEUP_SELECTOR);
+        return elements
+                .stream()
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getPlayerKey)
+                .collect(Collectors.toSet());
+    }
+
+    protected Collection<PlayerKey> scrapHomeBenchPlayersKeys(WebDriver driver) {
+        Collection<WebElement> elements = driver.findElements(FlashscoreSelectors.MATCH_HOME_BENCH_SELECTOR);
+        return elements
+                .stream()
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getPlayerKey)
+                .collect(Collectors.toSet());
+    }
+
+    protected Collection<PlayerKey> scrapAwayBenchPlayersKeys(WebDriver driver) {
+        Collection<WebElement> elements = driver.findElements(FlashscoreSelectors.MATCH_AWAY_BENCH_SELECTOR);
+        return elements
+                .stream()
+                .map(element -> element.getAttribute("href"))
+                .map(FlashscoreURLs::getPlayerKey)
+                .collect(Collectors.toSet());
     }
 
 }

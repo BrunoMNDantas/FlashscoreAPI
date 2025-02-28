@@ -2,12 +2,14 @@ package com.github.brunomndantas.flashscore.api.logic.domain.match;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Event;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Penalty;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Collection;
@@ -50,6 +52,38 @@ public class Match {
     @NotNull
     @Schema(description = "Date of the match", example = "2024-12-29T20:30:00.000+00:00")
     private Date date;
+
+    @Valid
+    @Schema(description = "Unique identifier for home team's coach", example = "{\"playerName\": \"borges-rui\",\"playerId\": \"vocqEUBt\"}")
+    private PlayerKey homeCoachPlayerKey;
+
+    @Valid
+    @Schema(description = "Unique identifier for away team's coach", example = "{\"playerName\": \"lage-bruno\",\"playerId\": \"6DEnR4qe\"}")
+    private PlayerKey awayCoachPlayerKey;
+
+    @NotNull
+    @Valid
+    @Size(max=11)
+    @Schema(description = "List of player keys for home team's lineup", example = "[{\"playerName\": \"gyokeres-viktor\",\"playerId\": \"zaBZ1xIk\"}]")
+    private Collection<PlayerKey> homeLineupPlayersKeys;
+
+    @NotNull
+    @Valid
+    @Size(max=11)
+    @Schema(description = "List of player keys for away team's lineup", example = "[{\"playerName\": \"fernandez-alvaro\",\"playerId\": \"ALGEzlma\"}]")
+    private Collection<PlayerKey> awayLineupPlayersKeys;
+
+    @NotNull
+    @Valid
+    @Size(max=20)
+    @Schema(description = "List of player keys for home team's bench", example = "[{\"playerName\": \"harder-conrad\",\"playerId\": \"KWNBSZBE\"}]")
+    private Collection<PlayerKey> homeBenchPlayersKeys;
+
+    @NotNull
+    @Valid
+    @Size(max=20)
+    @Schema(description = "List of player keys for away team's bench", example = "[{\"playerName\": \"silva-antonio\",\"playerId\": \"0xBtwxKs\"}]")
+    private Collection<PlayerKey> awayBenchPlayersKeys;
 
     @NotNull
     @Valid

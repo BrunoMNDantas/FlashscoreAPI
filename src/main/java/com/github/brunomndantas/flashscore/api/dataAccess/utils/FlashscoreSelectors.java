@@ -29,6 +29,13 @@ public class FlashscoreSelectors {
     public static final By MATCH_HOME_TEAM_GOALS_SELECTOR = By.xpath("//*[contains(@class, 'detailScore__wrapper')]/span[not(contains(@class, 'divider'))][1]");
     public static final By MATCH_AWAY_TEAM_GOALS_SELECTOR = By.xpath("//*[contains(@class, 'detailScore__wrapper')]/span[not(contains(@class, 'divider'))][2]");
     public static final By MATCH_DATE_SELECTOR = By.xpath("//*[@class='duelParticipant__startTime']");
+    public static final By MATCH_LINEUP_BUTTON_SELECTOR = By.xpath("//button[text()='Lineups']");
+    public static final By MATCH_HOME_COACH_SELECTOR = By.xpath("//*[text()='Coaches']/../..//*[@class='lf__side'][1]//a[contains(@class, 'nameWrapper')]");
+    public static final By MATCH_AWAY_COACH_SELECTOR = By.xpath("//*[text()='Coaches']/../..//*[@class='lf__side'][2]//a[contains(@class, 'nameWrapper')]");
+    public static final By MATCH_HOME_LINEUP_SELECTOR = By.xpath("//*[text()='Starting Lineups']/../..//*[@class='lf__side'][1]//a[contains(@class, 'nameWrapper')]");
+    public static final By MATCH_AWAY_LINEUP_SELECTOR = By.xpath("//*[text()='Starting Lineups']/../..//*[@class='lf__side'][2]//a[contains(@class, 'nameWrapper')]");
+    public static final By MATCH_HOME_BENCH_SELECTOR = By.xpath("//*[text()='Substitutes']/../..//*[@class='lf__side'][1]//a[contains(@class, 'nameWrapper')]");
+    public static final By MATCH_AWAY_BENCH_SELECTOR = By.xpath("//*[text()='Substitutes']/../..//*[@class='lf__side'][2]//a[contains(@class, 'nameWrapper')]");
     public static final By MATCH_EVENTS_SELECTOR = By.xpath("//*[contains(@class,'smv__verticalSections')]/div");
     public static final String MATCH_EVENT_CLASS = "smv__participantRow";
     public static final String MATCH_EVENT_HOME_CLASS = "smv__homeParticipant";

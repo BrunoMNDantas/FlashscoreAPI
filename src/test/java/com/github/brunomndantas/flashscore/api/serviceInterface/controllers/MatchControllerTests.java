@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
+import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
 import com.github.brunomndantas.repository4j.IRepository;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;
+import java.util.LinkedList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -38,7 +40,15 @@ class MatchControllerTests {
     @Test
     public void shouldReturnMatch() throws Exception {
         MatchKey matchKey = new MatchKey("Match");
-        Match match = new Match(matchKey, new TeamKey("Home", "Home"), new TeamKey("Home", "Away"), 1, 1, new Date(), null, null, null, null);
+        Match match = new Match(
+                matchKey,
+                new TeamKey("Home", "Home"),  new TeamKey("Away", "Away"),
+                1, 1,
+                new Date(),
+                new PlayerKey("Home", "Coach"), new PlayerKey("Away", "Coach"),
+                new LinkedList<>(), new LinkedList<>(),
+                new LinkedList<>(), new LinkedList<>(),
+                null, null, null, null);
 
         Mockito
             .when(repository.get(Mockito.any(MatchKey.class)))

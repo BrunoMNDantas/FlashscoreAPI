@@ -30,6 +30,7 @@ public class FlashscoreURLs {
 
     public static final String MATCH_ID_PLACEHOLDER = "{matchId}";
     public static final String MATCH_URL = FLASHSCORE_URL + "/match/" + MATCH_ID_PLACEHOLDER + "/#/match-summary";
+    public static final String MATCH_PLAYERS_URL = FLASHSCORE_URL + "/match/" + MATCH_ID_PLACEHOLDER + "/#/match-summary/lineups";
 
     public static final String TEAM_NAME_PLACEHOLDER = "{teamName}";
     public static final String TEAM_ID_PLACEHOLDER = "{teamId}";
@@ -92,7 +93,10 @@ public class FlashscoreURLs {
 
     public static String getMatchURL(MatchKey matchKey) {
         return MATCH_URL.replace(MATCH_ID_PLACEHOLDER, matchKey.getMatchId());
+    }
 
+    public static String getMatchPlayersURL(MatchKey matchKey) {
+        return MATCH_PLAYERS_URL.replace(MATCH_ID_PLACEHOLDER, matchKey.getMatchId());
     }
 
     public static String getTeamURL(TeamKey teamKey) {

@@ -65,6 +65,12 @@ public class FlashscoreURLsTests {
     }
 
     @Test
+    public void shouldReturnValidMatchPlayersURL() {
+        MatchKey key = new MatchKey("bg70qYsH");
+        testUrl(key, FlashscoreURLs::getMatchPlayersURL, FlashscoreURLs::getMatchKey);
+    }
+
+    @Test
     public void shouldReturnValidTeamURL() {
         TeamKey key = new TeamKey("zaragoza-hurricanes", "nsq7mjSs");
         testUrl(key, FlashscoreURLs::getTeamURL, FlashscoreURLs::getTeamKey);
