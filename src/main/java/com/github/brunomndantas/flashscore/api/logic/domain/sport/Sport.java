@@ -15,6 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Sport")
 public class Sport {
 
     @NotNull

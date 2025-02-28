@@ -13,6 +13,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Team")
 public class Team {
 
     @NotNull

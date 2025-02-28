@@ -15,6 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Region")
 public class Region {
 
     @NotNull

@@ -1,5 +1,5 @@
 name: "Send Notification"
-description: "Sends a message to a Telegram chat"
+description: "Sends or edits a message in a Telegram chat and returns the message ID if a new message is created."
 
 inputs:
   bot_token:
@@ -9,16 +9,35 @@ inputs:
     description: "Unique identifier of the Telegram's chat"
     required: true
   message:
-    description: "Message to be sent"
+    description: "Message to be sent or updated"
     required: true
+  message_id:
+    description: "ID of the message to edit (optional). If provided, the message will be edited instead of sending a new one."
+    required: false
+
+outputs:
+  new_message_id:
+    description: "The ID of the newly created message. Only applicable if a new message was sent."
+    value: ${{ steps.send_message.outputs.message_id }}
 
 runs:
   using: "composite"
   steps:
-    - name: Send notification
+    - name: Send or Edit Notification
+      id: send_message
       run: |
-        curl -X POST "https://api.telegram.org/bot${{ inputs.bot_token }}/sendMessage" \
-        -d "chat_id=${{ inputs.chat_id }}" \
-        -d "text=${{ inputs.message }}" \
-        -d "parse_mode=Markdown"
+        if [ -z "${{ inputs.message_id }}" ]; then
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ inputs.bot_token }}/sendMessage" \
+            -d "chat_id=${{ inputs.chat_id }}" \
+            -d "text=${{ inputs.message }}" \
+            -d "parse_mode=Markdown")
+          MESSAGE_ID=$(echo "$RESPONSE" | jq -r '.result.message_id')
+          echo "message_id=$MESSAGE_ID" >> $GITHUB_OUTPUT
+        else
+          curl -s -X POST "https://api.telegram.org/bot${{ inputs.bot_token }}/editMessageText" \
+            -d "chat_id=${{ inputs.chat_id }}" \
+            -d "message_id=${{ inputs.message_id }}" \
+            -d "text=${{ inputs.message }}" \
+            -d "parse_mode=Markdown"
+        fi
       shell: bash

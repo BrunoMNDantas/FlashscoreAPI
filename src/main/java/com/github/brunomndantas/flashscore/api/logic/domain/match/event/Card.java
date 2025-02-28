@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Card")
 public class Card extends Event {
 
     @NotNull

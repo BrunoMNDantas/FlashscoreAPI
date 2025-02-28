@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Substitution")
 public class Substitution extends Event {
 
     @NotNull

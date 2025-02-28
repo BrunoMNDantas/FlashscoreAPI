@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Region key")
 public class RegionKey {
 
     @NotNull

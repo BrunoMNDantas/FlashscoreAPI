@@ -17,8 +17,8 @@ jobs:
           chat_id: ${{ secrets.TELEGRAM_PRODUCTION_CHAT_ID }}
           message: "📈 Starting daily test to Production"
 
-  test_development:
-    needs: [ notify_start ]
+  test_production:
+    needs: notify_start
     uses: ./.github/workflows/postman_tests.yml
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -28,7 +28,7 @@ jobs:
       schema_url: ${{ secrets.PRODUCTION_SCHEMA_URL }}
 
   notify_end:
-    needs: [test_production]
+    needs: test_production
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Set result message
         run: |
-          if [ "${{ needs.test_production.result == 'success' }}" ]; then
+          if [ "${{ needs.test_production.result }}" == "success" ]; then
             echo "MESSAGE=✅ Daily tests to Production passed" >> $GITHUB_ENV
           else
             echo "MESSAGE=❌ Daily tests to Production failed" >> $GITHUB_ENV

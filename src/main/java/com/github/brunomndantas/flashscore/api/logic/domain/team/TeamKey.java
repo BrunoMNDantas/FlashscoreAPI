@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Schema(description = "Team key")
 public class TeamKey {
 
     @NotNull
