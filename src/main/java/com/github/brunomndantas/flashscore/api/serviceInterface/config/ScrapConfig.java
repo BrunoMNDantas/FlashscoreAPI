@@ -15,6 +15,8 @@ import com.github.brunomndantas.flashscore.api.logic.domain.sport.SportKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.logic.services.entityScrapper.EntityScrapper;
+import com.github.brunomndantas.flashscore.api.logic.services.reportViewer.IReportViewer;
+import com.github.brunomndantas.flashscore.api.logic.services.reportViewer.TextReportViewer;
 import com.github.brunomndantas.flashscore.api.logic.services.scrapService.*;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.tpl4j.task.pool.TaskPool;
@@ -90,6 +92,11 @@ public class ScrapConfig {
                 teamScrapService,
                 playerScrapService
         );
+    }
+
+    @Bean
+    public IReportViewer getReportViewer() {
+        return new TextReportViewer(System.out::println);
     }
 
 }
