@@ -20,8 +20,6 @@ import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPoo
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.cache.CacheRepository;
 import com.github.brunomndantas.repository4j.memory.MemoryRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,10 +29,6 @@ public class RepositoryConfig {
 
     @Value("${screenshots.directory}")
     protected String screenshotsDirectory;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
 
     @Bean
     public IRepository<SportKey, Sport> getSportRepository(IDriverPool driverPool) {
