@@ -75,13 +75,6 @@ dependencies {
 
 	//API COMMON
 	implementation 'com.google.api:api-common:2.14.1'
-
-	//HIBERNATE
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.hibernate:hibernate-core:6.4.0.Final'
-
-	//POSTGRES
-	implementation 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
