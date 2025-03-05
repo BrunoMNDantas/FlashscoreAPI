@@ -2,6 +2,9 @@ package com.github.brunomndantas.flashscore.api.logic.domain.match.event;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -9,7 +12,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DiscriminatorFormula;
 
+@Embeddable
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorFormula("type")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

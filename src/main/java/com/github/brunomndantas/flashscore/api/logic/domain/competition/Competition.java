@@ -2,6 +2,10 @@ package com.github.brunomndantas.flashscore.api.logic.domain.competition;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,12 +16,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Schema(description = "Competition")
 public class Competition {
 
+    @EmbeddedId
     @NotNull
     @Valid
     @Schema(description = "Unique identifier for the competition", example = "{\"sportId\": \"football\",\"regionId\": \"portugal\",\"competitionId\": \"liga-portugal\"}")
@@ -29,6 +35,7 @@ public class Competition {
     @Schema(description = "Name of the competition", example = "Liga Portugal")
     private String name;
 
+    @ElementCollection
     @NotNull
     @NotEmpty
     @Valid

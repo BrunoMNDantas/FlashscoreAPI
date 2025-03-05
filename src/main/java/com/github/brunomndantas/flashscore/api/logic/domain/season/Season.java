@@ -2,6 +2,10 @@ package com.github.brunomndantas.flashscore.api.logic.domain.season;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -13,12 +17,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Schema(description = "Season")
 public class Season {
 
+    @EmbeddedId
     @NotNull
     @Valid
     @Schema(
@@ -36,6 +42,7 @@ public class Season {
     @Schema(description = "Year in which the season finished", example = "2025")
     private int endYear;
 
+    @ElementCollection
     @NotNull
     @NotEmpty
     @Valid
