@@ -1,9 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.player;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,14 +12,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Schema(description = "Player")
 public class Player {
 
-    @EmbeddedId
     @NotNull
     @Valid
     @Schema(description = "Unique identifier for the player", example = "{\"playerName\": \"gyokeres-viktor\",\"playerId\": \"zaBZ1xIk\"}")
