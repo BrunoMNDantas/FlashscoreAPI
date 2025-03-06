@@ -20,9 +20,11 @@ import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.cache.CacheRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -57,65 +59,142 @@ public class RepositoryConfig {
     }
 
     @Bean
-    public IRepository<SportKey, Sport> getSportRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<SportKey, Sport> sourceRepository = new SportScrapperRepository(driverPool, screenshotsDirectory);
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<SportKey, Sport> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Sport", Sport.class, Sport::getKey);
+    public IRepository<SportKey, Sport> sportCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Sport", Sport.class, Sport::getKey);
+    }
 
+    @Bean
+    public IRepository<RegionKey, Region> regionCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Region", Region.class, Region::getKey);
+    }
+
+    @Bean
+    public IRepository<CompetitionKey, Competition> competitionCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Competition", Competition.class, Competition::getKey);
+    }
+
+    @Bean
+    public IRepository<SeasonKey, Season> seasonCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Season", Season.class, Season::getKey);
+    }
+
+    @Bean
+    public IRepository<MatchKey, Match> matchCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Match", Match.class, Match::getKey);
+    }
+
+    @Bean
+    public IRepository<TeamKey, Team> teamCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Team", Team.class, Team::getKey);
+    }
+
+    @Bean
+    public IRepository<PlayerKey, Player> playerCacheRepository(S3Client s3Client) {
+        return new S3Repository<>(s3Client, s3BucketName, "Player", Player.class, Player::getKey);
+    }
+
+    @Bean
+    public IRepository<SportKey, Sport> sportSourceRepository(IDriverPool driverPool) {
+        return new SportScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    public IRepository<RegionKey, Region> regionSourceRepository(IDriverPool driverPool) {
+        return new RegionScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    public IRepository<CompetitionKey, Competition> competitionSourceRepository(IDriverPool driverPool) {
+        return new CompetitionScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    public IRepository<SeasonKey, Season> seasonSourceRepository(IDriverPool driverPool) {
+        return new SeasonScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    public IRepository<MatchKey, Match> matchSourceRepository(IDriverPool driverPool) {
+        return new MatchScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    public IRepository<TeamKey, Team> teamSourceRepository(IDriverPool driverPool) {
+        return new TeamScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    public IRepository<PlayerKey, Player> playerSourceRepository(IDriverPool driverPool) {
+        return new PlayerScrapperRepository(driverPool, screenshotsDirectory);
+    }
+
+    @Bean
+    @Primary
+    public IRepository<SportKey, Sport> getSportRepository(
+            @Qualifier("sportSourceRepository") IRepository<SportKey, Sport> sourceRepository,
+            @Qualifier("sportCacheRepository") IRepository<SportKey, Sport> cacheRepository
+    ) {
+        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Sport::getKey);
     }
 
     @Bean
-    public IRepository<RegionKey, Region> getRegionRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<RegionKey, Region> sourceRepository = new RegionScrapperRepository(driverPool, screenshotsDirectory);
+    @Primary
+    public IRepository<RegionKey, Region> getRegionRepository(
+            @Qualifier("regionSourceRepository") IRepository<RegionKey, Region> sourceRepository,
+            @Qualifier("regionCacheRepository") IRepository<RegionKey, Region> cacheRepository
+    ) {
         sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<RegionKey, Region> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Region", Region.class, Region::getKey);
-
         return new CacheRepository<>(cacheRepository, sourceRepository, Region::getKey);
     }
 
     @Bean
-    public IRepository<CompetitionKey, Competition> getCompetitionRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<CompetitionKey, Competition> sourceRepository = new CompetitionScrapperRepository(driverPool, screenshotsDirectory);
+    @Primary
+    public IRepository<CompetitionKey, Competition> getCompetitionRepository(
+            @Qualifier("competitionSourceRepository") IRepository<CompetitionKey, Competition> sourceRepository,
+            @Qualifier("competitionCacheRepository") IRepository<CompetitionKey, Competition> cacheRepository
+    ) {
         sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<CompetitionKey, Competition> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Competition", Competition.class, Competition::getKey);
-
         return new CacheRepository<>(cacheRepository, sourceRepository, Competition::getKey);
     }
 
     @Bean
-    public IRepository<SeasonKey, Season> getSeasonRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<SeasonKey, Season> sourceRepository = new SeasonScrapperRepository(driverPool, screenshotsDirectory);
+    @Primary
+    public IRepository<SeasonKey, Season> getSeasonRepository(
+            @Qualifier("seasonSourceRepository") IRepository<SeasonKey, Season> sourceRepository,
+            @Qualifier("seasonCacheRepository") IRepository<SeasonKey, Season> cacheRepository
+    ) {
         sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<SeasonKey, Season> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Season", Season.class, Season::getKey);
-
         return new CacheRepository<>(cacheRepository, sourceRepository, Season::getKey);
     }
 
     @Bean
-    public IRepository<MatchKey, Match> getMatchRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<MatchKey, Match> sourceRepository = new MatchScrapperRepository(driverPool, screenshotsDirectory);
+    @Primary
+    public IRepository<MatchKey, Match> getMatchRepository(
+            @Qualifier("matchSourceRepository") IRepository<MatchKey, Match> sourceRepository,
+            @Qualifier("matchCacheRepository") IRepository<MatchKey, Match> cacheRepository
+    ) {
         sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<MatchKey, Match> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Match", Match.class, Match::getKey);
-
         return new CacheRepository<>(cacheRepository, sourceRepository, Match::getKey);
     }
 
     @Bean
-    public IRepository<TeamKey, Team> getTeamRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<TeamKey, Team> sourceRepository = new TeamScrapperRepository(driverPool, screenshotsDirectory);
+    @Primary
+    public IRepository<TeamKey, Team> getTeamRepository(
+            @Qualifier("teamSourceRepository") IRepository<TeamKey, Team> sourceRepository,
+            @Qualifier("teamCacheRepository") IRepository<TeamKey, Team> cacheRepository
+    ) {
         sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<TeamKey, Team> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Team", Team.class, Team::getKey);
-
         return new CacheRepository<>(cacheRepository, sourceRepository, Team::getKey);
     }
 
     @Bean
-    public IRepository<PlayerKey, Player> getPlayerRepository(IDriverPool driverPool, S3Client s3Client) {
-        IRepository<PlayerKey, Player> sourceRepository = new PlayerScrapperRepository(driverPool, screenshotsDirectory);
+    @Primary
+    public IRepository<PlayerKey, Player> getPlayerRepository(
+            @Qualifier("playerSourceRepository") IRepository<PlayerKey, Player> sourceRepository,
+            @Qualifier("playerCacheRepository") IRepository<PlayerKey, Player> cacheRepository
+    ) {
         sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
-        IRepository<PlayerKey, Player> cacheRepository = new S3Repository<>(s3Client, s3BucketName, "Player", Player.class, Player::getKey);
-
         return new CacheRepository<>(cacheRepository, sourceRepository, Player::getKey);
     }
 
