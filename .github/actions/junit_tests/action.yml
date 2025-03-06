@@ -45,12 +45,8 @@ runs:
       run: |
         echo "S3_BUCKET=${{ inputs.s3_bucket }}" >> $GITHUB_ENV
         echo "S3_REGION=${{ inputs.s3_region }}" >> $GITHUB_ENV
-        echo "S3_ACCESS_KEY=${{ inputs.se_access_key }}" >> $GITHUB_ENV
+        echo "S3_ACCESS_KEY=${{ inputs.s3_access_key }}" >> $GITHUB_ENV
         echo "S3_SECRET_KEY=${{ inputs.s3_secret_key }}" >> $GITHUB_ENV
-      shell: bash
-
-    - name: Test
-      run: printenv S3_BUCKET
       shell: bash
 
     - name: Run Gradle Build and Tests
