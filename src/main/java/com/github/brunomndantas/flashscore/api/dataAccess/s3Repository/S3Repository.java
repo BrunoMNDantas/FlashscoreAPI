@@ -77,6 +77,8 @@ public class S3Repository<K, E> implements IRepository<K, E> {
                     .key(getS3Key(key))
                     .build();
             s3Client.putObject(request, RequestBody.fromString(json));
+        } catch (DuplicatedEntityException e) {
+            throw e;
         } catch (Exception e) {
             throw new RepositoryException("Error inserting entity", e);
         }
@@ -97,6 +99,8 @@ public class S3Repository<K, E> implements IRepository<K, E> {
                     .key(getS3Key(key))
                     .build();
             s3Client.putObject(request, RequestBody.fromString(json));
+        } catch (NonExistentEntityException e) {
+            throw e;
         } catch (Exception e) {
             throw new RepositoryException("Error updating entity", e);
         }
