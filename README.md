@@ -137,6 +137,12 @@ Both workflows use the following GitHub Secrets for authentication and configura
   - `DEVELOPMENT_SERVER_URL` - The base URL of the development server.
   - `DEVELOPMENT_SCHEMA_URL` - The schema URL of the development server.
 
+- **AWS S3 Secrets:**
+  - `S3_BUCKET` - The S3 bucket name used for storage.
+  - `S3_REGION` - The AWS region where the S3 bucket is hosted.
+  - `S3_ACCESS_KEY` - The AWS access key ID for authentication.
+  - `S3_SECRET_KEY` - The AWS secret access key for authentication.
+
 These secrets are stored in GitHub and used within workflows to manage deployments and notifications.
 
 You can access the API documentation for the production environment [here](https://flashscoreapi-production.up.railway.app/swagger-ui/index.html#/), and for the development environment [here](https://flashscoreapi-development.up.railway.app/swagger-ui/index.html#/).
@@ -151,6 +157,7 @@ Ensure you have the following installed:
 - Gradle
 - Docker (optional, for containerized deployment)
 - A system environment variable `DRIVER_PATH` must be declared containing the path to the Chrome driver.
+- AWS S3 credentials must be set as system environment variables (`S3_BUCKET`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`).
 
 ### Installation Steps
 
