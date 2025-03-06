@@ -34,6 +34,12 @@ runs:
       run: sudo ./deploy/scripts/build_selenium_environment.sh
       shell: bash
 
+    - name: Test
+      run: |
+        echo ${{ inputs.s3_bucket }}
+        echo ${{ inputs.s3_region }}
+      shell: bash
+
     - name: Export Selenium environment variables
       run: |
         echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
