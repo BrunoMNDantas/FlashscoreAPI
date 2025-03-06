@@ -50,7 +50,7 @@ runs:
       shell: bash
 
     - name: Test
-      run: echo $S3_BUCKET
+      run: printenv S3_BUCKET
       shell: bash
 
     - name: Run Gradle Build and Tests
