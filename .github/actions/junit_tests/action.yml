@@ -34,12 +34,6 @@ runs:
       run: sudo ./deploy/scripts/build_selenium_environment.sh
       shell: bash
 
-    - name: Test
-      run: |
-        echo ${{ inputs.s3_bucket }}
-        echo ${{ inputs.s3_region }}
-      shell: bash
-
     - name: Export Selenium environment variables
       run: |
         echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
@@ -53,6 +47,10 @@ runs:
         echo "S3_REGION=${{ inputs.s3_region }}" >> $GITHUB_ENV
         echo "S3_ACCESS_KEY=${{ inputs.se_access_key }}" >> $GITHUB_ENV
         echo "S3_SECRET_KEY=${{ inputs.s3_secret_key }}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Test
+      run: echo $S3_BUCKET
       shell: bash
 
     - name: Run Gradle Build and Tests
