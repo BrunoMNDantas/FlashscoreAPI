@@ -23,6 +23,10 @@ jobs:
     secrets:
       bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       chat_id: ${{ secrets.TELEGRAM_DEPLOYMENT_CHAT_ID }}
+      s3_bucket: ${{ secrets.S3_BUCKET }}
+      s3_region: ${{ secrets.S3_REGION }}
+      s3_access_key: ${{ secrets.S3_ACCESS_KEY }}
+      s3_secret_key: ${{ secrets.S3_SECRET_KEY }}
 
   wait_development_deploy:
     needs: notify_start

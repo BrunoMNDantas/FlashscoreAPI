@@ -9,6 +9,18 @@ on:
       chat_id:
         description: "Unique identifier of the Telegram chat"
         required: true
+      s3_bucket:
+        description: "S3 bucket name"
+        required: true
+      s3_region:
+        description: "S3 region name"
+        required: true
+      s3_access_key:
+        description: "Access Key for S3 authentication"
+        required: true
+      s3_secret_key:
+        description: "Secret Key for S3 authentication"
+        required: true
 
 jobs:
   notify_start:
@@ -35,6 +47,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Run tests
         uses: ./.github/actions/junit_tests/
+        with:
+          s3_bucket: ${{ secrets.s3_bucket }}
+          s3_region: ${{ secrets.s3_region }}
+          s3_access_key: ${{ secrets.s3_access_key }}
+          s3_secret_key: ${{ secrets.s3_secret_key }}
 
   notify_end:
     needs: [ notify_start, run_tests ]
