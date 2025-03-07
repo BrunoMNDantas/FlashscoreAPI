@@ -1,5 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.MatchScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.event.*;

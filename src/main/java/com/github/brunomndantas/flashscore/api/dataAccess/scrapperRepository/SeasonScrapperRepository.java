@@ -1,8 +1,8 @@
-package com.github.brunomndantas.flashscore.api.dataAccess;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
-import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
-import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreUtils;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreURLs;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreUtils;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;

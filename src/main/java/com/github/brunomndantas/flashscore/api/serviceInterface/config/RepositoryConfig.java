@@ -1,8 +1,8 @@
 package com.github.brunomndantas.flashscore.api.serviceInterface.config;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.*;
 import com.github.brunomndantas.flashscore.api.dataAccess.constraintViolationRepository.ConstraintViolationRepository;
 import com.github.brunomndantas.flashscore.api.dataAccess.s3Repository.S3Repository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.*;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;

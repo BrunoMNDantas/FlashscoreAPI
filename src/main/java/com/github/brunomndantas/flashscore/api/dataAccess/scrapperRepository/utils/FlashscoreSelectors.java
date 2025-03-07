@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.utils;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils;
 
 import org.openqa.selenium.By;
 

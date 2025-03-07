@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.utils;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;

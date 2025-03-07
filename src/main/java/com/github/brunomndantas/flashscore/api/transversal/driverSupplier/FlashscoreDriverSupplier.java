@@ -1,7 +1,7 @@
 package com.github.brunomndantas.flashscore.api.transversal.driverSupplier;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreSelectors;
-import com.github.brunomndantas.flashscore.api.dataAccess.utils.FlashscoreURLs;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreSelectors;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreURLs;
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.jscrapper.core.driverSupplier.DriverSupplierException;
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;

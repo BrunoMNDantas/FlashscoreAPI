@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.utils;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils;
 
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.Utils;
