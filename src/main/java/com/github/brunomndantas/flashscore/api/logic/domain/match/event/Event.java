@@ -25,10 +25,6 @@ import lombok.NoArgsConstructor;
 })
 public class Event {
 
-    @NotNull
-    @Schema(description = "Type of the event", example = "GOAL")
-    private EventType type;
-
     @Min(0)
     @Max(150)
     @Schema(description = "Minute in which the event occurred", example = "29")

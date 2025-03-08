@@ -94,7 +94,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getFirstGoal() {
         Goal goal = new Goal();
 
-        goal.setType(EventType.GOAL);
         goal.setMinute(5);
         goal.setExtraMinute(0);
         goal.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
@@ -107,7 +106,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getSecondGoal() {
         Goal goal = new Goal();
 
-        goal.setType(EventType.GOAL);
         goal.setMinute(15);
         goal.setExtraMinute(0);
         goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
@@ -120,7 +118,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getThirdGoal() {
         Goal goal = new Goal();
 
-        goal.setType(EventType.GOAL);
         goal.setMinute(37);
         goal.setExtraMinute(0);
         goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
@@ -133,7 +130,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getFourtGoal() {
         Goal goal = new Goal();
 
-        goal.setType(EventType.GOAL);
         goal.setMinute(50);
         goal.setExtraMinute(0);
         goal.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
@@ -146,11 +142,10 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getFirstYellowCard() {
         Card card = new Card();
 
-        card.setType(EventType.CARD);
         card.setMinute(38);
         card.setExtraMinute(0);
         card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
-        card.setColor(CardColor.YELLOW);
+        card.setColor(Card.Color.YELLOW);
         card.setPlayerKey(new PlayerKey("mcmillan-jack", "YVrybbkq"));
 
         return card;
@@ -159,11 +154,10 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getSecondYellowCard() {
         Card card = new Card();
 
-        card.setType(EventType.CARD);
         card.setMinute(105);
         card.setExtraMinute(1);
         card.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
-        card.setColor(CardColor.YELLOW);
+        card.setColor(Card.Color.YELLOW);
         card.setPlayerKey(new PlayerKey("williams-neco", "YVxu86Hs"));
 
         return card;
@@ -172,11 +166,10 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getThirdYellowCard() {
         Card card = new Card();
 
-        card.setType(EventType.CARD);
         card.setMinute(115);
         card.setExtraMinute(0);
         card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
-        card.setColor(CardColor.YELLOW);
+        card.setColor(Card.Color.YELLOW);
         card.setPlayerKey(new PlayerKey("yogane-tony", "fP6cbjth"));
 
         return card;
@@ -185,11 +178,10 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getFirstRedCard() {
         Card card = new Card();
 
-        card.setType(EventType.CARD);
         card.setMinute(87);
         card.setExtraMinute(0);
         card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
-        card.setColor(CardColor.RED);
+        card.setColor(Card.Color.RED);
         card.setPlayerKey(new PlayerKey("turns-ed", "Kraw6tR1"));
 
         return card;
@@ -198,7 +190,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getFirstSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(59);
         substitution.setExtraMinute(0);
         substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
@@ -211,7 +202,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getSecondSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(59);
         substitution.setExtraMinute(0);
         substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
@@ -224,7 +214,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getThirdSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(71);
         substitution.setExtraMinute(0);
         substitution.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
@@ -237,7 +226,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getFourthSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setType(EventType.SUBSTITUTION);
         substitution.setMinute(71);
         substitution.setExtraMinute(0);
         substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
@@ -250,7 +238,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Penalty getFirstPenalty() {
         Penalty penalty = new Penalty();
 
-        penalty.setType(EventType.PENALTY);
         penalty.setMinute(1);
         penalty.setExtraMinute(0);
         penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
@@ -263,7 +250,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Penalty getSecondPenalty() {
         Penalty penalty = new Penalty();
 
-        penalty.setType(EventType.PENALTY);
         penalty.setMinute(1);
         penalty.setExtraMinute(0);
         penalty.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
@@ -276,7 +262,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Penalty getThirdPenalty() {
         Penalty penalty = new Penalty();
 
-        penalty.setType(EventType.PENALTY);
         penalty.setMinute(2);
         penalty.setExtraMinute(0);
         penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));

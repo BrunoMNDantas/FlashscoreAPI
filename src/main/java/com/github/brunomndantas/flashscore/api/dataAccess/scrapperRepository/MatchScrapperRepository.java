@@ -151,7 +151,6 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
     protected Goal scrapGoal(WebDriver driver, WebElement element) {
         Goal event = new Goal();
 
-        event.setType(EventType.GOAL);
         event.setMinute(scrapEventMinute(element));
         event.setExtraMinute(scrapEventExtraMinute(element));
         event.setTeamKey(scrapEventTeamKey(driver, element));
@@ -206,7 +205,6 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
     protected Card scrapCard(WebDriver driver, WebElement element) {
         Card event = new Card();
 
-        event.setType(EventType.CARD);
         event.setMinute(scrapEventMinute(element));
         event.setExtraMinute(scrapEventExtraMinute(element));
         event.setTeamKey(scrapEventTeamKey(driver, element));
@@ -216,17 +214,17 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         return event;
     }
 
-    protected CardColor scrapCardColor(WebElement element) {
+    protected Card.Color scrapCardColor(WebElement element) {
         WebElement cardElement = element.findElement(FlashscoreSelectors.MATCH_EVENT_CARD_SELECTOR);
         String classAttr = cardElement.getAttribute("class");
 
         if(classAttr.contains(FlashscoreSelectors.MATCH_EVENT_RED_CARD_CLASS)) {
-            return CardColor.RED;
+            return Card.Color.RED;
         } else if(classAttr.contains(FlashscoreSelectors.MATCH_EVENT_YELLOW_CARD_CLASS)) {
-            return CardColor.YELLOW;
+            return Card.Color.YELLOW;
         } else {
             //SECOND YELLOW
-            return CardColor.YELLOW;
+            return Card.Color.YELLOW;
         }
     }
 
@@ -238,7 +236,6 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
     protected Substitution scrapSubstitution(WebDriver driver, WebElement element) {
         Substitution event = new Substitution();
 
-        event.setType(EventType.SUBSTITUTION);
         event.setMinute(scrapEventMinute(element));
         event.setExtraMinute(scrapEventExtraMinute(element));
         event.setTeamKey(scrapEventTeamKey(driver, element));
@@ -261,7 +258,6 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
     protected Penalty scrapPenalty(WebDriver driver, WebElement element) {
         Penalty event = new Penalty();
 
-        event.setType(EventType.PENALTY);
         event.setMinute(scrapEventMinute(element));
         event.setExtraMinute(scrapEventExtraMinute(element));
         event.setTeamKey(scrapEventTeamKey(driver, element));

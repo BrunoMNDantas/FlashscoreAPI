@@ -16,6 +16,13 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Card")
 public class Card extends Event {
 
+    @Schema(description = "Color")
+    public enum Color {
+        YELLOW,
+        RED
+    }
+
+
     @NotNull
     @Valid
     @Schema(description = "Unique identifier for the player", example = "{\"playerName\": \"bah-alexander\", \"playerId\": \"Kn1rziON\"}")
@@ -23,6 +30,6 @@ public class Card extends Event {
 
     @NotNull
     @Schema(description = "Color of the card", example = "YELLOW")
-    private CardColor color;
+    private Color color;
 
 }
