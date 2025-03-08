@@ -51,9 +51,9 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         match.setHomeTeamGoals(scrapHomeTeamGoals(driver));
         match.setAwayTeamGoals(scrapAwayTeamGoals(driver));
         match.setDate(scrapDate(driver));
-        match.setFirstHalfEvents(scrapEvents(driver, "1st Half"));
-        match.setSecondHalfEvents(scrapEvents(driver, "2nd Half"));
-        match.setExtraTimeEvents(scrapEvents(driver, "Extra Time"));
+        match.setFirstHalfEvents(scrapEvents(driver, "1st Half", Time.Period.FIRST_HALF));
+        match.setSecondHalfEvents(scrapEvents(driver, "2nd Half", Time.Period.SECOND_HALF));
+        match.setExtraTimeEvents(scrapEvents(driver, "Extra Time", Time.Period.EXTRA_TIME));
         match.setPenalties(scrapPenalties(driver));
 
         loadPlayersURL(matchKey, driver);
@@ -127,32 +127,31 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         return events;
     }
 
-    protected Collection<Event> scrapEvents(WebDriver driver, String part) {
-        return getEventsElements(driver, part)
+    protected Collection<Event> scrapEvents(WebDriver driver, String partLabel, Time.Period period) {
+        return getEventsElements(driver, partLabel)
                 .stream()
-                .map(element -> scrapEvent(driver, element))
+                .map(element -> scrapEvent(driver, element, period))
                 .toList();
     }
 
-    protected Event scrapEvent(WebDriver driver, WebElement element) {
+    protected Event scrapEvent(WebDriver driver, WebElement element, Time.Period period) {
         if(!element.findElements(FlashscoreSelectors.MATCH_EVENT_PENALTY_SELECTOR).isEmpty()) {
-            return scrapPenalty(driver, element);
+            return scrapPenalty(driver, element, period);
         } else if(!element.findElements(FlashscoreSelectors.MATCH_EVENT_CARD_SELECTOR).isEmpty()) {
-            return scrapCard(driver, element);
+            return scrapCard(driver, element, period);
         } else if(!element.findElements(FlashscoreSelectors.MATCH_EVENT_SUBSTITUTION_SELECTOR).isEmpty()) {
-            return scrapSubstitution(driver, element);
+            return scrapSubstitution(driver, element, period);
         } else if(!element.findElements(FlashscoreSelectors.MATCH_EVENT_GOAL_SELECTOR).isEmpty()) {
-            return scrapGoal(driver, element);
+            return scrapGoal(driver, element, period);
         }
 
         return null;
     }
 
-    protected Goal scrapGoal(WebDriver driver, WebElement element) {
+    protected Goal scrapGoal(WebDriver driver, WebElement element, Time.Period period) {
         Goal event = new Goal();
 
-        event.setMinute(scrapEventMinute(element));
-        event.setExtraMinute(scrapEventExtraMinute(element));
+        event.setTime(new Time(period, scrapEventMinute(element), scrapEventExtraMinute(element)));
         event.setTeamKey(scrapEventTeamKey(driver, element));
         event.setPlayerKey(scrapGoalPlayerKey(element));
         event.setAssistPlayerKey(scrapGoalAssistPlayerKey(element));
@@ -202,11 +201,10 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         return null;
     }
 
-    protected Card scrapCard(WebDriver driver, WebElement element) {
+    protected Card scrapCard(WebDriver driver, WebElement element, Time.Period period) {
         Card event = new Card();
 
-        event.setMinute(scrapEventMinute(element));
-        event.setExtraMinute(scrapEventExtraMinute(element));
+        event.setTime(new Time(period, scrapEventMinute(element), scrapEventExtraMinute(element)));
         event.setTeamKey(scrapEventTeamKey(driver, element));
         event.setColor(scrapCardColor(element));
         event.setPlayerKey(scrapCardPlayerKey(element));
@@ -233,11 +231,10 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
     }
 
-    protected Substitution scrapSubstitution(WebDriver driver, WebElement element) {
+    protected Substitution scrapSubstitution(WebDriver driver, WebElement element, Time.Period period) {
         Substitution event = new Substitution();
 
-        event.setMinute(scrapEventMinute(element));
-        event.setExtraMinute(scrapEventExtraMinute(element));
+        event.setTime(new Time(period, scrapEventMinute(element), scrapEventExtraMinute(element)));
         event.setTeamKey(scrapEventTeamKey(driver, element));
         event.setInPlayerKey(scrapSubstitutionInPlayerKey(element));
         event.setOutPlayerKey(scrapSubstitutionOutPlayerKey(element));
@@ -255,11 +252,10 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
     }
 
-    protected Penalty scrapPenalty(WebDriver driver, WebElement element) {
+    protected Penalty scrapPenalty(WebDriver driver, WebElement element, Time.Period period) {
         Penalty event = new Penalty();
 
-        event.setMinute(scrapEventMinute(element));
-        event.setExtraMinute(scrapEventExtraMinute(element));
+        event.setTime(new Time(period, scrapEventMinute(element), scrapEventExtraMinute(element)));
         event.setTeamKey(scrapEventTeamKey(driver, element));
         event.setMissed(scrapPenaltyMissed(element));
         event.setPlayerKey(scrapPenaltyPlayerKey(element));
@@ -280,7 +276,7 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
     protected Collection<Penalty> scrapPenalties(WebDriver driver) {
         return getEventsElements(driver, "Penalties")
                 .stream()
-                .map(element -> scrapPenalty(driver, element))
+                .map(element -> scrapPenalty(driver, element, Time.Period.PENALTIES))
                 .toList();
     }
 

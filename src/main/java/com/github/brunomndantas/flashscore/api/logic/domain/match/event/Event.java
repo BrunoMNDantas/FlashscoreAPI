@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,15 +23,10 @@ import lombok.NoArgsConstructor;
 })
 public class Event {
 
-    @Min(0)
-    @Max(150)
-    @Schema(description = "Minute in which the event occurred", example = "29")
-    private int minute;
-
-    @Min(0)
-    @Max(30)
-    @Schema(description = "Extra minute in which the event occurred", example = "0")
-    private int extraMinute;
+    @NotNull
+    @Valid
+    @Schema(description = "Time in which the event occurred", example = "{\"period\": \"SECOND_HALF\", \"minute\": 72, \"extraMinute\": 0}")
+    private Time time;
 
     @NotNull
     @Valid

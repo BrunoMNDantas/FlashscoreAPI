@@ -94,8 +94,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getFirstGoal() {
         Goal goal = new Goal();
 
-        goal.setMinute(5);
-        goal.setExtraMinute(0);
+        goal.setTime(new Time(Time.Period.FIRST_HALF, 5, 0));
         goal.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         goal.setPlayerKey(new PlayerKey("magennis-josh", "IXUzpyWo"));
         goal.setAssistPlayerKey(null);
@@ -106,8 +105,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getSecondGoal() {
         Goal goal = new Goal();
 
-        goal.setMinute(15);
-        goal.setExtraMinute(0);
+        goal.setTime(new Time(Time.Period.FIRST_HALF, 15, 0));
         goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         goal.setPlayerKey(new PlayerKey("sosa-ramon", "GzkUujEi"));
         goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim", "0zOKXsla"));
@@ -118,8 +116,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getThirdGoal() {
         Goal goal = new Goal();
 
-        goal.setMinute(37);
-        goal.setExtraMinute(0);
+        goal.setTime(new Time(Time.Period.FIRST_HALF, 37, 0));
         goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         goal.setPlayerKey(new PlayerKey("awoniyi-taiwo", "OWFf8WFm"));
         goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim", "0zOKXsla"));
@@ -130,8 +127,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Goal getFourtGoal() {
         Goal goal = new Goal();
 
-        goal.setMinute(50);
-        goal.setExtraMinute(0);
+        goal.setTime(new Time(Time.Period.SECOND_HALF, 50, 0));
         goal.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         goal.setPlayerKey(new PlayerKey("magennis-josh", "IXUzpyWo"));
         goal.setAssistPlayerKey(null);
@@ -142,8 +138,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getFirstYellowCard() {
         Card card = new Card();
 
-        card.setMinute(38);
-        card.setExtraMinute(0);
+        card.setTime(new Time(Time.Period.FIRST_HALF, 38, 0));
         card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         card.setColor(Card.Color.YELLOW);
         card.setPlayerKey(new PlayerKey("mcmillan-jack", "YVrybbkq"));
@@ -154,8 +149,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getSecondYellowCard() {
         Card card = new Card();
 
-        card.setMinute(105);
-        card.setExtraMinute(1);
+        card.setTime(new Time(Time.Period.EXTRA_TIME, 105, 1));
         card.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         card.setColor(Card.Color.YELLOW);
         card.setPlayerKey(new PlayerKey("williams-neco", "YVxu86Hs"));
@@ -166,8 +160,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getThirdYellowCard() {
         Card card = new Card();
 
-        card.setMinute(115);
-        card.setExtraMinute(0);
+        card.setTime(new Time(Time.Period.EXTRA_TIME, 115, 0));
         card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         card.setColor(Card.Color.YELLOW);
         card.setPlayerKey(new PlayerKey("yogane-tony", "fP6cbjth"));
@@ -178,8 +171,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Card getFirstRedCard() {
         Card card = new Card();
 
-        card.setMinute(87);
-        card.setExtraMinute(0);
+        card.setTime(new Time(Time.Period.SECOND_HALF, 87, 0));
         card.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         card.setColor(Card.Color.RED);
         card.setPlayerKey(new PlayerKey("turns-ed", "Kraw6tR1"));
@@ -190,8 +182,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getFirstSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setMinute(59);
-        substitution.setExtraMinute(0);
+        substitution.setTime(new Time(Time.Period.SECOND_HALF, 59, 0));
         substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         substitution.setInPlayerKey(new PlayerKey("sels-matz", "Qqo54dB7"));
         substitution.setOutPlayerKey(new PlayerKey("carlos-miguel", "GhFZjle9"));
@@ -202,8 +193,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getSecondSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setMinute(59);
-        substitution.setExtraMinute(0);
+        substitution.setTime(new Time(Time.Period.SECOND_HALF, 59, 0));
         substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         substitution.setInPlayerKey(new PlayerKey("dominguez-nicolas", "A7jPNAQT"));
         substitution.setOutPlayerKey(new PlayerKey("danilo", "rsMiiNaj"));
@@ -214,8 +204,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getThirdSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setMinute(71);
-        substitution.setExtraMinute(0);
+        substitution.setTime(new Time(Time.Period.SECOND_HALF, 71, 0));
         substitution.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         substitution.setInPlayerKey(new PlayerKey("watts-caleb", "fZSnywKF"));
         substitution.setOutPlayerKey(new PlayerKey("trevitt-ryan", "IDtPdIPE"));
@@ -226,8 +215,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Substitution getFourthSubstitution() {
         Substitution substitution = new Substitution();
 
-        substitution.setMinute(71);
-        substitution.setExtraMinute(0);
+        substitution.setTime(new Time(Time.Period.SECOND_HALF, 71, 0));
         substitution.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         substitution.setInPlayerKey(new PlayerKey("anderson-elliott", "KdYCbsbE"));
         substitution.setOutPlayerKey(new PlayerKey("yates-ryan", "IwFLkXYE"));
@@ -238,8 +226,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Penalty getFirstPenalty() {
         Penalty penalty = new Penalty();
 
-        penalty.setMinute(1);
-        penalty.setExtraMinute(0);
+        penalty.setTime(new Time(Time.Period.PENALTIES, 1, 0));
         penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         penalty.setMissed(false);
         penalty.setPlayerKey(new PlayerKey("magennis-josh", "IXUzpyWo"));
@@ -250,8 +237,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Penalty getSecondPenalty() {
         Penalty penalty = new Penalty();
 
-        penalty.setMinute(1);
-        penalty.setExtraMinute(0);
+        penalty.setTime(new Time(Time.Period.PENALTIES, 1, 0));
         penalty.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         penalty.setMissed(false);
         penalty.setPlayerKey(new PlayerKey("wood-chris", "Cp7L7Gro"));
@@ -262,8 +248,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     private Penalty getThirdPenalty() {
         Penalty penalty = new Penalty();
 
-        penalty.setMinute(2);
-        penalty.setExtraMinute(0);
+        penalty.setTime(new Time(Time.Period.PENALTIES, 2, 0));
         penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
         penalty.setMissed(true);
         penalty.setPlayerKey(new PlayerKey("cole-reece", "WCqq6BwA"));
