@@ -1,7 +1,5 @@
-package com.github.brunomndantas.flashscore.api.dataAccess;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.RegionScrapperRepository;
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;

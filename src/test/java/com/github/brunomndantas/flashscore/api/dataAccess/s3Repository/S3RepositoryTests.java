@@ -1,6 +1,5 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.s3RepositoryTests;
+package com.github.brunomndantas.flashscore.api.dataAccess.s3Repository;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.s3Repository.S3Repository;
 import com.github.brunomndantas.repository4j.exception.DuplicatedEntityException;
 import com.github.brunomndantas.repository4j.exception.NonExistentEntityException;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;

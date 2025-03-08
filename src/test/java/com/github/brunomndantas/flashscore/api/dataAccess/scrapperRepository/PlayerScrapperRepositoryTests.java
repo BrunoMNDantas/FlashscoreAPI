@@ -1,7 +1,5 @@
-package com.github.brunomndantas.flashscore.api.dataAccess;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.PlayerScrapperRepository;
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
