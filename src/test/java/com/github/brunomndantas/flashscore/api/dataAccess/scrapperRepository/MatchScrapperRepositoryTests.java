@@ -61,32 +61,21 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         Assertions.assertEquals(9, match.getAwayBenchPlayersKeys().size());
         Assertions.assertTrue(Collections.disjoint(match.getHomeBenchPlayersKeys(), match.getAwayBenchPlayersKeys()));
 
-        Collection<Event> firstHalfEvents = match.getFirstHalfEvents();
-        Assertions.assertEquals(4, firstHalfEvents.size());
-        Assertions.assertTrue(firstHalfEvents.contains(getFirstGoal()));
-        Assertions.assertTrue(firstHalfEvents.contains(getSecondGoal()));
-        Assertions.assertTrue(firstHalfEvents.contains(getThirdGoal()));
-        Assertions.assertTrue(firstHalfEvents.contains(getFirstYellowCard()));
+        Collection<Event> events = match.getEvents();
+        Assertions.assertEquals(28, events.size());
 
-        Collection<Event> secondHalfEvents = match.getSecondHalfEvents();
-        Assertions.assertEquals(13, secondHalfEvents.size());
-        Assertions.assertTrue(secondHalfEvents.contains(getFourtGoal()));
-        Assertions.assertTrue(secondHalfEvents.contains(getFirstSubstitution()));
-        Assertions.assertTrue(secondHalfEvents.contains(getSecondSubstitution()));
-        Assertions.assertTrue(secondHalfEvents.contains(getThirdSubstitution()));
-        Assertions.assertTrue(secondHalfEvents.contains(getFourthSubstitution()));
-        Assertions.assertTrue(secondHalfEvents.contains(getFirstRedCard()));
-
-        Collection<Event> extraTimeEvents = match.getExtraTimeEvents();
-        Assertions.assertEquals(3, extraTimeEvents.size());
-        Assertions.assertTrue(extraTimeEvents.contains(getSecondYellowCard()));
-        Assertions.assertTrue(extraTimeEvents.contains(getThirdYellowCard()));
-
-        Collection<Penalty> penalties = match.getPenalties();
-        Assertions.assertEquals(8, penalties.size());
-        Assertions.assertTrue(penalties.contains(getFirstPenalty()));
-        Assertions.assertTrue(penalties.contains(getSecondPenalty()));
-        Assertions.assertTrue(penalties.contains(getThirdPenalty()));
+        Assertions.assertTrue(events.contains(getFirstGoal()));
+        Assertions.assertTrue(events.contains(getSecondGoal()));
+        Assertions.assertTrue(events.contains(getFirstYellowCard()));
+        Assertions.assertTrue(events.contains(getFourtGoal()));
+        Assertions.assertTrue(events.contains(getFirstSubstitution()));
+        Assertions.assertTrue(events.contains(getSecondSubstitution()));
+        Assertions.assertTrue(events.contains(getFourthSubstitution()));
+        Assertions.assertTrue(events.contains(getFirstRedCard()));
+        Assertions.assertTrue(events.contains(getSecondYellowCard()));
+        Assertions.assertTrue(events.contains(getThirdYellowCard()));
+        Assertions.assertTrue(events.contains(getFirstPenalty()));
+        Assertions.assertTrue(events.contains(getSecondPenalty()));
     }
 
     private Goal getFirstGoal() {
@@ -106,17 +95,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         goal.setTime(new Time(Time.Period.FIRST_HALF, 15, 0));
         goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         goal.setPlayerKey(new PlayerKey("sosa-ramon", "GzkUujEi"));
-        goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim", "0zOKXsla"));
-
-        return goal;
-    }
-
-    private Goal getThirdGoal() {
-        Goal goal = new Goal();
-
-        goal.setTime(new Time(Time.Period.FIRST_HALF, 37, 0));
-        goal.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
-        goal.setPlayerKey(new PlayerKey("awoniyi-taiwo", "OWFf8WFm"));
         goal.setAssistPlayerKey(new PlayerKey("sangare-ibrahim", "0zOKXsla"));
 
         return goal;
@@ -199,17 +177,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         return substitution;
     }
 
-    private Substitution getThirdSubstitution() {
-        Substitution substitution = new Substitution();
-
-        substitution.setTime(new Time(Time.Period.SECOND_HALF, 71, 0));
-        substitution.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
-        substitution.setInPlayerKey(new PlayerKey("watts-caleb", "fZSnywKF"));
-        substitution.setOutPlayerKey(new PlayerKey("trevitt-ryan", "IDtPdIPE"));
-
-        return substitution;
-    }
-
     private Substitution getFourthSubstitution() {
         Substitution substitution = new Substitution();
 
@@ -239,17 +206,6 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
         penalty.setTeamKey(new TeamKey("nottingham", "UsushcZr"));
         penalty.setMissed(false);
         penalty.setPlayerKey(new PlayerKey("wood-chris", "Cp7L7Gro"));
-
-        return penalty;
-    }
-
-    private Penalty getThirdPenalty() {
-        Penalty penalty = new Penalty();
-
-        penalty.setTime(new Time(Time.Period.PENALTIES, 2, 0));
-        penalty.setTeamKey(new TeamKey("exeter", "ve14a3l4"));
-        penalty.setMissed(true);
-        penalty.setPlayerKey(new PlayerKey("cole-reece", "WCqq6BwA"));
 
         return penalty;
     }

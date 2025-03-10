@@ -1,6 +1,5 @@
 package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPool;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPoolException;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;

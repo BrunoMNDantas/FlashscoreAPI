@@ -46,8 +46,7 @@ class MatchControllerTests {
                 1, 1,
                 new Date(),
                 new PlayerKey("Home", "Coach"), new PlayerKey("Away", "Coach"),
-                new LinkedList<>(), new LinkedList<>(),
-                new LinkedList<>(), new LinkedList<>(),
+                new LinkedList<>(),
                 null, null, null, null);
 
         Mockito

@@ -1,7 +1,6 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.match;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Event;
-import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Penalty;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -88,25 +87,8 @@ public class Match {
     @NotNull
     @Valid
     @Schema(
-            description = "List of events during the first half of the match",
-            example = "[{\"type\":\"GOAL\", \"minute\":29, \"extraMinute\":0, \"teamKey\":{\"teamName\":\"sporting-lisbon\", \"teamId\":\"tljXuHBC\"},\"playerKey\":{\"playerName\":\"catamo-geny\", \"playerId\":\"29eth6dF\"},\"assistPlayerKey\":{\"playerName\":\"gyokeres-viktor\", \"playerId\":\"zaBZ1xIk\"}}]")
-    private Collection<Event> firstHalfEvents;
-
-    @NotNull
-    @Valid
-    @Schema(
-            description = "List of events during the second half of the match",
-            example = "[{\"type\": \"CARD\", \"minute\": 58, \"extraMinute\": 0, \"teamKey\": {\"teamName\": \"benfica\", \"teamId\": \"zBkyuyRI\"},\"playerKey\": {\"playerName\": \"bah-alexander\", \"playerId\": \"Kn1rziON\"},\"color\": \"YELLOW\"}]")
-    private Collection<Event> secondHalfEvents;
-
-    @NotNull
-    @Valid
-    @Schema(description = "List of events during the extra time of the match", example = "[]")
-    private Collection<Event> extraTimeEvents;
-
-    @NotNull
-    @Valid
-    @Schema(description = "Penalties after extra time of the match", example = "[]")
-    private Collection<Penalty> penalties;
+            description = "List of events across all match periods",
+            example = "[{\"time\": {\"period\": \"FIRST_HALF\",\"minute\": 29,\"extraMinute\": 0},\"teamKey\": {\"teamName\": \"sporting-lisbon\",\"teamId\": \"tljXuHBC\"},\"playerKey\": {\"playerName\": \"catamo-geny\",\"playerId\": \"29eth6dF\"},\"assistPlayerKey\": {\"playerName\": \"gyokeres-viktor\",\"playerId\": \"zaBZ1xIk\"}}]")
+    private Collection<Event> events;
 
 }

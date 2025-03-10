@@ -28,6 +28,11 @@ import java.util.stream.Collectors;
 
 public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match> {
 
+    public static final String FIRST_HALF_LABEL = "1st Half";
+    public static final String SECOND_HALF_LABEL = "2nd Half";
+    public static final String EXTRA_TIME_LABEL = "Extra Time";
+    public static final String PENALTIES_LABEL = "Penalties";
+
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 
@@ -51,10 +56,7 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         match.setHomeTeamGoals(scrapHomeTeamGoals(driver));
         match.setAwayTeamGoals(scrapAwayTeamGoals(driver));
         match.setDate(scrapDate(driver));
-        match.setFirstHalfEvents(scrapEvents(driver, "1st Half", Time.Period.FIRST_HALF));
-        match.setSecondHalfEvents(scrapEvents(driver, "2nd Half", Time.Period.SECOND_HALF));
-        match.setExtraTimeEvents(scrapEvents(driver, "Extra Time", Time.Period.EXTRA_TIME));
-        match.setPenalties(scrapPenalties(driver));
+        match.setEvents(scrapEvents(driver));
 
         loadPlayersURL(matchKey, driver);
 
@@ -104,6 +106,17 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
         } catch (ParseException e) {
             throw new RepositoryException("Error parsing date", e);
         }
+    }
+
+    protected Collection<Event> scrapEvents(WebDriver driver) {
+        Collection<Event> events = new LinkedList<>();
+
+        events.addAll(scrapEvents(driver, FIRST_HALF_LABEL, Time.Period.FIRST_HALF));
+        events.addAll(scrapEvents(driver, SECOND_HALF_LABEL, Time.Period.SECOND_HALF));
+        events.addAll(scrapEvents(driver, EXTRA_TIME_LABEL, Time.Period.EXTRA_TIME));
+        events.addAll(scrapEvents(driver, PENALTIES_LABEL, Time.Period.PENALTIES));
+
+        return events;
     }
 
     protected Collection<WebElement> getEventsElements(WebDriver driver, String part) {
@@ -271,13 +284,6 @@ public class MatchScrapperRepository extends ScrapperRepository<MatchKey, Match>
     protected PlayerKey scrapPenaltyPlayerKey(WebElement element) {
         WebElement playerElement = element.findElement(FlashscoreSelectors.MATCH_EVENT_PENALTY_PLAYER_SELECTOR);
         return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
-    }
-
-    protected Collection<Penalty> scrapPenalties(WebDriver driver) {
-        return getEventsElements(driver, "Penalties")
-                .stream()
-                .map(element -> scrapPenalty(driver, element, Time.Period.PENALTIES))
-                .toList();
     }
 
     private void loadPlayersURL(MatchKey matchKey, WebDriver driver) {
