@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.match.MatchDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,8 +31,9 @@ public class MatchController {
     @Operation(summary = "Get match by key", description = "Returns the match with the given key if found, otherwise returns 404")
     @ApiResponse(responseCode = "200", description = "Match found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Match.class)))
     @ApiResponse(responseCode = "404", description = "Match not found", content = @Content(mediaType = "text/plain"))
-    public Match getMatch(@PathVariable String matchId) throws RepositoryException {
-        return repository.get(new MatchKey(matchId));
+    public MatchDTO getMatch(@PathVariable String matchId) throws RepositoryException {
+        Match match = repository.get(new MatchKey(matchId));
+        return match == null ? null : new MatchDTO(match);
     }
     
 }

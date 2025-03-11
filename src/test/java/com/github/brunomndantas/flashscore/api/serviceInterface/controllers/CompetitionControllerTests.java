@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.competition.CompetitionDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,7 @@ class CompetitionControllerTests {
         String regionId = "Region";
         String competitionId = "Competition";
         Competition competition = new Competition(new CompetitionKey(sportId, regionId, competitionId), "Comp", new LinkedList<>());
+        CompetitionDTO competitionDTO = new CompetitionDTO(competition);
 
         Mockito
             .when(repository.get(Mockito.any(CompetitionKey.class)))
@@ -52,7 +54,7 @@ class CompetitionControllerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(competition)));
+                .andExpect(content().json(mapper.writeValueAsString(competitionDTO)));
     }
 
 }

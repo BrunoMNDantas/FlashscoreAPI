@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.team.TeamDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,7 @@ class TeamControllerTests {
     public void shouldReturnTeam() throws Exception {
         TeamKey teamKey = new TeamKey("Name", "Id");
         Team team = new Team(teamKey, "T", null, 0, null, new LinkedList<>());
+        TeamDTO teamDTO = new TeamDTO(team);
 
         Mockito
             .when(repository.get(Mockito.any(TeamKey.class)))
@@ -48,7 +50,7 @@ class TeamControllerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(team)));
+                .andExpect(content().json(mapper.writeValueAsString(teamDTO)));
     }
 
 }

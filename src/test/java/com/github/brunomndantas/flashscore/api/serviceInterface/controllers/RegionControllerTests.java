@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.region.RegionDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,7 @@ class RegionControllerTests {
         String sportId = "Sport";
         String regionId = "Region";
         Region region = new Region(new RegionKey(sportId, regionId), "Reg", new LinkedList<>());
+        RegionDTO regionDTO = new RegionDTO(region);
 
         Mockito
             .when(repository.get(Mockito.any(RegionKey.class)))
@@ -50,7 +52,7 @@ class RegionControllerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(region)));
+                .andExpect(content().json(mapper.writeValueAsString(regionDTO)));
     }
 
 }

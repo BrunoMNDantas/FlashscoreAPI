@@ -6,6 +6,7 @@ import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.match.MatchDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,6 +49,7 @@ class MatchControllerTests {
                 new PlayerKey("Home", "Coach"), new PlayerKey("Away", "Coach"),
                 new LinkedList<>(),
                 null, null, null, null);
+        MatchDTO matchDTO = new MatchDTO(match);
 
         Mockito
             .when(repository.get(Mockito.any(MatchKey.class)))
@@ -58,7 +60,7 @@ class MatchControllerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(match)));
+                .andExpect(content().json(mapper.writeValueAsString(matchDTO)));
     }
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.season.SeasonDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,7 @@ class SeasonControllerTests {
         String competitionId = "Competition";
         String seasonId = "Season";
         Season season = new Season(new SeasonKey(sportId, regionId, competitionId, seasonId), 2020, 2021, new LinkedList<>());
+        SeasonDTO seasonDTO = new SeasonDTO(season);
 
         Mockito
             .when(repository.get(Mockito.any(SeasonKey.class)))
@@ -54,7 +56,7 @@ class SeasonControllerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(season)));
+                .andExpect(content().json(mapper.writeValueAsString(seasonDTO)));
     }
 
 }

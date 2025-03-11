@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.Region;
 import com.github.brunomndantas.flashscore.api.logic.domain.region.RegionKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.region.RegionDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,8 +31,9 @@ public class RegionController {
     @Operation(summary = "Get region by key", description = "Returns the region with the given key if found, otherwise returns 404")
     @ApiResponse(responseCode = "200", description = "Region found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Region.class)))
     @ApiResponse(responseCode = "404", description = "Region not found", content = @Content(mediaType = "text/plain"))
-    public Region getRegion(@PathVariable String sportId, @PathVariable String regionId) throws RepositoryException {
-        return repository.get(new RegionKey(sportId, regionId));
+    public RegionDTO getRegion(@PathVariable String sportId, @PathVariable String regionId) throws RepositoryException {
+        Region region = repository.get(new RegionKey(sportId, regionId));
+        return region == null ? null : new RegionDTO(region);
     }
 
 }

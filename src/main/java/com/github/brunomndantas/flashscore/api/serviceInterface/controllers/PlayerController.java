@@ -3,6 +3,7 @@ package com.github.brunomndantas.flashscore.api.serviceInterface.controllers;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.player.PlayerDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import com.github.brunomndantas.repository4j.exception.RepositoryException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,8 +31,9 @@ public class PlayerController {
     @Operation(summary = "Get player by key", description = "Returns the player with the given key if found, otherwise returns 404")
     @ApiResponse(responseCode = "200", description = "Player found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Player.class)))
     @ApiResponse(responseCode = "404", description = "Player not found", content = @Content(mediaType = "text/plain"))
-    public Player getPlayer(@PathVariable String playerName, @PathVariable String playerId) throws RepositoryException {
-        return repository.get(new PlayerKey(playerName, playerId));
+    public PlayerDTO getPlayer(@PathVariable String playerName, @PathVariable String playerId) throws RepositoryException {
+        Player player = repository.get(new PlayerKey(playerName, playerId));
+        return player == null ? null : new PlayerDTO(player);
     }
     
 }

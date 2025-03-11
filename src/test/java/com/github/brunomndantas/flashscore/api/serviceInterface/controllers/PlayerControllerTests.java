@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.serviceInterface.config.Routes;
+import com.github.brunomndantas.flashscore.api.serviceInterface.dtos.player.PlayerDTO;
 import com.github.brunomndantas.repository4j.IRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +39,7 @@ class PlayerControllerTests {
     public void shouldReturnPlayer() throws Exception {
         PlayerKey playerKey = new PlayerKey("Name", "Id");
         Player player = new Player(playerKey, "P", new Date(), "A");
+        PlayerDTO playerDTO = new PlayerDTO(player);
 
         Mockito
             .when(repository.get(Mockito.any(PlayerKey.class)))
@@ -49,7 +51,7 @@ class PlayerControllerTests {
 
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(player)));
+                .andExpect(content().json(mapper.writeValueAsString(playerDTO)));
     }
 
 }
