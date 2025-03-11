@@ -1,17 +1,16 @@
 package com.github.brunomndantas.flashscore.api.logic.domain.match.event;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
+import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Schema(description = "Substitution")
 public class Substitution extends Event {
@@ -25,5 +24,12 @@ public class Substitution extends Event {
     @Valid
     @Schema(description = "Unique identifier for the player leaving", example = "{\"playerName\": \"morita-hidemasa\",\"playerId\": \"Y3AIyFGA\"}")
     private PlayerKey outPlayerKey;
+
+
+    public Substitution(Time time, TeamKey teamKey, PlayerKey inPlayerKey, PlayerKey outPlayerKey) {
+        super(time, teamKey);
+        this.inPlayerKey = inPlayerKey;
+        this.outPlayerKey = outPlayerKey;
+    }
 
 }
