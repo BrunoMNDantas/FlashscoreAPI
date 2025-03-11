@@ -50,6 +50,7 @@ Currently, the Flashscore API supports scraping data for the following sports:
 - **Web Scraping:** Selenium
 - **CI/CD:** GitHub Actions, Railway, Telegram
 - **Testing:** JUnit, Postman
+- **Storage:** AWS S3
 
 ## UML Diagrams
 
