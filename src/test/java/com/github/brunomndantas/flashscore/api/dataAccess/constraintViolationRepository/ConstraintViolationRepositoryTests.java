@@ -6,7 +6,9 @@ import com.github.brunomndantas.repository4j.memory.MemoryRepository;
 import jakarta.validation.constraints.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class ConstraintViolationRepositoryTests {
 
     public static class Person {

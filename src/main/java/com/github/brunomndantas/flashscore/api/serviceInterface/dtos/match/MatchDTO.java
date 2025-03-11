@@ -89,18 +89,12 @@ public class MatchDTO {
         this.homeTeamGoals = match.getHomeTeamGoals();
         this.awayTeamGoals = match.getAwayTeamGoals();
         this.date = match.getDate();
-        this.homeCoachPlayerKey = match.getHomeCoachPlayerKey() == null ?
-                null : new PlayerKeyDTO(match.getHomeCoachPlayerKey());
-        this.awayCoachPlayerKey = match.getAwayCoachPlayerKey() == null ?
-                null : new PlayerKeyDTO(match.getAwayCoachPlayerKey());
-        this.homeLineupPlayersKeys = match.getHomeLineupPlayersKeys() == null ?
-                null : match.getHomeLineupPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
-        this.awayLineupPlayersKeys = match.getAwayLineupPlayersKeys() == null ?
-                null : match.getAwayLineupPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
-        this.homeBenchPlayersKeys = match.getHomeBenchPlayersKeys() == null ?
-                null : match.getHomeBenchPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
-        this.awayBenchPlayersKeys = match.getAwayBenchPlayersKeys() == null ?
-                null : match.getAwayBenchPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
+        this.homeCoachPlayerKey = match.getHomeCoachPlayerKey() == null ? null : new PlayerKeyDTO(match.getHomeCoachPlayerKey());
+        this.awayCoachPlayerKey = match.getAwayCoachPlayerKey() == null ? null : new PlayerKeyDTO(match.getAwayCoachPlayerKey());
+        this.homeLineupPlayersKeys = match.getHomeLineupPlayersKeys() == null ? null : match.getHomeLineupPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
+        this.awayLineupPlayersKeys = match.getAwayLineupPlayersKeys() == null ? null : match.getAwayLineupPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
+        this.homeBenchPlayersKeys = match.getHomeBenchPlayersKeys() == null ? null : match.getHomeBenchPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
+        this.awayBenchPlayersKeys = match.getAwayBenchPlayersKeys() == null ? null : match.getAwayBenchPlayersKeys().stream().map(PlayerKeyDTO::new).toList();
         this.cards = match.getEvents() == null ? null : getCards(match).stream().map(CardDTO::new).toList();
         this.goals = match.getEvents() == null ? null : getGoals(match).stream().map(GoalDTO::new).toList();
         this.penalties = match.getEvents() == null ? null : getPenalties(match).stream().map(PenaltyDTO::new).toList();

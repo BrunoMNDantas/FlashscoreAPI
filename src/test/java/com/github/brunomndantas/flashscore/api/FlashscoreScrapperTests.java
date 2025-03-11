@@ -6,10 +6,12 @@ import com.github.brunomndantas.flashscore.api.logic.services.scrapService.IScra
 import com.github.brunomndantas.flashscore.api.logic.services.scrapService.Report;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SpringBootTest
 public class FlashscoreScrapperTests {
 
     private static class DummyScrapService implements IScrapService {

@@ -11,7 +11,9 @@ import com.github.brunomndantas.tpl4j.task.pool.TaskPool;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class EntityScrapperTests {
 
     protected static final TaskPool TASK_POOL = new TaskPool(2);

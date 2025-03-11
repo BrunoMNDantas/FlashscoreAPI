@@ -12,10 +12,12 @@ import com.github.brunomndantas.flashscore.api.logic.services.entityScrapper.Ent
 import com.github.brunomndantas.flashscore.api.logic.services.scrapService.Report;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
+@SpringBootTest
 public class TextReportViewerTests {
 
     @Test

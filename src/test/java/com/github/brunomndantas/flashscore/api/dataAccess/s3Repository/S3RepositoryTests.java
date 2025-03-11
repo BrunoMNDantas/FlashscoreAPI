@@ -17,7 +17,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 @SpringBootTest
-
 public class S3RepositoryTests {
 
     public static class Person {
