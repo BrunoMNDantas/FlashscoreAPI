@@ -1,6 +1,21 @@
 package com.github.brunomndantas.flashscore.api.serviceInterface.config;
 
 import com.github.brunomndantas.flashscore.api.dataAccess.constraintViolationRepository.ConstraintViolationRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtoRepository.DTORepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.competition.CompetitionDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.competition.CompetitionKeyDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.match.MatchDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.match.MatchKeyDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.player.PlayerDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.player.PlayerKeyDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.region.RegionDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.region.RegionKeyDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.season.SeasonDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.season.SeasonKeyDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.sport.SportDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.sport.SportKeyDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.team.TeamDTO;
+import com.github.brunomndantas.flashscore.api.dataAccess.dtos.team.TeamKeyDTO;
 import com.github.brunomndantas.flashscore.api.dataAccess.s3Repository.S3Repository;
 import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.*;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
@@ -60,72 +75,94 @@ public class RepositoryConfig {
 
     @Bean
     public IRepository<SportKey, Sport> sportCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Sport", Sport.class, Sport::getKey);
+        IRepository<SportKeyDTO, SportDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Sport", SportDTO.class, SportDTO::getKey);
+        return new DTORepository<>(repository, SportKeyDTO::new, SportDTO::new, SportDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<RegionKey, Region> regionCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Region", Region.class, Region::getKey);
+        IRepository<RegionKeyDTO, RegionDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Region", RegionDTO.class, RegionDTO::getKey);
+        return new DTORepository<>(repository, RegionKeyDTO::new, RegionDTO::new, RegionDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<CompetitionKey, Competition> competitionCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Competition", Competition.class, Competition::getKey);
+        IRepository<CompetitionKeyDTO, CompetitionDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Competition", CompetitionDTO.class, CompetitionDTO::getKey);
+        return new DTORepository<>(repository, CompetitionKeyDTO::new, CompetitionDTO::new, CompetitionDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<SeasonKey, Season> seasonCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Season", Season.class, Season::getKey);
+        IRepository<SeasonKeyDTO, SeasonDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Season", SeasonDTO.class, SeasonDTO::getKey);
+        return new DTORepository<>(repository, SeasonKeyDTO::new, SeasonDTO::new, SeasonDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<MatchKey, Match> matchCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Match", Match.class, Match::getKey);
+        IRepository<MatchKeyDTO, MatchDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Match", MatchDTO.class, MatchDTO::getKey);
+        return new DTORepository<>(repository, MatchKeyDTO::new, MatchDTO::new, MatchDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<TeamKey, Team> teamCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Team", Team.class, Team::getKey);
+        IRepository<TeamKeyDTO, TeamDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Team", TeamDTO.class, TeamDTO::getKey);
+        return new DTORepository<>(repository, TeamKeyDTO::new, TeamDTO::new, TeamDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<PlayerKey, Player> playerCacheRepository(S3Client s3Client) {
-        return new S3Repository<>(s3Client, s3BucketName, "Player", Player.class, Player::getKey);
+        IRepository<PlayerKeyDTO, PlayerDTO> repository =
+                new S3Repository<>(s3Client, s3BucketName, "Player", PlayerDTO.class, PlayerDTO::getKey);
+        return new DTORepository<>(repository, PlayerKeyDTO::new, PlayerDTO::new, PlayerDTO::toDomainEntity);
     }
 
     @Bean
     public IRepository<SportKey, Sport> sportSourceRepository(IDriverPool driverPool) {
-        return new SportScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<SportKey, Sport> repository = new SportScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, SportDTO::new);
     }
 
     @Bean
     public IRepository<RegionKey, Region> regionSourceRepository(IDriverPool driverPool) {
-        return new RegionScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<RegionKey, Region> repository = new RegionScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, RegionDTO::new);
     }
 
     @Bean
     public IRepository<CompetitionKey, Competition> competitionSourceRepository(IDriverPool driverPool) {
-        return new CompetitionScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<CompetitionKey, Competition> repository = new CompetitionScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, CompetitionDTO::new);
     }
 
     @Bean
     public IRepository<SeasonKey, Season> seasonSourceRepository(IDriverPool driverPool) {
-        return new SeasonScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<SeasonKey, Season> repository = new SeasonScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, SeasonDTO::new);
     }
 
     @Bean
     public IRepository<MatchKey, Match> matchSourceRepository(IDriverPool driverPool) {
-        return new MatchScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<MatchKey, Match> repository = new MatchScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, MatchDTO::new);
     }
 
     @Bean
     public IRepository<TeamKey, Team> teamSourceRepository(IDriverPool driverPool) {
-        return new TeamScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<TeamKey, Team> repository = new TeamScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, TeamDTO::new);
+
     }
 
     @Bean
     public IRepository<PlayerKey, Player> playerSourceRepository(IDriverPool driverPool) {
-        return new PlayerScrapperRepository(driverPool, screenshotsDirectory);
+        IRepository<PlayerKey, Player> repository = new PlayerScrapperRepository(driverPool, screenshotsDirectory);
+        return new ConstraintViolationRepository<>(repository, PlayerDTO::new);
     }
 
     @Bean
@@ -134,7 +171,6 @@ public class RepositoryConfig {
             @Qualifier("sportSourceRepository") IRepository<SportKey, Sport> sourceRepository,
             @Qualifier("sportCacheRepository") IRepository<SportKey, Sport> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Sport::getKey);
     }
 
@@ -144,7 +180,6 @@ public class RepositoryConfig {
             @Qualifier("regionSourceRepository") IRepository<RegionKey, Region> sourceRepository,
             @Qualifier("regionCacheRepository") IRepository<RegionKey, Region> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Region::getKey);
     }
 
@@ -154,7 +189,6 @@ public class RepositoryConfig {
             @Qualifier("competitionSourceRepository") IRepository<CompetitionKey, Competition> sourceRepository,
             @Qualifier("competitionCacheRepository") IRepository<CompetitionKey, Competition> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Competition::getKey);
     }
 
@@ -164,7 +198,6 @@ public class RepositoryConfig {
             @Qualifier("seasonSourceRepository") IRepository<SeasonKey, Season> sourceRepository,
             @Qualifier("seasonCacheRepository") IRepository<SeasonKey, Season> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Season::getKey);
     }
 
@@ -174,7 +207,6 @@ public class RepositoryConfig {
             @Qualifier("matchSourceRepository") IRepository<MatchKey, Match> sourceRepository,
             @Qualifier("matchCacheRepository") IRepository<MatchKey, Match> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Match::getKey);
     }
 
@@ -184,7 +216,6 @@ public class RepositoryConfig {
             @Qualifier("teamSourceRepository") IRepository<TeamKey, Team> sourceRepository,
             @Qualifier("teamCacheRepository") IRepository<TeamKey, Team> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Team::getKey);
     }
 
@@ -194,7 +225,6 @@ public class RepositoryConfig {
             @Qualifier("playerSourceRepository") IRepository<PlayerKey, Player> sourceRepository,
             @Qualifier("playerCacheRepository") IRepository<PlayerKey, Player> cacheRepository
     ) {
-        sourceRepository = new ConstraintViolationRepository<>(sourceRepository);
         return new CacheRepository<>(cacheRepository, sourceRepository, Player::getKey);
     }
 

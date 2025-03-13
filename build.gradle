@@ -36,6 +36,8 @@ dependencies {
 	//LOMBOK
 	compileOnly 'org.projectlombok:lombok:1.18.36'
 	annotationProcessor 'org.projectlombok:lombok:1.18.36'
+	testCompileOnly 'org.projectlombok:lombok:1.18.36'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
 
 	//TPL4J
 	implementation group: 'com.github.brunomndantas', name: 'tpl4j', version: '1.2.1'
