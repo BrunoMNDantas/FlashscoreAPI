@@ -14,7 +14,7 @@ import lombok.extern.jackson.Jacksonized;
 @Schema(description = "Time")
 public class TimeDTO {
 
-    @Schema(description = "Period")
+    @Schema(description = "Period of the match")
     public enum PeriodDTO {
 
         FIRST_HALF,
