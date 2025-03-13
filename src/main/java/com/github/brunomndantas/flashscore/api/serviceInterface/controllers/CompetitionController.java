@@ -29,7 +29,7 @@ public class CompetitionController {
 
     @GetMapping(Routes.COMPETITION_ROUTE)
     @Operation(summary = "Get competition by key", description = "Returns the competition with the given key if found, otherwise returns 404")
-    @ApiResponse(responseCode = "200", description = "Competition found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Competition.class)))
+    @ApiResponse(responseCode = "200", description = "Competition found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CompetitionDTO.class)))
     @ApiResponse(responseCode = "404", description = "Competition not found", content = @Content(mediaType = "text/plain"))
     public CompetitionDTO getCompetition(@PathVariable String sportId, @PathVariable String regionId, @PathVariable String competitionId) throws RepositoryException {
         Competition competition = repository.get(new CompetitionKey(sportId, regionId, competitionId));

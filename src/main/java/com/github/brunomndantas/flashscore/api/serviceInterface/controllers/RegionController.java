@@ -29,7 +29,7 @@ public class RegionController {
 
     @GetMapping(Routes.REGION_ROUTE)
     @Operation(summary = "Get region by key", description = "Returns the region with the given key if found, otherwise returns 404")
-    @ApiResponse(responseCode = "200", description = "Region found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Region.class)))
+    @ApiResponse(responseCode = "200", description = "Region found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegionDTO.class)))
     @ApiResponse(responseCode = "404", description = "Region not found", content = @Content(mediaType = "text/plain"))
     public RegionDTO getRegion(@PathVariable String sportId, @PathVariable String regionId) throws RepositoryException {
         Region region = repository.get(new RegionKey(sportId, regionId));

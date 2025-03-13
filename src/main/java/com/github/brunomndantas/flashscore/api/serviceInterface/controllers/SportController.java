@@ -29,7 +29,7 @@ public class SportController {
 
     @GetMapping(Routes.SPORT_ROUTE)
     @Operation(summary = "Get sport by key", description = "Returns the sport with the given key if found, otherwise returns 404")
-    @ApiResponse(responseCode = "200", description = "Sport found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Sport.class)))
+    @ApiResponse(responseCode = "200", description = "Sport found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SportDTO.class)))
     @ApiResponse(responseCode = "404", description = "Sport not found", content = @Content(mediaType = "text/plain"))
     public SportDTO getSport(@PathVariable String sportId) throws RepositoryException {
         Sport sport = repository.get(new SportKey(sportId));

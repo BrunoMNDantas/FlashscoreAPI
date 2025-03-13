@@ -29,7 +29,7 @@ public class MatchController {
 
     @GetMapping(Routes.MATCH_ROUTE)
     @Operation(summary = "Get match by key", description = "Returns the match with the given key if found, otherwise returns 404")
-    @ApiResponse(responseCode = "200", description = "Match found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Match.class)))
+    @ApiResponse(responseCode = "200", description = "Match found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MatchDTO.class)))
     @ApiResponse(responseCode = "404", description = "Match not found", content = @Content(mediaType = "text/plain"))
     public MatchDTO getMatch(@PathVariable String matchId) throws RepositoryException {
         Match match = repository.get(new MatchKey(matchId));

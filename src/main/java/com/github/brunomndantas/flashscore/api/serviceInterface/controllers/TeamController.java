@@ -29,7 +29,7 @@ public class TeamController {
 
     @GetMapping(Routes.TEAM_ROUTE)
     @Operation(summary = "Get team by key", description = "Returns the team with the given key if found, otherwise returns 404")
-    @ApiResponse(responseCode = "200", description = "Team found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Team.class)))
+    @ApiResponse(responseCode = "200", description = "Team found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TeamDTO.class)))
     @ApiResponse(responseCode = "404", description = "Team Not found", content = @Content(mediaType = "text/plain"))
     public TeamDTO getTeam(@PathVariable String teamName, @PathVariable String teamId) throws RepositoryException {
         Team team = repository.get(new TeamKey(teamName, teamId));

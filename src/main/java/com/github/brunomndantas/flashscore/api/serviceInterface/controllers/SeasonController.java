@@ -29,7 +29,7 @@ public class SeasonController {
 
     @GetMapping(Routes.SEASON_ROUTE)
     @Operation(summary = "Get season by key", description = "Returns the season with the given key if found, otherwise returns 404")
-    @ApiResponse(responseCode = "200", description = "Season found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Season.class)))
+    @ApiResponse(responseCode = "200", description = "Season found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SeasonDTO.class)))
     @ApiResponse(responseCode = "404", description = "Season not found", content = @Content(mediaType = "text/plain"))
     public SeasonDTO getSeason(@PathVariable String sportId, @PathVariable String regionId, @PathVariable String competitionId, @PathVariable String seasonId) throws RepositoryException {
         Season season = repository.get(new SeasonKey(sportId, regionId, competitionId, seasonId));
