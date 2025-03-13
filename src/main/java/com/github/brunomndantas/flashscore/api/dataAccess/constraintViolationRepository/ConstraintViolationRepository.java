@@ -10,10 +10,13 @@ import jakarta.validation.ValidatorFactory;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import java.util.Set;
+import java.util.function.Function;
 
-public class ConstraintViolationRepository<K,E> extends ValidatorRepository<K,E> {
+public class ConstraintViolationRepository<K,E,DTO> extends ValidatorRepository<K,E> {
 
-    private static <E> void getConstraintViolation(E entity) throws ConstraintViolationException {
+    private static <E, DTO> void getConstraintViolation(E entity, Function<E,DTO> dtoMapper) throws ConstraintViolationException {
+        DTO dto = dtoMapper.apply(entity);
+
         ValidatorFactory factory = Validation.byDefaultProvider()
                 .configure()
                 .messageInterpolator(new ParameterMessageInterpolator())
@@ -22,10 +25,10 @@ public class ConstraintViolationRepository<K,E> extends ValidatorRepository<K,E>
         try(factory) {
             Validator validator = factory.getValidator();
 
-            Set<ConstraintViolation<E>> violations = validator.validate(entity);
+            Set<ConstraintViolation<DTO>> violations = validator.validate(dto);
 
             if(!violations.isEmpty()) {
-                ConstraintViolation<E> violation = violations.iterator().next();
+                ConstraintViolation<DTO> violation = violations.iterator().next();
                 String message = violation.getPropertyPath() + ": " + violation.getMessage();
                 throw new ConstraintViolationException(message);
             }
@@ -33,8 +36,8 @@ public class ConstraintViolationRepository<K,E> extends ValidatorRepository<K,E>
     }
 
 
-    public ConstraintViolationRepository(IRepository<K,E> sourceRepository) {
-        super(sourceRepository, ConstraintViolationRepository::getConstraintViolation);
+    public ConstraintViolationRepository(IRepository<K,E> sourceRepository, Function<E,DTO> dtoMapper) {
+        super(sourceRepository, entity -> getConstraintViolation(entity, dtoMapper));
     }
 
 

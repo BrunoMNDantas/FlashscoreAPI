@@ -13,7 +13,6 @@ public class ConstraintViolationRepositoryTests {
 
     public static class Person {
 
-        @NotNull
         public String name;
 
 
@@ -23,11 +22,23 @@ public class ConstraintViolationRepositoryTests {
 
     }
 
+    public static class PersonDTO {
+
+        @NotNull
+        public String name;
+
+
+        public PersonDTO(Person person) {
+            this.name = person.name;
+        }
+
+    }
+
     @Test
     public void shouldReturnEntityIfNoViolationIsFound() throws RepositoryException  {
         Person person = new Person("name");
         IRepository<String, Person> sourceRepository = new MemoryRepository<>(p -> p.name);
-        IRepository<String, Person> repository = new ConstraintViolationRepository<>(sourceRepository);
+        IRepository<String, Person> repository = new ConstraintViolationRepository<>(sourceRepository, PersonDTO::new);
 
         sourceRepository.insert(person);
 
@@ -39,7 +50,7 @@ public class ConstraintViolationRepositoryTests {
     public void shouldThrowExceptionIfViolationIsFound() throws RepositoryException {
         Person person = new Person(null);
         IRepository<String, Person> sourceRepository = new MemoryRepository<>(p -> p.name);
-        IRepository<String, Person> repository = new ConstraintViolationRepository<>(sourceRepository);
+        IRepository<String, Person> repository = new ConstraintViolationRepository<>(sourceRepository, PersonDTO::new);
 
         sourceRepository.insert(person);
 
