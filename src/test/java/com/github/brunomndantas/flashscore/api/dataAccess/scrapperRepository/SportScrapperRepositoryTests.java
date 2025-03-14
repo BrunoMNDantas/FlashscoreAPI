@@ -15,7 +15,7 @@ public class SportScrapperRepositoryTests extends ScrapperRepositoryTests<SportK
 
     @Override
     protected ScrapperRepository<SportKey, Sport> createRepository() {
-        return createRepository(DRIVER_POOL);
+        return createRepository(driverPool);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SportScrapperRepositoryTests extends ScrapperRepositoryTests<SportK
     @Test
     public void shouldScrapData() throws Exception {
         SportKey key = new SportKey("beach-soccer");
-        ScrapperRepository<SportKey,Sport> repository = createRepository(DRIVER_POOL);
+        ScrapperRepository<SportKey,Sport> repository = createRepository(driverPool);
 
         Sport sport = repository.get(key);
 

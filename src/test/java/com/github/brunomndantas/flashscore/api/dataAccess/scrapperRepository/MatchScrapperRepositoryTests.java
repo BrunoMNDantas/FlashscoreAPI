@@ -18,7 +18,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
 
     @Override
     protected ScrapperRepository<MatchKey, Match> createRepository() {
-        return createRepository(DRIVER_POOL);
+        return createRepository(driverPool);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MatchScrapperRepositoryTests extends ScrapperRepositoryTests<MatchK
     @Test
     public void shouldScrapData() throws Exception {
         MatchKey key = new MatchKey("vekYdzTa");
-        ScrapperRepository<MatchKey, Match> repository = createRepository(DRIVER_POOL);
+        ScrapperRepository<MatchKey, Match> repository = createRepository(driverPool);
 
         Match match = repository.get(key);
 
