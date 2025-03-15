@@ -6,7 +6,6 @@ import com.github.brunomndantas.flashscore.api.transversal.driverSupplier.Flashs
 import com.github.brunomndantas.jscrapper.core.driverSupplier.IDriverSupplier;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import jakarta.annotation.PreDestroy;
-import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +22,6 @@ public class GlobalTestConfig {
     protected boolean driverHeadless;
 
     protected IDriverPool driverPool;
-    protected WebDriver driver;
 
 
     @Bean
@@ -38,21 +36,11 @@ public class GlobalTestConfig {
         return driverPool;
     }
 
-    @Bean
-    public WebDriver getDriver() throws Exception {
-        if(driver == null) {
-            IDriverSupplier sourceDriverSupplier = new ChromeDriverSupplier(driverPath, driverSilent, driverHeadless);
-            IDriverSupplier driverSupplier = new FlashscoreDriverSupplier(sourceDriverSupplier);
-            driver = driverSupplier.get();
-        }
-
-        return driver;
-    }
-
     @PreDestroy
     public void dispose() throws Exception {
-        driverPool.close();
-        driver.close();
+        if(driverPool != null) {
+            driverPool.close();
+        }
     }
 
 }
