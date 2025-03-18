@@ -2,6 +2,7 @@ package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ut
 
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.Utils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,8 +11,13 @@ import java.util.Collection;
 
 public class FlashscoreUtils {
 
+    public static final By SHOW_ALL_COMPETITIONS_SELECTOR = By.xpath("//*[contains(@class, 'show-more')]");
+    public static final By LOAD_MORE_MATCHES_LABEL_SELECTOR = By.xpath("//*[contains(@class, 'event__more')]");
+    public static final By SHOW_ALL_REGIONS_LABEL_SELECTOR = By.xpath("//*[@class = 'lmc__itemMore']");
+
+
     public static void expandAllRegions(WebDriver driver) {
-        Collection<WebElement> showMoreLabels = driver.findElements(FlashscoreSelectors.SHOW_ALL_REGIONS_LABEL_SELECTOR);
+        Collection<WebElement> showMoreLabels = driver.findElements(SHOW_ALL_REGIONS_LABEL_SELECTOR);
 
         if(showMoreLabels.isEmpty()) {
             return;
@@ -25,7 +31,7 @@ public class FlashscoreUtils {
     }
 
     public static void expandAllCompetitions(WebDriver driver) {
-        Collection<WebElement> showMoreLabels = driver.findElements(FlashscoreSelectors.SHOW_ALL_COMPETITIONS_SELECTOR);
+        Collection<WebElement> showMoreLabels = driver.findElements(SHOW_ALL_COMPETITIONS_SELECTOR);
 
         if(showMoreLabels.isEmpty()) {
             return;
@@ -43,7 +49,7 @@ public class FlashscoreUtils {
         WebElement loadMoreElement;
 
         while(true) {
-            loadMoreElements = driver.findElements(FlashscoreSelectors.LOAD_MORE_MATCHES_LABEL_SELECTOR);
+            loadMoreElements = driver.findElements(LOAD_MORE_MATCHES_LABEL_SELECTOR);
 
             if(loadMoreElements.isEmpty()) {
                 break;

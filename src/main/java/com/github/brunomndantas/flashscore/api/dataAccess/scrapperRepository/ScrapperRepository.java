@@ -1,7 +1,5 @@
 package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreSelectors;
-import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.DriverPoolException;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import com.github.brunomndantas.repository4j.IRepository;
@@ -12,19 +10,14 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Collection;
 import java.util.UUID;
 
 @Log4j2
-public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
+public abstract class ScrapperRepository<K,E,P extends FlashscorePage /*FlashscorePage*/> implements IRepository<K,E> {
 
     public static final String SCREEN_SHOOT_EXTENSION = ".png";
 
@@ -64,43 +57,20 @@ public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
         WebDriver driver = getDriver();
 
         try{
-            if(!loadDriver(driver, key)) {
+            P page = getPage(driver, key);
+            page.load();
+
+            if(!page.exists()) {
                 throw new NonExistentEntityException("There is not entity for key:" + key);
             }
 
-            return scrapEntity(driver, key);
+            return scrapEntity(driver, page, key);
         } catch (RuntimeException | RepositoryException e) {
             takeScreenShoot(driver);
             throw e;
         } finally {
             returnDriver(driver);
         }
-    }
-
-    protected boolean loadDriver(WebDriver driver, K key) throws RepositoryException {
-        String url = getUrlOfEntity(key);
-
-        driver.get(url);
-
-        waitPageToBeLoaded(driver);
-
-        return loadedSuccessfully(driver);
-    }
-
-    protected void waitPageToBeLoaded(WebDriver driver) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(Config.MEDIUM_WAIT).getSeconds());
-
-        ExpectedCondition<Boolean> condition = ExpectedConditions.or(
-                ExpectedConditions.visibilityOfElementLocated(FlashscoreSelectors.LOGO_SELECTOR),
-                ExpectedConditions.visibilityOfElementLocated(FlashscoreSelectors.UNKNOWN_PAGE_ERROR_SELECTOR)
-        );
-
-        wait.until(condition);
-    }
-
-    protected boolean loadedSuccessfully(WebDriver driver) {
-        Collection<WebElement> errorElements = driver.findElements(FlashscoreSelectors.UNKNOWN_PAGE_ERROR_SELECTOR);
-        return errorElements.isEmpty();
     }
 
     protected WebDriver getDriver() throws RepositoryException {
@@ -136,7 +106,8 @@ public abstract class ScrapperRepository<K,E> implements IRepository<K,E> {
     }
 
 
-    protected abstract String getUrlOfEntity(K key) throws RepositoryException;
-    protected abstract E scrapEntity(WebDriver driver, K key) throws RepositoryException;
+
+    protected abstract P getPage(WebDriver driver, K key);
+    protected abstract E scrapEntity(WebDriver driver, P page, K key) throws RepositoryException;
 
 }

@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 
 @SpringBootTest
-public class RegionDTOTest extends DTOTests<RegionDTO, Region> {
+public class RegionDTOTests extends DTOTests<RegionDTO, Region> {
 
     @Override
     protected Region getInitialEntity() {

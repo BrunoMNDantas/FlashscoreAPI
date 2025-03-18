@@ -17,7 +17,13 @@ import com.github.brunomndantas.flashscore.api.dataAccess.dtos.sport.SportKeyDTO
 import com.github.brunomndantas.flashscore.api.dataAccess.dtos.team.TeamDTO;
 import com.github.brunomndantas.flashscore.api.dataAccess.dtos.team.TeamKeyDTO;
 import com.github.brunomndantas.flashscore.api.dataAccess.s3Repository.S3Repository;
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.*;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.competition.CompetitionScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.match.MatchScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.player.PlayerScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.region.RegionScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.season.SeasonScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.sport.SportScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.team.TeamScrapperRepository;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.match.Match;

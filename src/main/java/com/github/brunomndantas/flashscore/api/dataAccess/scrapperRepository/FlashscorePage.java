@@ -1,13 +1,16 @@
-package com.github.brunomndantas.flashscore.api.transversal.page;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
 
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Collection;
+import java.util.function.Function;
 
 public class FlashscorePage {
 
@@ -45,7 +48,20 @@ public class FlashscorePage {
     }
 
     public boolean exists() {
-        return !driver.findElements(UNKNOWN_PAGE_ERROR_SELECTOR).isEmpty();
+        return driver.findElements(UNKNOWN_PAGE_ERROR_SELECTOR).isEmpty();
+    }
+
+    public <V> V getValue(By selector, V defaultValue, Function<WebElement, V> valueFunc) {
+        if(!driver.findElements(selector).isEmpty()) {
+            WebElement element = driver.findElement(selector);
+            return valueFunc.apply(element);
+        }
+
+        return defaultValue;
+    }
+
+    public <V> Collection<V> getValues(By selector, Function<WebElement, V> valueFunc) {
+        return driver.findElements(selector).stream().map(valueFunc).toList();
     }
 
 }

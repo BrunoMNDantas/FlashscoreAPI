@@ -1,6 +1,5 @@
 package com.github.brunomndantas.flashscore.api.transversal.driverSupplier;
 
-import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreSelectors;
 import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreURLs;
 import com.github.brunomndantas.jscrapper.support.driverSupplier.ChromeDriverSupplier;
 import org.junit.jupiter.api.Assertions;
@@ -43,7 +42,7 @@ public class FlashoscoreDriverSupplierTests {
         WebDriver driver = driverSupplier.get();
 
         try{
-            WebElement acceptTermsButton = driver.findElement(FlashscoreSelectors.ACCEPT_TERMS_BUTTON_SELECTOR);
+            WebElement acceptTermsButton = driver.findElement(FlashscoreDriverSupplier.ACCEPT_TERMS_BUTTON_SELECTOR);
             Assertions.assertFalse(acceptTermsButton.isDisplayed());
         } finally {
             driver.quit();
