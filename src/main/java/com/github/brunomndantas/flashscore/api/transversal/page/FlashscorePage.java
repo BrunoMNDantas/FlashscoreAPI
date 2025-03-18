@@ -1,4 +1,4 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
+package com.github.brunomndantas.flashscore.api.transversal.page;
 
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import org.openqa.selenium.By;
@@ -12,7 +12,7 @@ import java.time.Duration;
 public class FlashscorePage {
 
     public static final By UNKNOWN_PAGE_ERROR_SELECTOR = By.xpath("//*[contains(text(), \"page can't be displayed\")]");
-    public static final By LOGO_SELECTOR = By.xpath("//*[contains(@class, 'header__logo')]");
+    public static final By LOGO_SELECTOR = By.xpath("//a[contains(@class, 'header__logo')]");
 
 
     protected WebDriver driver;
@@ -45,11 +45,7 @@ public class FlashscorePage {
     }
 
     public boolean exists() {
-        return !existsElement(UNKNOWN_PAGE_ERROR_SELECTOR);
-    }
-
-    protected boolean existsElement(By selector) {
-        return !driver.findElements(selector).isEmpty();
+        return !driver.findElements(UNKNOWN_PAGE_ERROR_SELECTOR).isEmpty();
     }
 
 }

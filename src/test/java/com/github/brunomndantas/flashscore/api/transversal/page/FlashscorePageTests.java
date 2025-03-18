@@ -1,9 +1,10 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
+package com.github.brunomndantas.flashscore.api.transversal.page;
 
 import com.github.brunomndantas.flashscore.api.config.GlobalTestConfig;
 import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.utils.FlashscoreURLs;
 import com.github.brunomndantas.flashscore.api.transversal.Config;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
+import com.github.brunomndantas.flashscore.api.transversal.page.FlashscorePage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
