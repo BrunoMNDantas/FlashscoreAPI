@@ -1,5 +1,7 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.player;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepositoryTests;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.Player;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -8,15 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class PlayerScrapperRepositoryTests extends ScrapperRepositoryTests<PlayerKey, Player> {
+public class PlayerScrapperRepositoryTests extends ScrapperRepositoryTests<PlayerKey, Player, PlayerPage> {
 
     @Override
-    protected ScrapperRepository<PlayerKey, Player> createRepository() {
+    protected ScrapperRepository<PlayerKey, Player, PlayerPage> createRepository() {
         return createRepository(driverPool);
     }
 
     @Override
-    protected ScrapperRepository<PlayerKey, Player> createRepository(IDriverPool driverPool) {
+    protected ScrapperRepository<PlayerKey, Player, PlayerPage> createRepository(IDriverPool driverPool) {
         return new PlayerScrapperRepository(driverPool, screenshotsDirectory);
     }
 
@@ -34,7 +36,7 @@ public class PlayerScrapperRepositoryTests extends ScrapperRepositoryTests<Playe
     @Test
     public void shouldScrapData() throws Exception {
         PlayerKey key = new PlayerKey("gyokeres-viktor", "zaBZ1xIk");
-        ScrapperRepository<PlayerKey, Player> repository = createRepository(driverPool);
+        ScrapperRepository<PlayerKey, Player, PlayerPage> repository = createRepository(driverPool);
 
         Player player = repository.get(key);
 
@@ -43,7 +45,7 @@ public class PlayerScrapperRepositoryTests extends ScrapperRepositoryTests<Playe
         Assertions.assertEquals(key, player.getKey());
         Assertions.assertEquals("Viktor Gyokeres", player.getName());
         Assertions.assertEquals("Forward", player.getRole());
-        Assertions.assertEquals(PlayerScrapperRepository.DATE_FORMAT.parse("04.06.1998"), player.getBirthDate());
+        Assertions.assertEquals(PlayerPage.DATE_FORMAT.parse("04.06.1998"), player.getBirthDate());
     }
 
 }

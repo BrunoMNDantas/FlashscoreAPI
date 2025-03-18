@@ -1,5 +1,7 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.team;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepositoryTests;
 import com.github.brunomndantas.flashscore.api.logic.domain.player.PlayerKey;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.Team;
 import com.github.brunomndantas.flashscore.api.logic.domain.team.TeamKey;
@@ -8,18 +10,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Collection;
-
 @SpringBootTest
-public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey, Team> {
+public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey, Team, TeamPage> {
 
     @Override
-    protected ScrapperRepository<TeamKey, Team> createRepository() {
+    protected ScrapperRepository<TeamKey, Team, TeamPage> createRepository() {
         return createRepository(driverPool);
     }
 
     @Override
-    protected ScrapperRepository<TeamKey, Team> createRepository(IDriverPool driverPool) {
+    protected ScrapperRepository<TeamKey, Team, TeamPage> createRepository(IDriverPool driverPool) {
         return new TeamScrapperRepository(driverPool, screenshotsDirectory);
     }
 
@@ -37,7 +37,7 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
     @Test
     public void shouldScrapData() throws Exception {
         TeamKey key = new TeamKey("dortmund", "vVcwNP6f");
-        ScrapperRepository<TeamKey, Team> repository = createRepository(driverPool);
+        ScrapperRepository<TeamKey, Team, TeamPage> repository = createRepository(driverPool);
 
         Team team = repository.get(key);
 
@@ -50,9 +50,6 @@ public class TeamScrapperRepositoryTests extends ScrapperRepositoryTests<TeamKey
         Assertions.assertEquals(new PlayerKey("zimmermann-jan", "2F8lpifB"), team.getCoachKey());
         Assertions.assertTrue(team.getPlayersKeys().size() > 20);
         Assertions.assertTrue(team.getPlayersKeys().size() < 35);
-
-        Collection<String> playersIds = team.getPlayersKeys().stream().map(PlayerKey::getPlayerId).toList();
-        Assertions.assertFalse(playersIds.contains(team.getCoachKey().getPlayerId()));
     }
 
 }

@@ -25,7 +25,7 @@ import java.util.Set;
 
 @SpringBootTest
 @Import(GlobalTestConfig.class)
-public abstract class ScrapperRepositoryTests<K,E> {
+public abstract class ScrapperRepositoryTests<K,E,P extends FlashscorePage> {
 
     @Value("${screenshots.directory}")
     protected String screenshotsDirectory;
@@ -36,25 +36,25 @@ public abstract class ScrapperRepositoryTests<K,E> {
 
     @Test
     public void shouldThrowUnsupportedOperationOnGetAll() {
-        ScrapperRepository<K,E> repository = createRepository();
+        ScrapperRepository<K,E,P> repository = createRepository();
         Assertions.assertThrows(UnsupportedOperationException.class, repository::getAll);
     }
 
     @Test
     public void shouldThrowUnsupportedOperationOnInsert() {
-        ScrapperRepository<K,E> repository = createRepository();
+        ScrapperRepository<K,E,P> repository = createRepository();
         Assertions.assertThrows(UnsupportedOperationException.class, () -> repository.insert(null));
     }
 
     @Test
     public void shouldThrowUnsupportedOperationOnUpdate() {
-        ScrapperRepository<K,E> repository = createRepository();
+        ScrapperRepository<K,E,P> repository = createRepository();
         Assertions.assertThrows(UnsupportedOperationException.class, () -> repository.update(null));
     }
 
     @Test
     public void shouldThrowUnsupportedOperationOnDelete() {
-        ScrapperRepository<K,E> repository = createRepository();
+        ScrapperRepository<K,E,P> repository = createRepository();
         Assertions.assertThrows(UnsupportedOperationException.class, () -> repository.delete(null));
     }
 
@@ -65,7 +65,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
         IDriverPool pool = new DriverPool(driverSupplier, 1);
 
         try {
-            ScrapperRepository<K,E> repository = createRepository(pool);
+            ScrapperRepository<K,E,P> repository = createRepository(pool);
             repository.get(getExistentKey());
             Assertions.assertSame(driver, pool.getDriver());
         } finally {
@@ -83,7 +83,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
             }
         };
 
-        ScrapperRepository<K,E> repository = createRepository(driverPool);
+        ScrapperRepository<K,E,P> repository = createRepository(driverPool);
         Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
         Assertions.assertSame(exception, returnedException.getCause());
     }
@@ -101,7 +101,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
         };
 
         try {
-            ScrapperRepository<K,E> repository = createRepository(pool);
+            ScrapperRepository<K,E,P> repository = createRepository(pool);
             Exception returnedException = Assertions.assertThrows(RepositoryException.class, () -> repository.get(getExistentKey()));
             Assertions.assertSame(exception, returnedException.getCause());
         } finally {
@@ -112,7 +112,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Test
     public void shouldThrowNonExistentEntityException() {
         K key = getNonExistentKey();
-        ScrapperRepository<K,E> repository = createRepository();
+        ScrapperRepository<K,E,P> repository = createRepository();
         NonExistentEntityException exception = Assertions.assertThrows(NonExistentEntityException.class, () -> repository.get(key));
         Assertions.assertTrue(exception.getMessage().contains(key.toString()));
     }
@@ -120,7 +120,7 @@ public abstract class ScrapperRepositoryTests<K,E> {
     @Test
     public void shouldReturnEntity() throws Exception {
         K key = getExistentKey();
-        ScrapperRepository<K,E> repository = createRepository();
+        ScrapperRepository<K,E,P> repository = createRepository();
 
         E entity = repository.get(key);
 
@@ -149,24 +149,18 @@ public abstract class ScrapperRepositoryTests<K,E> {
     }
 
     @Test
-    public void shouldSaveScreenShoot() throws Exception {
-        ScrapperRepository<K,E> repository = new ScrapperRepository<>(driverPool, screenshotsDirectory) {
+    public void shouldSaveScreenShoot() {
+        ScrapperRepository<K,E,P> repository = new ScrapperRepository<>(driverPool, screenshotsDirectory) {
 
             @Override
-            protected boolean loadDriver(WebDriver driver, K key) {
+            protected P getPage(WebDriver driver, K key) {
                 throw new IllegalArgumentException("Forced Error!");
             }
 
             @Override
-            protected String getUrlOfEntity(K key) {
-                return "https://www.google.com";
-            }
-
-            @Override
-            protected E scrapEntity(WebDriver driver, K key) {
+            protected E scrapEntity(WebDriver driver, P page, K key) throws RepositoryException {
                 return null;
             }
-
         };
 
         File[] files = new File(screenshotsDirectory).listFiles();
@@ -181,8 +175,8 @@ public abstract class ScrapperRepositoryTests<K,E> {
     }
 
 
-    protected abstract ScrapperRepository<K,E> createRepository();
-    protected abstract ScrapperRepository<K,E> createRepository(IDriverPool driverPool);
+    protected abstract ScrapperRepository<K,E,P> createRepository();
+    protected abstract ScrapperRepository<K,E,P> createRepository(IDriverPool driverPool);
     protected abstract K getExistentKey();
     protected abstract K getNonExistentKey();
 

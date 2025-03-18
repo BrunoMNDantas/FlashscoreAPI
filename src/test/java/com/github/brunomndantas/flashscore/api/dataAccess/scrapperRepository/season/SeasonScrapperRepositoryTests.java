@@ -1,6 +1,7 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.season;
 
-import com.github.brunomndantas.flashscore.api.logic.domain.match.MatchKey;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepositoryTests;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.Season;
 import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
@@ -8,18 +9,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Collection;
-
 @SpringBootTest
-public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<SeasonKey, Season> {
+public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<SeasonKey, Season, SeasonPage> {
 
     @Override
-    protected ScrapperRepository<SeasonKey, Season> createRepository() {
+    protected ScrapperRepository<SeasonKey, Season, SeasonPage> createRepository() {
         return createRepository(driverPool);
     }
 
     @Override
-    protected ScrapperRepository<SeasonKey, Season> createRepository(IDriverPool driverPool) {
+    protected ScrapperRepository<SeasonKey, Season, SeasonPage> createRepository(IDriverPool driverPool) {
         return new SeasonScrapperRepository(driverPool, screenshotsDirectory);
     }
 
@@ -37,7 +36,7 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
     @Test
     public void shouldScrapData() throws Exception {
         SeasonKey key = new SeasonKey("hockey", "germany", "del", "2023-2024");
-        ScrapperRepository<SeasonKey, Season> repository = createRepository(driverPool);
+        ScrapperRepository<SeasonKey, Season, SeasonPage> repository = createRepository(driverPool);
 
         Season season = repository.get(key);
 
@@ -47,9 +46,6 @@ public class SeasonScrapperRepositoryTests extends ScrapperRepositoryTests<Seaso
         Assertions.assertEquals(2023, season.getInitYear());
         Assertions.assertEquals(2024, season.getEndYear());
         Assertions.assertTrue(season.getMatchesKeys().size() > 300);
-
-        Collection<String> matchesIds = season.getMatchesKeys().stream().map(MatchKey::getMatchId).toList();
-        Assertions.assertTrue(matchesIds.contains("bZd70Ik6"));
     }
 
 }

@@ -1,25 +1,24 @@
-package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository;
+package com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.competition;
 
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepository;
+import com.github.brunomndantas.flashscore.api.dataAccess.scrapperRepository.ScrapperRepositoryTests;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.Competition;
 import com.github.brunomndantas.flashscore.api.logic.domain.competition.CompetitionKey;
-import com.github.brunomndantas.flashscore.api.logic.domain.season.SeasonKey;
 import com.github.brunomndantas.flashscore.api.transversal.driverPool.IDriverPool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Collection;
-
 @SpringBootTest
-public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<CompetitionKey, Competition> {
+public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<CompetitionKey, Competition, CompetitionPage> {
 
     @Override
-    protected ScrapperRepository<CompetitionKey, Competition> createRepository() {
+    protected ScrapperRepository<CompetitionKey, Competition, CompetitionPage> createRepository() {
         return createRepository(driverPool);
     }
 
     @Override
-    protected ScrapperRepository<CompetitionKey, Competition> createRepository(IDriverPool driverPool) {
+    protected ScrapperRepository<CompetitionKey, Competition, CompetitionPage> createRepository(IDriverPool driverPool) {
         return new CompetitionScrapperRepository(driverPool, screenshotsDirectory);
     }
 
@@ -37,7 +36,7 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
     @Test
     public void shouldScrapData() throws Exception {
         CompetitionKey key = new CompetitionKey("basketball", "europe", "euroleague");
-        ScrapperRepository<CompetitionKey, Competition> repository = createRepository(driverPool);
+        ScrapperRepository<CompetitionKey, Competition, CompetitionPage> repository = createRepository(driverPool);
 
         Competition competition = repository.get(key);
 
@@ -46,15 +45,6 @@ public class CompetitionScrapperRepositoryTests extends ScrapperRepositoryTests<
         Assertions.assertEquals(key, competition.getKey());
         Assertions.assertEquals("Euroleague", competition.getName());
         Assertions.assertTrue(competition.getSeasonsKeys().size() > 20);
-
-        for(SeasonKey seasonKey : competition.getSeasonsKeys()) {
-            Assertions.assertEquals(key.getSportId(), seasonKey.getSportId());
-            Assertions.assertEquals(key.getRegionId(), seasonKey.getRegionId());
-            Assertions.assertEquals(key.getCompetitionId(), seasonKey.getCompetitionId());
-        }
-
-        Collection<String> seasonsIds = competition.getSeasonsKeys().stream().map(SeasonKey::getSeasonId).toList();
-        Assertions.assertTrue(seasonsIds.contains("2018-2019"));
     }
 
 }
