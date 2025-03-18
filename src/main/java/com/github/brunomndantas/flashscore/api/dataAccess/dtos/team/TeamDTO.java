@@ -26,6 +26,9 @@ public class TeamDTO {
     @NotBlank
     private String name;
 
+    @NotNull
+    @NotEmpty
+    @NotBlank
     @Size(min = 5, message = "Must be null or non-empty")
     private String stadium;
 
@@ -36,9 +39,7 @@ public class TeamDTO {
     private PlayerKeyDTO coachKey;
 
     @NotNull
-    @NotEmpty
-    @Valid
-    private Collection<PlayerKeyDTO> playersKeys;
+    private Collection<@NotNull @Valid PlayerKeyDTO> playersKeys;
 
 
     public TeamDTO(Team team) {

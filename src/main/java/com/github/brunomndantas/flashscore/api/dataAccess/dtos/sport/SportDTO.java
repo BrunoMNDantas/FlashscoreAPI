@@ -30,8 +30,7 @@ public class SportDTO {
 
     @NotNull
     @NotEmpty
-    @Valid
-    private Collection<RegionKeyDTO> regionsKeys;
+    private Collection<@NotNull @Valid RegionKeyDTO> regionsKeys;
 
 
     public SportDTO(Sport sport) {

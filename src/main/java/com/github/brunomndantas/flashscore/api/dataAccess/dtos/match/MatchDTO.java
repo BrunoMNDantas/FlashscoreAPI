@@ -58,40 +58,32 @@ public class MatchDTO {
     private PlayerKeyDTO awayCoachPlayerKey;
 
     @NotNull
-    @Valid
     @Size(max=11)
-    private Collection<PlayerKeyDTO> homeLineupPlayersKeys;
+    private Collection<@NotNull @Valid PlayerKeyDTO> homeLineupPlayersKeys;
 
     @NotNull
-    @Valid
     @Size(max=11)
-    private Collection<PlayerKeyDTO> awayLineupPlayersKeys;
+    private Collection<@NotNull @Valid PlayerKeyDTO> awayLineupPlayersKeys;
 
     @NotNull
-    @Valid
     @Size(max=20)
-    private Collection<PlayerKeyDTO> homeBenchPlayersKeys;
+    private Collection<@NotNull @Valid PlayerKeyDTO> homeBenchPlayersKeys;
 
     @NotNull
-    @Valid
     @Size(max=20)
-    private Collection<PlayerKeyDTO> awayBenchPlayersKeys;
+    private Collection<@NotNull @Valid PlayerKeyDTO> awayBenchPlayersKeys;
 
     @NotNull
-    @Valid
-    private Collection<CardDTO> cards;
+    private Collection<@NotNull @Valid CardDTO> cards;
 
     @NotNull
-    @Valid
-    private Collection<GoalDTO> goals;
+    private Collection<@NotNull @Valid GoalDTO> goals;
 
     @NotNull
-    @Valid
-    private Collection<PenaltyDTO> penalties;
+    private Collection<@NotNull @Valid PenaltyDTO> penalties;
 
     @NotNull
-    @Valid
-    private Collection<SubstitutionDTO> substitutions;
+    private Collection<@NotNull @Valid SubstitutionDTO> substitutions;
 
 
     public MatchDTO(Match match) {

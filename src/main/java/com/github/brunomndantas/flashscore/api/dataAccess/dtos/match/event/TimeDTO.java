@@ -1,6 +1,7 @@
 package com.github.brunomndantas.flashscore.api.dataAccess.dtos.match.event;
 
 import com.github.brunomndantas.flashscore.api.logic.domain.match.event.Time;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -34,8 +34,7 @@ public class SeasonDTO {
 
     @NotNull
     @NotEmpty
-    @Valid
-    private Collection<MatchKeyDTO> matchesKeys;
+    private Collection<@NotNull @Valid MatchKeyDTO> matchesKeys;
 
 
     public SeasonDTO(Season season) {

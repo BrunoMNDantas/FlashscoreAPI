@@ -30,8 +30,7 @@ public class RegionDTO {
 
     @NotNull
     @NotEmpty
-    @Valid
-    private Collection<CompetitionKeyDTO> competitionsKeys;
+    private Collection<@NotNull @Valid CompetitionKeyDTO> competitionsKeys;
 
 
     public RegionDTO(Region region) {

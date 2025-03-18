@@ -30,8 +30,7 @@ public class CompetitionDTO {
 
     @NotNull
     @NotEmpty
-    @Valid
-    private Collection<SeasonKeyDTO> seasonsKeys;
+    private Collection<@NotNull @Valid SeasonKeyDTO> seasonsKeys;
 
 
     public CompetitionDTO(Competition competition) {
