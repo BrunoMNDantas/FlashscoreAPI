@@ -178,19 +178,21 @@ public class MatchPage extends FlashscorePage {
     }
 
     protected int getEventMinute(WebElement element) {
-        WebElement minuteElement = element.findElement(EVENT_MINUTE_SELECTOR);
-        String text = minuteElement.getText();
-        text = text.replace("'", "").trim();
-        text = text.contains("+") ? text.split("\\+")[0] : text;
-        return Integer.parseInt(text);
+        return getValue(element, EVENT_MINUTE_SELECTOR, -1, minuteElement -> {
+            String text = minuteElement.getText();
+            text = text.replace("'", "").trim();
+            text = text.contains("+") ? text.split("\\+")[0] : text;
+            return Integer.parseInt(text);
+        });
     }
 
     protected int getEventExtraMinute(WebElement element) {
-        WebElement minuteElement = element.findElement(EVENT_MINUTE_SELECTOR);
-        String text = minuteElement.getText();
-        text = text.replace("'", "").trim();
-        text = text.contains("+") ? text.split("\\+")[1] : "0";
-        return Integer.parseInt(text);
+        return getValue(element, EVENT_MINUTE_SELECTOR, -1, minuteElement -> {
+            String text = minuteElement.getText();
+            text = text.replace("'", "").trim();
+            text = text.contains("+") ? text.split("\\+")[1] : "0";
+            return Integer.parseInt(text);
+        });
     }
 
     protected TeamKey getEventTeamKey(WebElement element) {
@@ -206,17 +208,17 @@ public class MatchPage extends FlashscorePage {
     }
 
     protected PlayerKey getGoalPlayerKey(WebElement element) {
-        WebElement playerElement = element.findElement(EVENT_GOAL_PLAYER_SELECTOR);
-        return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
+        return getValue(element, EVENT_GOAL_PLAYER_SELECTOR, null, playerElement -> {
+            String href = playerElement.getAttribute("href");
+            return FlashscoreURLs.getPlayerKey(href);
+        });
     }
 
     protected PlayerKey getGoalAssistPlayerKey(WebElement element) {
-        if(!element.findElements(EVENT_GOAL_ASSIST_SELECTOR).isEmpty()) {
-            WebElement playerElement = element.findElement(EVENT_GOAL_ASSIST_SELECTOR);
-            return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
-        }
-
-        return null;
+        return getValue(element, EVENT_GOAL_ASSIST_SELECTOR, null, playerElement -> {
+            String href = playerElement.getAttribute("href");
+            return FlashscoreURLs.getPlayerKey(href);
+        });
     }
 
     protected Card getCard(WebElement element, Time.Period period) {
@@ -231,22 +233,25 @@ public class MatchPage extends FlashscorePage {
     }
 
     protected Card.Color getCardColor(WebElement element) {
-        WebElement cardElement = element.findElement(EVENT_CARD_SELECTOR);
-        String classAttr = cardElement.getAttribute("class");
+        return getValue(element, EVENT_CARD_SELECTOR, null, cardElement -> {
+            String classAttr = cardElement.getAttribute("class");
 
-        if(classAttr.contains(EVENT_RED_CARD_CLASS)) {
-            return Card.Color.RED;
-        } else if(classAttr.contains(EVENT_YELLOW_CARD_CLASS)) {
-            return Card.Color.YELLOW;
-        } else {
-            //SECOND YELLOW
-            return Card.Color.YELLOW;
-        }
+            if(classAttr.contains(EVENT_RED_CARD_CLASS)) {
+                return Card.Color.RED;
+            } else if(classAttr.contains(EVENT_YELLOW_CARD_CLASS)) {
+                return Card.Color.YELLOW;
+            } else {
+                //SECOND YELLOW
+                return Card.Color.YELLOW;
+            }
+        });
     }
 
     protected PlayerKey getCardPlayerKey(WebElement element) {
-        WebElement playerElement = element.findElement(EVENT_CARD_PLAYER_SELECTOR);
-        return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
+        return getValue(element, EVENT_CARD_PLAYER_SELECTOR, null, playerElement -> {
+            String href = playerElement.getAttribute("href");
+            return FlashscoreURLs.getPlayerKey(href);
+        });
     }
 
     protected Substitution getSubstitution(WebElement element, Time.Period period) {
@@ -261,13 +266,17 @@ public class MatchPage extends FlashscorePage {
     }
 
     protected PlayerKey getSubstitutionInPlayerKey(WebElement element) {
-        WebElement playerElement = element.findElement(EVENT_SUBSTITUTION_IN_PLAYER_SELECTOR);
-        return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
+        return getValue(element, EVENT_SUBSTITUTION_IN_PLAYER_SELECTOR, null, playerEvent -> {
+            String href = playerEvent.getAttribute("href");
+            return FlashscoreURLs.getPlayerKey(href);
+        });
     }
 
     protected PlayerKey getSubstitutionOutPlayerKey(WebElement element) {
-        WebElement playerElement = element.findElement(EVENT_SUBSTITUTION_OUT_PLAYER_SELECTOR);
-        return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
+        return getValue(element, EVENT_SUBSTITUTION_OUT_PLAYER_SELECTOR, null, playerEvent -> {
+            String href = playerEvent.getAttribute("href");
+            return FlashscoreURLs.getPlayerKey(href);
+        });
     }
 
     protected Penalty getPenalty(WebElement element, Time.Period period) {
@@ -287,8 +296,10 @@ public class MatchPage extends FlashscorePage {
     }
 
     protected PlayerKey getPenaltyPlayerKey(WebElement element) {
-        WebElement playerElement = element.findElement(EVENT_PENALTY_PLAYER_SELECTOR);
-        return FlashscoreURLs.getPlayerKey(playerElement.getAttribute("href"));
+        return getValue(element, EVENT_PENALTY_PLAYER_SELECTOR, null, playerElement -> {
+            String href = playerElement.getAttribute("href");
+            return FlashscoreURLs.getPlayerKey(href);
+        });
     }
 
 }

@@ -60,6 +60,15 @@ public class FlashscorePage {
         return defaultValue;
     }
 
+    public <V> V getValue(WebElement rootElement, By selector, V defaultValue, Function<WebElement, V> valueFunc) {
+        if(!rootElement.findElements(selector).isEmpty()) {
+            WebElement element = rootElement.findElement(selector);
+            return valueFunc.apply(element);
+        }
+
+        return defaultValue;
+    }
+
     public <V> Collection<V> getValues(By selector, Function<WebElement, V> valueFunc) {
         return driver.findElements(selector).stream().map(valueFunc).toList();
     }
