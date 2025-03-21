@@ -24,7 +24,6 @@ public class GoalDTO {
     @Valid
     private TeamKeyDTO teamKey;
 
-    @NotNull
     @Valid
     private PlayerKeyDTO playerKey;
 

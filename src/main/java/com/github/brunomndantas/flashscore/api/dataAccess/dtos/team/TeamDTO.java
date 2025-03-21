@@ -26,9 +26,6 @@ public class TeamDTO {
     @NotBlank
     private String name;
 
-    @NotNull
-    @NotEmpty
-    @NotBlank
     @Size(min = 5, message = "Must be null or non-empty")
     private String stadium;
 

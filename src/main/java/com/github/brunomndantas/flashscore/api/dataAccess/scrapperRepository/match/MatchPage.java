@@ -210,14 +210,14 @@ public class MatchPage extends FlashscorePage {
     protected PlayerKey getGoalPlayerKey(WebElement element) {
         return getValue(element, EVENT_GOAL_PLAYER_SELECTOR, null, playerElement -> {
             String href = playerElement.getAttribute("href");
-            return FlashscoreURLs.getPlayerKey(href);
+            return href == null || href.equals(FlashscoreURLs.FLASHSCORE_URL+"/") ? null : FlashscoreURLs.getPlayerKey(href);
         });
     }
 
     protected PlayerKey getGoalAssistPlayerKey(WebElement element) {
         return getValue(element, EVENT_GOAL_ASSIST_SELECTOR, null, playerElement -> {
             String href = playerElement.getAttribute("href");
-            return FlashscoreURLs.getPlayerKey(href);
+            return href == null || href.equals(FlashscoreURLs.FLASHSCORE_URL+"/") ? null : FlashscoreURLs.getPlayerKey(href);
         });
     }
 
@@ -250,7 +250,7 @@ public class MatchPage extends FlashscorePage {
     protected PlayerKey getCardPlayerKey(WebElement element) {
         return getValue(element, EVENT_CARD_PLAYER_SELECTOR, null, playerElement -> {
             String href = playerElement.getAttribute("href");
-            return FlashscoreURLs.getPlayerKey(href);
+            return href == null || href.equals(FlashscoreURLs.FLASHSCORE_URL+"/") ? null : FlashscoreURLs.getPlayerKey(href);
         });
     }
 
@@ -268,14 +268,14 @@ public class MatchPage extends FlashscorePage {
     protected PlayerKey getSubstitutionInPlayerKey(WebElement element) {
         return getValue(element, EVENT_SUBSTITUTION_IN_PLAYER_SELECTOR, null, playerEvent -> {
             String href = playerEvent.getAttribute("href");
-            return FlashscoreURLs.getPlayerKey(href);
+            return href == null || href.equals(FlashscoreURLs.FLASHSCORE_URL+"/") ? null : FlashscoreURLs.getPlayerKey(href);
         });
     }
 
     protected PlayerKey getSubstitutionOutPlayerKey(WebElement element) {
         return getValue(element, EVENT_SUBSTITUTION_OUT_PLAYER_SELECTOR, null, playerEvent -> {
             String href = playerEvent.getAttribute("href");
-            return FlashscoreURLs.getPlayerKey(href);
+            return href == null || href.equals(FlashscoreURLs.FLASHSCORE_URL+"/") ? null : FlashscoreURLs.getPlayerKey(href);
         });
     }
 
@@ -298,7 +298,7 @@ public class MatchPage extends FlashscorePage {
     protected PlayerKey getPenaltyPlayerKey(WebElement element) {
         return getValue(element, EVENT_PENALTY_PLAYER_SELECTOR, null, playerElement -> {
             String href = playerElement.getAttribute("href");
-            return FlashscoreURLs.getPlayerKey(href);
+            return href == null || href.equals(FlashscoreURLs.FLASHSCORE_URL+"/") ? null : FlashscoreURLs.getPlayerKey(href);
         });
     }
 

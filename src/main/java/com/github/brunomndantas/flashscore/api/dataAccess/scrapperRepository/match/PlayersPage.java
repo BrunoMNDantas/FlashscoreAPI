@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 public class PlayersPage extends FlashscorePage {
 
-    public static final By LINEUP_BUTTON_SELECTOR = By.xpath("//button[text()='Lineups']");
     public static final By HOME_COACH_SELECTOR = By.xpath("//*[text()='Coaches']/../..//*[@class='lf__side'][1]//a[contains(@class, 'nameWrapper')]");
     public static final By AWAY_COACH_SELECTOR = By.xpath("//*[text()='Coaches']/../..//*[@class='lf__side'][2]//a[contains(@class, 'nameWrapper')]");
     public static final By HOME_LINEUP_SELECTOR = By.xpath("//*[text()='Starting Lineups']/../..//*[@class='lf__side'][1]//a[contains(@class, 'nameWrapper')]");
@@ -25,7 +24,7 @@ public class PlayersPage extends FlashscorePage {
 
 
     public PlayersPage(WebDriver driver, MatchKey matchKey) {
-        super(driver, FlashscoreURLs.getMatchPlayersURL(matchKey), HOME_LINEUP_SELECTOR);
+        super(driver, FlashscoreURLs.getMatchPlayersURL(matchKey));
         this.matchKey = matchKey;
     }
 

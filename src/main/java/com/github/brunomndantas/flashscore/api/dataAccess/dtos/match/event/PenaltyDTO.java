@@ -26,7 +26,6 @@ public class PenaltyDTO {
 
     private boolean missed;
 
-    @NotNull
     @Valid
     private PlayerKeyDTO playerKey;
 

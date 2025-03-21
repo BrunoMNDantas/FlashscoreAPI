@@ -30,7 +30,6 @@ public class CardDTO {
     @Valid
     private TeamKeyDTO teamKey;
 
-    @NotNull
     @Valid
     private PlayerKeyDTO playerKey;
 

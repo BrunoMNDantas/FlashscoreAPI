@@ -24,11 +24,9 @@ public class SubstitutionDTO {
     @Valid
     private TeamKeyDTO teamKey;
 
-    @NotNull
     @Valid
     private PlayerKeyDTO inPlayerKey;
 
-    @NotNull
     @Valid
     private PlayerKeyDTO outPlayerKey;
 

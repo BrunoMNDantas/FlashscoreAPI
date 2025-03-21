@@ -28,7 +28,6 @@ public class PlayerDTO {
     @NotBlank
     private String name;
 
-    @NotNull
     @Past
     private Date birthDate;
 
